@@ -863,10 +863,9 @@ font:
   - file: "gfonts://Roboto"
     id: font_small
     size: 18
-  - file: "gfonts://Roboto"
+  - file: "gfonts://Roboto@700"
     id: font_splash_title
     size: 48
-    weight: bold
   - file: "gfonts://Roboto"
     id: font_splash_subtitle
     size: 28
