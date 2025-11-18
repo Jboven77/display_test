@@ -1411,7 +1411,6 @@ lvgl:
           lv_label_set_text(id(lbl_timer7_clock), buf);
           lv_label_set_text(id(lbl_timer8_clock), buf);
 
-                    lv_label_set_text(id(lbl_plug8_text), "PLUG 8");
   pages:
     # ========== SPLASH SCREEN ==========
     - id: splash_page
