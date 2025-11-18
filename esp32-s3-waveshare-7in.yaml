@@ -209,6 +209,79 @@ globals:
     max_restore_data_length: 20
     initial_value: '"192.168.68.206"'
 
+  # Voltage and Current storage for all plugs
+  - id: plug1_voltage
+    type: float
+    restore_value: no
+    initial_value: "0.0"
+  - id: plug1_current
+    type: float
+    restore_value: no
+    initial_value: "0.0"
+
+  - id: plug2_voltage
+    type: float
+    restore_value: no
+    initial_value: "0.0"
+  - id: plug2_current
+    type: float
+    restore_value: no
+    initial_value: "0.0"
+
+  - id: plug3_voltage
+    type: float
+    restore_value: no
+    initial_value: "0.0"
+  - id: plug3_current
+    type: float
+    restore_value: no
+    initial_value: "0.0"
+
+  - id: plug4_voltage
+    type: float
+    restore_value: no
+    initial_value: "0.0"
+  - id: plug4_current
+    type: float
+    restore_value: no
+    initial_value: "0.0"
+
+  - id: plug5_voltage
+    type: float
+    restore_value: no
+    initial_value: "0.0"
+  - id: plug5_current
+    type: float
+    restore_value: no
+    initial_value: "0.0"
+
+  - id: plug6_voltage
+    type: float
+    restore_value: no
+    initial_value: "0.0"
+  - id: plug6_current
+    type: float
+    restore_value: no
+    initial_value: "0.0"
+
+  - id: plug7_voltage
+    type: float
+    restore_value: no
+    initial_value: "0.0"
+  - id: plug7_current
+    type: float
+    restore_value: no
+    initial_value: "0.0"
+
+  - id: plug8_voltage
+    type: float
+    restore_value: no
+    initial_value: "0.0"
+  - id: plug8_current
+    type: float
+    restore_value: no
+    initial_value: "0.0"
+
   # ================================
 switch:
   # CH422G backlight power
@@ -581,6 +654,207 @@ script:
                   id(plug8_ui_state) = false;
                   lv_obj_set_style_bg_color(id(btn_plug8), lv_color_hex(0xFF0000), LV_PART_MAIN);
 
+  # ========== SENSOR UPDATE SCRIPTS ==========
+  - id: plug1_update_sensors
+    then:
+      - http_request.get:
+          url: "http://${plug1_ip}/sensor/kauf_plug_voltage"
+          capture_response: true
+          on_response:
+            then:
+              - lambda: |-
+                  size_t val_pos = body.find("\"value\":");
+                  if (val_pos != std::string::npos) {
+                    float v = atof(body.substr(val_pos + 8).c_str());
+                    id(plug1_voltage) = v;
+                  }
+      - http_request.get:
+          url: "http://${plug1_ip}/sensor/kauf_plug_current"
+          capture_response: true
+          on_response:
+            then:
+              - lambda: |-
+                  size_t val_pos = body.find("\"value\":");
+                  if (val_pos != std::string::npos) {
+                    float c = atof(body.substr(val_pos + 8).c_str());
+                    id(plug1_current) = c;
+                  }
+
+  - id: plug2_update_sensors
+    then:
+      - http_request.get:
+          url: "http://${plug2_ip}/sensor/kauf_plug_voltage"
+          capture_response: true
+          on_response:
+            then:
+              - lambda: |-
+                  size_t val_pos = body.find("\"value\":");
+                  if (val_pos != std::string::npos) {
+                    float v = atof(body.substr(val_pos + 8).c_str());
+                    id(plug2_voltage) = v;
+                  }
+      - http_request.get:
+          url: "http://${plug2_ip}/sensor/kauf_plug_current"
+          capture_response: true
+          on_response:
+            then:
+              - lambda: |-
+                  size_t val_pos = body.find("\"value\":");
+                  if (val_pos != std::string::npos) {
+                    float c = atof(body.substr(val_pos + 8).c_str());
+                    id(plug2_current) = c;
+                  }
+
+  - id: plug3_update_sensors
+    then:
+      - http_request.get:
+          url: "http://${plug3_ip}/sensor/kauf_plug_voltage"
+          capture_response: true
+          on_response:
+            then:
+              - lambda: |-
+                  size_t val_pos = body.find("\"value\":");
+                  if (val_pos != std::string::npos) {
+                    float v = atof(body.substr(val_pos + 8).c_str());
+                    id(plug3_voltage) = v;
+                  }
+      - http_request.get:
+          url: "http://${plug3_ip}/sensor/kauf_plug_current"
+          capture_response: true
+          on_response:
+            then:
+              - lambda: |-
+                  size_t val_pos = body.find("\"value\":");
+                  if (val_pos != std::string::npos) {
+                    float c = atof(body.substr(val_pos + 8).c_str());
+                    id(plug3_current) = c;
+                  }
+
+  - id: plug4_update_sensors
+    then:
+      - http_request.get:
+          url: "http://${plug4_ip}/sensor/kauf_plug_voltage"
+          capture_response: true
+          on_response:
+            then:
+              - lambda: |-
+                  size_t val_pos = body.find("\"value\":");
+                  if (val_pos != std::string::npos) {
+                    float v = atof(body.substr(val_pos + 8).c_str());
+                    id(plug4_voltage) = v;
+                  }
+      - http_request.get:
+          url: "http://${plug4_ip}/sensor/kauf_plug_current"
+          capture_response: true
+          on_response:
+            then:
+              - lambda: |-
+                  size_t val_pos = body.find("\"value\":");
+                  if (val_pos != std::string::npos) {
+                    float c = atof(body.substr(val_pos + 8).c_str());
+                    id(plug4_current) = c;
+                  }
+
+  - id: plug5_update_sensors
+    then:
+      - http_request.get:
+          url: "http://${plug5_ip}/sensor/kauf_plug_voltage"
+          capture_response: true
+          on_response:
+            then:
+              - lambda: |-
+                  size_t val_pos = body.find("\"value\":");
+                  if (val_pos != std::string::npos) {
+                    float v = atof(body.substr(val_pos + 8).c_str());
+                    id(plug5_voltage) = v;
+                  }
+      - http_request.get:
+          url: "http://${plug5_ip}/sensor/kauf_plug_current"
+          capture_response: true
+          on_response:
+            then:
+              - lambda: |-
+                  size_t val_pos = body.find("\"value\":");
+                  if (val_pos != std::string::npos) {
+                    float c = atof(body.substr(val_pos + 8).c_str());
+                    id(plug5_current) = c;
+                  }
+
+  - id: plug6_update_sensors
+    then:
+      - http_request.get:
+          url: "http://${plug6_ip}/sensor/kauf_plug_voltage"
+          capture_response: true
+          on_response:
+            then:
+              - lambda: |-
+                  size_t val_pos = body.find("\"value\":");
+                  if (val_pos != std::string::npos) {
+                    float v = atof(body.substr(val_pos + 8).c_str());
+                    id(plug6_voltage) = v;
+                  }
+      - http_request.get:
+          url: "http://${plug6_ip}/sensor/kauf_plug_current"
+          capture_response: true
+          on_response:
+            then:
+              - lambda: |-
+                  size_t val_pos = body.find("\"value\":");
+                  if (val_pos != std::string::npos) {
+                    float c = atof(body.substr(val_pos + 8).c_str());
+                    id(plug6_current) = c;
+                  }
+
+  - id: plug7_update_sensors
+    then:
+      - http_request.get:
+          url: "http://${plug7_ip}/sensor/kauf_plug_voltage"
+          capture_response: true
+          on_response:
+            then:
+              - lambda: |-
+                  size_t val_pos = body.find("\"value\":");
+                  if (val_pos != std::string::npos) {
+                    float v = atof(body.substr(val_pos + 8).c_str());
+                    id(plug7_voltage) = v;
+                  }
+      - http_request.get:
+          url: "http://${plug7_ip}/sensor/kauf_plug_current"
+          capture_response: true
+          on_response:
+            then:
+              - lambda: |-
+                  size_t val_pos = body.find("\"value\":");
+                  if (val_pos != std::string::npos) {
+                    float c = atof(body.substr(val_pos + 8).c_str());
+                    id(plug7_current) = c;
+                  }
+
+  - id: plug8_update_sensors
+    then:
+      - http_request.get:
+          url: "http://${plug8_ip}/sensor/kauf_plug_voltage"
+          capture_response: true
+          on_response:
+            then:
+              - lambda: |-
+                  size_t val_pos = body.find("\"value\":");
+                  if (val_pos != std::string::npos) {
+                    float v = atof(body.substr(val_pos + 8).c_str());
+                    id(plug8_voltage) = v;
+                  }
+      - http_request.get:
+          url: "http://${plug8_ip}/sensor/kauf_plug_current"
+          capture_response: true
+          on_response:
+            then:
+              - lambda: |-
+                  size_t val_pos = body.find("\"value\":");
+                  if (val_pos != std::string::npos) {
+                    float c = atof(body.substr(val_pos + 8).c_str());
+                    id(plug8_current) = c;
+                  }
+
 
 font:
   - file: "gfonts://Roboto"
@@ -589,10 +863,21 @@ font:
   - file: "gfonts://Roboto"
     id: font_small
     size: 18
+  - file: "gfonts://Roboto"
+    id: font_splash_title
+    size: 48
+    weight: bold
+  - file: "gfonts://Roboto"
+    id: font_splash_subtitle
+    size: 28
+  - file: "gfonts://Roboto"
+    id: font_tiny
+    size: 14
 
 time:
   - platform: sntp
     id: sntp_time
+    timezone: "America/Detroit"  # Timezone for ZIP 49456
 
 number:
   # Plug 1
@@ -1084,9 +1369,15 @@ lvgl:
 
   on_ready:
     then:
+      # Show splash screen first
+      - lvgl.page.show:
+          id: splash_page
+      - script.execute: register_activity
+      # Wait 2 seconds then transition to main page
+      - delay: 2s
       - lvgl.page.show:
           id: main_page
-      - script.execute: register_activity
+      # Initialize all plug states and sensors
       - script.execute: plug1_update_state
       - script.execute: plug2_update_state
       - script.execute: plug3_update_state
@@ -1095,6 +1386,14 @@ lvgl:
       - script.execute: plug6_update_state
       - script.execute: plug7_update_state
       - script.execute: plug8_update_state
+      - script.execute: plug1_update_sensors
+      - script.execute: plug2_update_sensors
+      - script.execute: plug3_update_sensors
+      - script.execute: plug4_update_sensors
+      - script.execute: plug5_update_sensors
+      - script.execute: plug6_update_sensors
+      - script.execute: plug7_update_sensors
+      - script.execute: plug8_update_sensors
       - lambda: |-
           auto now = id(sntp_time).now();
           if (!now.is_valid()) return;
@@ -1115,7 +1414,524 @@ lvgl:
 
                     lv_label_set_text(id(lbl_plug8_text), "PLUG 8");
   pages:
-    # MAIN PAGE
+    # ========== SPLASH SCREEN ==========
+    - id: splash_page
+      widgets:
+        - obj:
+            id: splash_bg
+            x: 0
+            y: 0
+            width: 800
+            height: 480
+            bg_color: 0x1A1A2E
+            border_width: 0
+            widgets:
+              # Animated gradient arc as decoration
+              - arc:
+                  id: splash_arc
+                  align: center
+                  x: 0
+                  y: -50
+                  width: 200
+                  height: 200
+                  arc_color: 0x00D9FF
+                  arc_width: 8
+                  start_angle: 0
+                  end_angle: 270
+
+              # Main Title
+              - label:
+                  id: lbl_splash_title
+                  align: center
+                  x: 0
+                  y: 60
+                  text: "TotalSense"
+                  text_font: font_splash_title
+                  text_color: 0x00D9FF
+
+              # Subtitle with creators
+              - label:
+                  id: lbl_splash_subtitle
+                  align: center
+                  x: 0
+                  y: 110
+                  text: "Smart Plug Control System"
+                  text_font: font_splash_subtitle
+                  text_color: 0xFFFFFF
+
+              # Creator names
+              - label:
+                  id: lbl_splash_creators
+                  align: center
+                  x: 0
+                  y: 160
+                  text: "by Jeremy Boven & Peter Olundtu"
+                  text_font: font_small
+                  text_color: 0x888888
+
+    # ========== PLUG INFO PAGES ==========
+    - id: plug1_info_page
+      widgets:
+        - obj:
+            id: plug1_info_bg
+            x: 0
+            y: 0
+            width: 800
+            height: 480
+            bg_color: 0x101830
+            widgets:
+              - label:
+                  align: top_mid
+                  y: 20
+                  text: "PLUG 1 INFO"
+                  text_font: font_large
+                  text_color: 0xFFFFFF
+
+              - label:
+                  id: lbl_plug1_voltage_label
+                  x: 100
+                  y: 150
+                  text: "Voltage:"
+                  text_font: font_large
+                  text_color: 0xCCCCCC
+
+              - label:
+                  id: lbl_plug1_voltage
+                  x: 300
+                  y: 150
+                  text: "0.0 V"
+                  text_font: font_large
+                  text_color: 0x00FF00
+
+              - label:
+                  id: lbl_plug1_current_label
+                  x: 100
+                  y: 230
+                  text: "Current:"
+                  text_font: font_large
+                  text_color: 0xCCCCCC
+
+              - label:
+                  id: lbl_plug1_current
+                  x: 300
+                  y: 230
+                  text: "0.0 A"
+                  text_font: font_large
+                  text_color: 0x00D9FF
+
+              - button:
+                  id: btn_plug1_info_back
+                  x: 300
+                  y: 380
+                  width: 200
+                  height: 60
+                  bg_color: 0x444444
+                  widgets: [{ label: { text: "BACK", align: center, text_font: font_small }}]
+                  on_click:
+                    then:
+                      - script.execute: register_activity
+                      - lvgl.page.show: main_page
+
+    - id: plug2_info_page
+      widgets:
+        - obj:
+            id: plug2_info_bg
+            x: 0
+            y: 0
+            width: 800
+            height: 480
+            bg_color: 0x101830
+            widgets:
+              - label:
+                  align: top_mid
+                  y: 20
+                  text: "PLUG 2 INFO"
+                  text_font: font_large
+                  text_color: 0xFFFFFF
+              - label:
+                  id: lbl_plug2_voltage_label
+                  x: 100
+                  y: 150
+                  text: "Voltage:"
+                  text_font: font_large
+                  text_color: 0xCCCCCC
+              - label:
+                  id: lbl_plug2_voltage
+                  x: 300
+                  y: 150
+                  text: "0.0 V"
+                  text_font: font_large
+                  text_color: 0x00FF00
+              - label:
+                  id: lbl_plug2_current_label
+                  x: 100
+                  y: 230
+                  text: "Current:"
+                  text_font: font_large
+                  text_color: 0xCCCCCC
+              - label:
+                  id: lbl_plug2_current
+                  x: 300
+                  y: 230
+                  text: "0.0 A"
+                  text_font: font_large
+                  text_color: 0x00D9FF
+              - button:
+                  id: btn_plug2_info_back
+                  x: 300
+                  y: 380
+                  width: 200
+                  height: 60
+                  bg_color: 0x444444
+                  widgets: [{ label: { text: "BACK", align: center, text_font: font_small }}]
+                  on_click:
+                    then:
+                      - script.execute: register_activity
+                      - lvgl.page.show: main_page
+
+    - id: plug3_info_page
+      widgets:
+        - obj:
+            id: plug3_info_bg
+            x: 0
+            y: 0
+            width: 800
+            height: 480
+            bg_color: 0x101830
+            widgets:
+              - label:
+                  align: top_mid
+                  y: 20
+                  text: "PLUG 3 INFO"
+                  text_font: font_large
+                  text_color: 0xFFFFFF
+              - label:
+                  id: lbl_plug3_voltage_label
+                  x: 100
+                  y: 150
+                  text: "Voltage:"
+                  text_font: font_large
+                  text_color: 0xCCCCCC
+              - label:
+                  id: lbl_plug3_voltage
+                  x: 300
+                  y: 150
+                  text: "0.0 V"
+                  text_font: font_large
+                  text_color: 0x00FF00
+              - label:
+                  id: lbl_plug3_current_label
+                  x: 100
+                  y: 230
+                  text: "Current:"
+                  text_font: font_large
+                  text_color: 0xCCCCCC
+              - label:
+                  id: lbl_plug3_current
+                  x: 300
+                  y: 230
+                  text: "0.0 A"
+                  text_font: font_large
+                  text_color: 0x00D9FF
+              - button:
+                  id: btn_plug3_info_back
+                  x: 300
+                  y: 380
+                  width: 200
+                  height: 60
+                  bg_color: 0x444444
+                  widgets: [{ label: { text: "BACK", align: center, text_font: font_small }}]
+                  on_click:
+                    then:
+                      - script.execute: register_activity
+                      - lvgl.page.show: main_page
+
+    - id: plug4_info_page
+      widgets:
+        - obj:
+            id: plug4_info_bg
+            x: 0
+            y: 0
+            width: 800
+            height: 480
+            bg_color: 0x101830
+            widgets:
+              - label:
+                  align: top_mid
+                  y: 20
+                  text: "PLUG 4 INFO"
+                  text_font: font_large
+                  text_color: 0xFFFFFF
+              - label:
+                  id: lbl_plug4_voltage_label
+                  x: 100
+                  y: 150
+                  text: "Voltage:"
+                  text_font: font_large
+                  text_color: 0xCCCCCC
+              - label:
+                  id: lbl_plug4_voltage
+                  x: 300
+                  y: 150
+                  text: "0.0 V"
+                  text_font: font_large
+                  text_color: 0x00FF00
+              - label:
+                  id: lbl_plug4_current_label
+                  x: 100
+                  y: 230
+                  text: "Current:"
+                  text_font: font_large
+                  text_color: 0xCCCCCC
+              - label:
+                  id: lbl_plug4_current
+                  x: 300
+                  y: 230
+                  text: "0.0 A"
+                  text_font: font_large
+                  text_color: 0x00D9FF
+              - button:
+                  id: btn_plug4_info_back
+                  x: 300
+                  y: 380
+                  width: 200
+                  height: 60
+                  bg_color: 0x444444
+                  widgets: [{ label: { text: "BACK", align: center, text_font: font_small }}]
+                  on_click:
+                    then:
+                      - script.execute: register_activity
+                      - lvgl.page.show: main_page
+
+    - id: plug5_info_page
+      widgets:
+        - obj:
+            id: plug5_info_bg
+            x: 0
+            y: 0
+            width: 800
+            height: 480
+            bg_color: 0x101830
+            widgets:
+              - label:
+                  align: top_mid
+                  y: 20
+                  text: "PLUG 5 INFO"
+                  text_font: font_large
+                  text_color: 0xFFFFFF
+              - label:
+                  id: lbl_plug5_voltage_label
+                  x: 100
+                  y: 150
+                  text: "Voltage:"
+                  text_font: font_large
+                  text_color: 0xCCCCCC
+              - label:
+                  id: lbl_plug5_voltage
+                  x: 300
+                  y: 150
+                  text: "0.0 V"
+                  text_font: font_large
+                  text_color: 0x00FF00
+              - label:
+                  id: lbl_plug5_current_label
+                  x: 100
+                  y: 230
+                  text: "Current:"
+                  text_font: font_large
+                  text_color: 0xCCCCCC
+              - label:
+                  id: lbl_plug5_current
+                  x: 300
+                  y: 230
+                  text: "0.0 A"
+                  text_font: font_large
+                  text_color: 0x00D9FF
+              - button:
+                  id: btn_plug5_info_back
+                  x: 300
+                  y: 380
+                  width: 200
+                  height: 60
+                  bg_color: 0x444444
+                  widgets: [{ label: { text: "BACK", align: center, text_font: font_small }}]
+                  on_click:
+                    then:
+                      - script.execute: register_activity
+                      - lvgl.page.show: main_page
+
+    - id: plug6_info_page
+      widgets:
+        - obj:
+            id: plug6_info_bg
+            x: 0
+            y: 0
+            width: 800
+            height: 480
+            bg_color: 0x101830
+            widgets:
+              - label:
+                  align: top_mid
+                  y: 20
+                  text: "PLUG 6 INFO"
+                  text_font: font_large
+                  text_color: 0xFFFFFF
+              - label:
+                  id: lbl_plug6_voltage_label
+                  x: 100
+                  y: 150
+                  text: "Voltage:"
+                  text_font: font_large
+                  text_color: 0xCCCCCC
+              - label:
+                  id: lbl_plug6_voltage
+                  x: 300
+                  y: 150
+                  text: "0.0 V"
+                  text_font: font_large
+                  text_color: 0x00FF00
+              - label:
+                  id: lbl_plug6_current_label
+                  x: 100
+                  y: 230
+                  text: "Current:"
+                  text_font: font_large
+                  text_color: 0xCCCCCC
+              - label:
+                  id: lbl_plug6_current
+                  x: 300
+                  y: 230
+                  text: "0.0 A"
+                  text_font: font_large
+                  text_color: 0x00D9FF
+              - button:
+                  id: btn_plug6_info_back
+                  x: 300
+                  y: 380
+                  width: 200
+                  height: 60
+                  bg_color: 0x444444
+                  widgets: [{ label: { text: "BACK", align: center, text_font: font_small }}]
+                  on_click:
+                    then:
+                      - script.execute: register_activity
+                      - lvgl.page.show: main_page
+
+    - id: plug7_info_page
+      widgets:
+        - obj:
+            id: plug7_info_bg
+            x: 0
+            y: 0
+            width: 800
+            height: 480
+            bg_color: 0x101830
+            widgets:
+              - label:
+                  align: top_mid
+                  y: 20
+                  text: "PLUG 7 INFO"
+                  text_font: font_large
+                  text_color: 0xFFFFFF
+              - label:
+                  id: lbl_plug7_voltage_label
+                  x: 100
+                  y: 150
+                  text: "Voltage:"
+                  text_font: font_large
+                  text_color: 0xCCCCCC
+              - label:
+                  id: lbl_plug7_voltage
+                  x: 300
+                  y: 150
+                  text: "0.0 V"
+                  text_font: font_large
+                  text_color: 0x00FF00
+              - label:
+                  id: lbl_plug7_current_label
+                  x: 100
+                  y: 230
+                  text: "Current:"
+                  text_font: font_large
+                  text_color: 0xCCCCCC
+              - label:
+                  id: lbl_plug7_current
+                  x: 300
+                  y: 230
+                  text: "0.0 A"
+                  text_font: font_large
+                  text_color: 0x00D9FF
+              - button:
+                  id: btn_plug7_info_back
+                  x: 300
+                  y: 380
+                  width: 200
+                  height: 60
+                  bg_color: 0x444444
+                  widgets: [{ label: { text: "BACK", align: center, text_font: font_small }}]
+                  on_click:
+                    then:
+                      - script.execute: register_activity
+                      - lvgl.page.show: main_page
+
+    - id: plug8_info_page
+      widgets:
+        - obj:
+            id: plug8_info_bg
+            x: 0
+            y: 0
+            width: 800
+            height: 480
+            bg_color: 0x101830
+            widgets:
+              - label:
+                  align: top_mid
+                  y: 20
+                  text: "PLUG 8 INFO"
+                  text_font: font_large
+                  text_color: 0xFFFFFF
+              - label:
+                  id: lbl_plug8_voltage_label
+                  x: 100
+                  y: 150
+                  text: "Voltage:"
+                  text_font: font_large
+                  text_color: 0xCCCCCC
+              - label:
+                  id: lbl_plug8_voltage
+                  x: 300
+                  y: 150
+                  text: "0.0 V"
+                  text_font: font_large
+                  text_color: 0x00FF00
+              - label:
+                  id: lbl_plug8_current_label
+                  x: 100
+                  y: 230
+                  text: "Current:"
+                  text_font: font_large
+                  text_color: 0xCCCCCC
+              - label:
+                  id: lbl_plug8_current
+                  x: 300
+                  y: 230
+                  text: "0.0 A"
+                  text_font: font_large
+                  text_color: 0x00D9FF
+              - button:
+                  id: btn_plug8_info_back
+                  x: 300
+                  y: 380
+                  width: 200
+                  height: 60
+                  bg_color: 0x444444
+                  widgets: [{ label: { text: "BACK", align: center, text_font: font_small }}]
+                  on_click:
+                    then:
+                      - script.execute: register_activity
+                      - lvgl.page.show: main_page
+
+    # ========== MAIN PAGE ==========
     - id: main_page
       widgets:
         # background only (no inner panel)
@@ -1138,10 +1954,10 @@ lvgl:
         # row 1
         - button:
             id: btn_plug1
-            x: 20
+            x: 10
             y: 70
-            width: 230
-            height: 60
+            width: 160
+            height: 50
             bg_color: 0xFF0000
             widgets: [{ label: { text: "PLUG 1", align: center, text_font: font_small }}]
             on_click:
@@ -1154,37 +1970,39 @@ lvgl:
 
         - button:
             id: btn_plug1_timer
-            x: 260
+            x: 175
             y: 70
-            width: 110
-            height: 60
+            width: 70
+            height: 50
             bg_color: 0x444444
-            widgets:
-              - label:
-                  id: lbl1_timer_main
-                  text: "Timer OFF"
-                  align: center
-                  text_font: font_small
+            widgets: [{ label: { text: "Timer", align: center, text_font: font_tiny }}]
             on_click:
               then:
                 - script.execute: register_activity
                 - lambda: |-
                     bool cur = id(plug1_schedule_enabled).state;
                     id(plug1_schedule_enabled).publish_state(!cur);
-                - lvgl.label.update:
-                    id: lbl1_timer_main
-                    text: !lambda |-
-                      return id(plug1_schedule_enabled).state
-                        ? std::string("Timer ON")
-                        : std::string("Timer OFF");
                 - lvgl.page.show: plug1_timer_page
+
+        - button:
+            id: btn_plug1_info
+            x: 250
+            y: 70
+            width: 50
+            height: 50
+            bg_color: 0x0066CC
+            widgets: [{ label: { text: "i", align: center, text_font: font_large }}]
+            on_click:
+              then:
+                - script.execute: register_activity
+                - lvgl.page.show: plug1_info_page
 
         - button:
             id: btn_plug5
             x: 410
             y: 70
-            width: 230
-            height: 60
+            width: 160
+            height: 50
             bg_color: 0xFF0000
             widgets: [{ label: { text: "PLUG 5", align: center, text_font: font_small }}]
             on_click:
@@ -1197,38 +2015,40 @@ lvgl:
 
         - button:
             id: btn_plug5_timer
-            x: 650
+            x: 575
             y: 70
-            width: 110
-            height: 60
+            width: 70
+            height: 50
             bg_color: 0x444444
-            widgets:
-              - label:
-                  id: lbl5_timer_main
-                  text: "Timer OFF"
-                  align: center
-                  text_font: font_small
+            widgets: [{ label: { text: "Timer", align: center, text_font: font_tiny }}]
             on_click:
               then:
                 - script.execute: register_activity
                 - lambda: |-
                     bool cur = id(plug5_schedule_enabled).state;
                     id(plug5_schedule_enabled).publish_state(!cur);
-                - lvgl.label.update:
-                    id: lbl5_timer_main
-                    text: !lambda |-
-                      return id(plug5_schedule_enabled).state
-                        ? std::string("Timer ON")
-                        : std::string("Timer OFF");
                 - lvgl.page.show: plug5_timer_page
+
+        - button:
+            id: btn_plug5_info
+            x: 650
+            y: 70
+            width: 50
+            height: 50
+            bg_color: 0x0066CC
+            widgets: [{ label: { text: "i", align: center, text_font: font_large }}]
+            on_click:
+              then:
+                - script.execute: register_activity
+                - lvgl.page.show: plug5_info_page
 
         # row 2
         - button:
             id: btn_plug2
-            x: 20
-            y: 150
-            width: 230
-            height: 60
+            x: 10
+            y: 135
+            width: 160
+            height: 50
             bg_color: 0xFF0000
             widgets: [{ label: { text: "PLUG 2", align: center, text_font: font_small }}]
             on_click:
@@ -1241,37 +2061,39 @@ lvgl:
 
         - button:
             id: btn_plug2_timer
-            x: 260
-            y: 150
-            width: 110
-            height: 60
+            x: 175
+            y: 135
+            width: 70
+            height: 50
             bg_color: 0x444444
-            widgets:
-              - label:
-                  id: lbl2_timer_main
-                  text: "Timer OFF"
-                  align: center
-                  text_font: font_small
+            widgets: [{ label: { text: "Timer", align: center, text_font: font_tiny }}]
             on_click:
               then:
                 - script.execute: register_activity
                 - lambda: |-
                     bool cur = id(plug2_schedule_enabled).state;
                     id(plug2_schedule_enabled).publish_state(!cur);
-                - lvgl.label.update:
-                    id: lbl2_timer_main
-                    text: !lambda |-
-                      return id(plug2_schedule_enabled).state
-                        ? std::string("Timer ON")
-                        : std::string("Timer OFF");
                 - lvgl.page.show: plug2_timer_page
+
+        - button:
+            id: btn_plug2_info
+            x: 250
+            y: 135
+            width: 50
+            height: 50
+            bg_color: 0x0066CC
+            widgets: [{ label: { text: "i", align: center, text_font: font_large }}]
+            on_click:
+              then:
+                - script.execute: register_activity
+                - lvgl.page.show: plug2_info_page
 
         - button:
             id: btn_plug6
             x: 410
-            y: 150
-            width: 230
-            height: 60
+            y: 135
+            width: 160
+            height: 50
             bg_color: 0xFF0000
             widgets: [{ label: { text: "PLUG 6", align: center, text_font: font_small }}]
             on_click:
@@ -1284,38 +2106,40 @@ lvgl:
 
         - button:
             id: btn_plug6_timer
-            x: 650
-            y: 150
-            width: 110
-            height: 60
+            x: 575
+            y: 135
+            width: 70
+            height: 50
             bg_color: 0x444444
-            widgets:
-              - label:
-                  id: lbl6_timer_main
-                  text: "Timer OFF"
-                  align: center
-                  text_font: font_small
+            widgets: [{ label: { text: "Timer", align: center, text_font: font_tiny }}]
             on_click:
               then:
                 - script.execute: register_activity
                 - lambda: |-
                     bool cur = id(plug6_schedule_enabled).state;
                     id(plug6_schedule_enabled).publish_state(!cur);
-                - lvgl.label.update:
-                    id: lbl6_timer_main
-                    text: !lambda |-
-                      return id(plug6_schedule_enabled).state
-                        ? std::string("Timer ON")
-                        : std::string("Timer OFF");
                 - lvgl.page.show: plug6_timer_page
+
+        - button:
+            id: btn_plug6_info
+            x: 650
+            y: 135
+            width: 50
+            height: 50
+            bg_color: 0x0066CC
+            widgets: [{ label: { text: "i", align: center, text_font: font_large }}]
+            on_click:
+              then:
+                - script.execute: register_activity
+                - lvgl.page.show: plug6_info_page
 
         # row 3
         - button:
             id: btn_plug3
-            x: 20
-            y: 230
-            width: 230
-            height: 60
+            x: 10
+            y: 200
+            width: 160
+            height: 50
             bg_color: 0xFF0000
             widgets: [{ label: { text: "PLUG 3", align: center, text_font: font_small }}]
             on_click:
@@ -1328,37 +2152,39 @@ lvgl:
 
         - button:
             id: btn_plug3_timer
-            x: 260
-            y: 230
-            width: 110
-            height: 60
+            x: 175
+            y: 200
+            width: 70
+            height: 50
             bg_color: 0x444444
-            widgets:
-              - label:
-                  id: lbl3_timer_main
-                  text: "Timer OFF"
-                  align: center
-                  text_font: font_small
+            widgets: [{ label: { text: "Timer", align: center, text_font: font_tiny }}]
             on_click:
               then:
                 - script.execute: register_activity
                 - lambda: |-
                     bool cur = id(plug3_schedule_enabled).state;
                     id(plug3_schedule_enabled).publish_state(!cur);
-                - lvgl.label.update:
-                    id: lbl3_timer_main
-                    text: !lambda |-
-                      return id(plug3_schedule_enabled).state
-                        ? std::string("Timer ON")
-                        : std::string("Timer OFF");
                 - lvgl.page.show: plug3_timer_page
+
+        - button:
+            id: btn_plug3_info
+            x: 250
+            y: 200
+            width: 50
+            height: 50
+            bg_color: 0x0066CC
+            widgets: [{ label: { text: "i", align: center, text_font: font_large }}]
+            on_click:
+              then:
+                - script.execute: register_activity
+                - lvgl.page.show: plug3_info_page
 
         - button:
             id: btn_plug7
             x: 410
-            y: 230
-            width: 230
-            height: 60
+            y: 200
+            width: 160
+            height: 50
             bg_color: 0xFF0000
             widgets: [{ label: { text: "PLUG 7", align: center, text_font: font_small }}]
             on_click:
@@ -1371,38 +2197,40 @@ lvgl:
 
         - button:
             id: btn_plug7_timer
-            x: 650
-            y: 230
-            width: 110
-            height: 60
+            x: 575
+            y: 200
+            width: 70
+            height: 50
             bg_color: 0x444444
-            widgets:
-              - label:
-                  id: lbl7_timer_main
-                  text: "Timer OFF"
-                  align: center
-                  text_font: font_small
+            widgets: [{ label: { text: "Timer", align: center, text_font: font_tiny }}]
             on_click:
               then:
                 - script.execute: register_activity
                 - lambda: |-
                     bool cur = id(plug7_schedule_enabled).state;
                     id(plug7_schedule_enabled).publish_state(!cur);
-                - lvgl.label.update:
-                    id: lbl7_timer_main
-                    text: !lambda |-
-                      return id(plug7_schedule_enabled).state
-                        ? std::string("Timer ON")
-                        : std::string("Timer OFF");
                 - lvgl.page.show: plug7_timer_page
+
+        - button:
+            id: btn_plug7_info
+            x: 650
+            y: 200
+            width: 50
+            height: 50
+            bg_color: 0x0066CC
+            widgets: [{ label: { text: "i", align: center, text_font: font_large }}]
+            on_click:
+              then:
+                - script.execute: register_activity
+                - lvgl.page.show: plug7_info_page
 
         # row 4
         - button:
             id: btn_plug4
-            x: 20
-            y: 310
-            width: 230
-            height: 60
+            x: 10
+            y: 265
+            width: 160
+            height: 50
             bg_color: 0xFF0000
             widgets: [{ label: { text: "PLUG 4", align: center, text_font: font_small }}]
             on_click:
@@ -1415,75 +2243,77 @@ lvgl:
 
         - button:
             id: btn_plug4_timer
-            x: 260
-            y: 310
-            width: 110
-            height: 60
+            x: 175
+            y: 265
+            width: 70
+            height: 50
             bg_color: 0x444444
-            widgets:
-              - label:
-                  id: lbl4_timer_main
-                  text: "Timer OFF"
-                  align: center
-                  text_font: font_small
+            widgets: [{ label: { text: "Timer", align: center, text_font: font_tiny }}]
             on_click:
               then:
                 - script.execute: register_activity
                 - lambda: |-
                     bool cur = id(plug4_schedule_enabled).state;
                     id(plug4_schedule_enabled).publish_state(!cur);
-                - lvgl.label.update:
-                    id: lbl4_timer_main
-                    text: !lambda |-
-                      return id(plug4_schedule_enabled).state
-                        ? std::string("Timer ON")
-                        : std::string("Timer OFF");
                 - lvgl.page.show: plug4_timer_page
+
+        - button:
+            id: btn_plug4_info
+            x: 250
+            y: 265
+            width: 50
+            height: 50
+            bg_color: 0x0066CC
+            widgets: [{ label: { text: "i", align: center, text_font: font_large }}]
+            on_click:
+              then:
+                - script.execute: register_activity
+                - lvgl.page.show: plug4_info_page
 
         - button:
             id: btn_plug8
             x: 410
-            y: 310
-            width: 230
-            height: 60
+            y: 265
+            width: 160
+            height: 50
             bg_color: 0xFF0000
-            widgets:
-              - label:
-                  id: lbl_plug8_text     # text label for Plug 8 button
-                  text: "PLUG 8"         # initial, overridden in on_ready
-                  align: center
-                  text_font: font_small
+            widgets: [{ label: { text: "PLUG 8", align: center, text_font: font_small }}]
             on_click:
               then:
                 - script.execute: register_activity
-                - script.execute: toggle_plug8_device
+                - http_request.post:
+                    url: "http://${plug8_ip}/switch/kauf_plug/toggle"
+                - delay: 500ms
+                - script.execute: plug8_update_state
 
         - button:
             id: btn_plug8_timer
-            x: 650
-            y: 310
-            width: 110
-            height: 60
+            x: 575
+            y: 265
+            width: 70
+            height: 50
             bg_color: 0x444444
-            widgets:
-              - label:
-                  id: lbl8_timer_main
-                  text: "Timer OFF"
-                  align: center
-                  text_font: font_small
+            widgets: [{ label: { text: "Timer", align: center, text_font: font_tiny }}]
             on_click:
               then:
                 - script.execute: register_activity
                 - lambda: |-
                     bool cur = id(plug8_schedule_enabled).state;
                     id(plug8_schedule_enabled).publish_state(!cur);
-                - lvgl.label.update:
-                    id: lbl8_timer_main
-                    text: !lambda |-
-                      return id(plug8_schedule_enabled).state
-                        ? std::string("Timer ON")
-                        : std::string("Timer OFF");
                 - lvgl.page.show: plug8_timer_page
+
+        - button:
+            id: btn_plug8_info
+            x: 650
+            y: 265
+            width: 50
+            height: 50
+            bg_color: 0x0066CC
+            widgets: [{ label: { text: "i", align: center, text_font: font_large }}]
+            on_click:
+              then:
+                - script.execute: register_activity
+                - lvgl.page.show: plug8_info_page
 
         # backlight controls (shifted left so ON lines up with Timer 4)
         - label:
@@ -4477,8 +5307,69 @@ interval:
 
   - interval: 2min
     then:
-      # Periodic state refresh. Only plug1 is active right now.
+      # Periodic state refresh for all plugs
       - script.execute: plug1_update_state
+      - script.execute: plug2_update_state
+      - script.execute: plug3_update_state
+      - script.execute: plug4_update_state
+      - script.execute: plug5_update_state
+      - script.execute: plug6_update_state
+      - script.execute: plug7_update_state
+      - script.execute: plug8_update_state
+
+  # Sensor updates every 5 seconds
+  - interval: 5s
+    then:
+      - script.execute: plug1_update_sensors
+      - script.execute: plug2_update_sensors
+      - script.execute: plug3_update_sensors
+      - script.execute: plug4_update_sensors
+      - script.execute: plug5_update_sensors
+      - script.execute: plug6_update_sensors
+      - script.execute: plug7_update_sensors
+      - script.execute: plug8_update_sensors
+      # Update info page labels
+      - lambda: |-
+          char buf[16];
+          sprintf(buf, "%.1f V", id(plug1_voltage));
+          lv_label_set_text(id(lbl_plug1_voltage), buf);
+          sprintf(buf, "%.2f A", id(plug1_current));
+          lv_label_set_text(id(lbl_plug1_current), buf);
+
+          sprintf(buf, "%.1f V", id(plug2_voltage));
+          lv_label_set_text(id(lbl_plug2_voltage), buf);
+          sprintf(buf, "%.2f A", id(plug2_current));
+          lv_label_set_text(id(lbl_plug2_current), buf);
+
+          sprintf(buf, "%.1f V", id(plug3_voltage));
+          lv_label_set_text(id(lbl_plug3_voltage), buf);
+          sprintf(buf, "%.2f A", id(plug3_current));
+          lv_label_set_text(id(lbl_plug3_current), buf);
+
+          sprintf(buf, "%.1f V", id(plug4_voltage));
+          lv_label_set_text(id(lbl_plug4_voltage), buf);
+          sprintf(buf, "%.2f A", id(plug4_current));
+          lv_label_set_text(id(lbl_plug4_current), buf);
+
+          sprintf(buf, "%.1f V", id(plug5_voltage));
+          lv_label_set_text(id(lbl_plug5_voltage), buf);
+          sprintf(buf, "%.2f A", id(plug5_current));
+          lv_label_set_text(id(lbl_plug5_current), buf);
+
+          sprintf(buf, "%.1f V", id(plug6_voltage));
+          lv_label_set_text(id(lbl_plug6_voltage), buf);
+          sprintf(buf, "%.2f A", id(plug6_current));
+          lv_label_set_text(id(lbl_plug6_current), buf);
+
+          sprintf(buf, "%.1f V", id(plug7_voltage));
+          lv_label_set_text(id(lbl_plug7_voltage), buf);
+          sprintf(buf, "%.2f A", id(plug7_current));
+          lv_label_set_text(id(lbl_plug7_current), buf);
+
+          sprintf(buf, "%.1f V", id(plug8_voltage));
+          lv_label_set_text(id(lbl_plug8_voltage), buf);
+          sprintf(buf, "%.2f A", id(plug8_current));
+          lv_label_set_text(id(lbl_plug8_current), buf);
 
   # clock update every 10s
   - interval: 10s
