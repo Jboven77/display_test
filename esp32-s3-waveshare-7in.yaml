@@ -160,183 +160,124 @@ globals:
     restore_value: no
     initial_value: "false"
 
+  ###############################################################################
+  # PLUG IP ADDRESSES - EDIT THESE TO CHANGE PLUG IPs
+  ###############################################################################
+  # Change the initial_value to match your plug IP addresses
+  # Format: initial_value: '"192.168.1.100"' (keep the quotes!)
+  ###############################################################################
+
   - id: plug1_ip_str
     type: std::string
     restore_value: yes
     max_restore_data_length: 20
     initial_value: '"192.168.68.79"'
+
   - id: plug2_ip_str
     type: std::string
     restore_value: yes
     max_restore_data_length: 20
     initial_value: '"192.168.68.77"'
+
   - id: plug3_ip_str
     type: std::string
     restore_value: yes
     max_restore_data_length: 20
     initial_value: '"192.168.68.76"'
+
   - id: plug4_ip_str
     type: std::string
     restore_value: yes
     max_restore_data_length: 20
     initial_value: '"192.168.68.75"'
+
   - id: plug5_ip_str
     type: std::string
     restore_value: yes
     max_restore_data_length: 20
     initial_value: '"192.168.68.203"'
+
   - id: plug6_ip_str
     type: std::string
     restore_value: yes
     max_restore_data_length: 20
     initial_value: '"192.168.68.204"'
+
   - id: plug7_ip_str
     type: std::string
     restore_value: yes
     max_restore_data_length: 20
     initial_value: '"192.168.68.205"'
+
   - id: plug8_ip_str
     type: std::string
     restore_value: yes
     max_restore_data_length: 20
     initial_value: '"192.168.68.206"'
 
-  # IP address octets for configuration page (all plugs)
-  - id: plug1_ip1
-    type: int
-    restore_value: yes
-    initial_value: '192'
-  - id: plug1_ip2
-    type: int
-    restore_value: yes
-    initial_value: '168'
-  - id: plug1_ip3
-    type: int
-    restore_value: yes
-    initial_value: '68'
-  - id: plug1_ip4
-    type: int
-    restore_value: yes
-    initial_value: '79'
+  ###############################################################################
+  # END PLUG IP ADDRESSES
+  ###############################################################################
 
-  - id: plug2_ip1
-    type: int
-    restore_value: yes
-    initial_value: '192'
-  - id: plug2_ip2
-    type: int
-    restore_value: yes
-    initial_value: '168'
-  - id: plug2_ip3
-    type: int
-    restore_value: yes
-    initial_value: '68'
-  - id: plug2_ip4
-    type: int
-    restore_value: yes
-    initial_value: '77'
+  ###############################################################################
+  # PLUG NAMES - EDIT THESE TO CHANGE PLUG DISPLAY NAMES
+  ###############################################################################
+  # Change the initial_value to customize each plug's name on the display
+  # Maximum 12 characters recommended for best display
+  ###############################################################################
 
-  - id: plug3_ip1
-    type: int
+  - id: plug1_name
+    type: std::string
     restore_value: yes
-    initial_value: '192'
-  - id: plug3_ip2
-    type: int
-    restore_value: yes
-    initial_value: '168'
-  - id: plug3_ip3
-    type: int
-    restore_value: yes
-    initial_value: '68'
-  - id: plug3_ip4
-    type: int
-    restore_value: yes
-    initial_value: '76'
+    max_restore_data_length: 30
+    initial_value: '"PLUG 1"'
 
-  - id: plug4_ip1
-    type: int
+  - id: plug2_name
+    type: std::string
     restore_value: yes
-    initial_value: '192'
-  - id: plug4_ip2
-    type: int
-    restore_value: yes
-    initial_value: '168'
-  - id: plug4_ip3
-    type: int
-    restore_value: yes
-    initial_value: '68'
-  - id: plug4_ip4
-    type: int
-    restore_value: yes
-    initial_value: '75'
+    max_restore_data_length: 30
+    initial_value: '"PLUG 2"'
 
-  - id: plug5_ip1
-    type: int
+  - id: plug3_name
+    type: std::string
     restore_value: yes
-    initial_value: '192'
-  - id: plug5_ip2
-    type: int
-    restore_value: yes
-    initial_value: '168'
-  - id: plug5_ip3
-    type: int
-    restore_value: yes
-    initial_value: '68'
-  - id: plug5_ip4
-    type: int
-    restore_value: yes
-    initial_value: '203'
+    max_restore_data_length: 30
+    initial_value: '"PLUG 3"'
 
-  - id: plug6_ip1
-    type: int
+  - id: plug4_name
+    type: std::string
     restore_value: yes
-    initial_value: '192'
-  - id: plug6_ip2
-    type: int
-    restore_value: yes
-    initial_value: '168'
-  - id: plug6_ip3
-    type: int
-    restore_value: yes
-    initial_value: '68'
-  - id: plug6_ip4
-    type: int
-    restore_value: yes
-    initial_value: '204'
+    max_restore_data_length: 30
+    initial_value: '"PLUG 4"'
 
-  - id: plug7_ip1
-    type: int
+  - id: plug5_name
+    type: std::string
     restore_value: yes
-    initial_value: '192'
-  - id: plug7_ip2
-    type: int
-    restore_value: yes
-    initial_value: '168'
-  - id: plug7_ip3
-    type: int
-    restore_value: yes
-    initial_value: '68'
-  - id: plug7_ip4
-    type: int
-    restore_value: yes
-    initial_value: '205'
+    max_restore_data_length: 30
+    initial_value: '"PLUG 5"'
 
-  - id: plug8_ip1
-    type: int
+  - id: plug6_name
+    type: std::string
     restore_value: yes
-    initial_value: '192'
-  - id: plug8_ip2
-    type: int
+    max_restore_data_length: 30
+    initial_value: '"PLUG 6"'
+
+  - id: plug7_name
+    type: std::string
     restore_value: yes
-    initial_value: '168'
-  - id: plug8_ip3
-    type: int
+    max_restore_data_length: 30
+    initial_value: '"PLUG 7"'
+
+  - id: plug8_name
+    type: std::string
     restore_value: yes
-    initial_value: '68'
-  - id: plug8_ip4
-    type: int
-    restore_value: yes
-    initial_value: '206'
+    max_restore_data_length: 30
+    initial_value: '"PLUG 8"'
+
+  ###############################################################################
+  # END PLUG NAMES
+  ###############################################################################
+
 
   - id: plug1_schedule_persist
     type: bool
@@ -1151,70 +1092,6 @@ script:
       # Similar blocks for plugs 2-8 omitted for brevity - add them with same pattern
 
   # IP update scripts - rebuild IP strings from octets
-  - id: update_plug1_ip
-    then:
-      - lambda: |-
-          char buf[20];
-          sprintf(buf, "%d.%d.%d.%d", id(plug1_ip1), id(plug1_ip2), id(plug1_ip3), id(plug1_ip4));
-          id(plug1_ip_str) = std::string(buf);
-          ESP_LOGI("IP", "Plug 1 IP updated to: %s", buf);
-
-  - id: update_plug2_ip
-    then:
-      - lambda: |-
-          char buf[20];
-          sprintf(buf, "%d.%d.%d.%d", id(plug2_ip1), id(plug2_ip2), id(plug2_ip3), id(plug2_ip4));
-          id(plug2_ip_str) = std::string(buf);
-          ESP_LOGI("IP", "Plug 2 IP updated to: %s", buf);
-
-  - id: update_plug3_ip
-    then:
-      - lambda: |-
-          char buf[20];
-          sprintf(buf, "%d.%d.%d.%d", id(plug3_ip1), id(plug3_ip2), id(plug3_ip3), id(plug3_ip4));
-          id(plug3_ip_str) = std::string(buf);
-          ESP_LOGI("IP", "Plug 3 IP updated to: %s", buf);
-
-  - id: update_plug4_ip
-    then:
-      - lambda: |-
-          char buf[20];
-          sprintf(buf, "%d.%d.%d.%d", id(plug4_ip1), id(plug4_ip2), id(plug4_ip3), id(plug4_ip4));
-          id(plug4_ip_str) = std::string(buf);
-          ESP_LOGI("IP", "Plug 4 IP updated to: %s", buf);
-
-  - id: update_plug5_ip
-    then:
-      - lambda: |-
-          char buf[20];
-          sprintf(buf, "%d.%d.%d.%d", id(plug5_ip1), id(plug5_ip2), id(plug5_ip3), id(plug5_ip4));
-          id(plug5_ip_str) = std::string(buf);
-          ESP_LOGI("IP", "Plug 5 IP updated to: %s", buf);
-
-  - id: update_plug6_ip
-    then:
-      - lambda: |-
-          char buf[20];
-          sprintf(buf, "%d.%d.%d.%d", id(plug6_ip1), id(plug6_ip2), id(plug6_ip3), id(plug6_ip4));
-          id(plug6_ip_str) = std::string(buf);
-          ESP_LOGI("IP", "Plug 6 IP updated to: %s", buf);
-
-  - id: update_plug7_ip
-    then:
-      - lambda: |-
-          char buf[20];
-          sprintf(buf, "%d.%d.%d.%d", id(plug7_ip1), id(plug7_ip2), id(plug7_ip3), id(plug7_ip4));
-          id(plug7_ip_str) = std::string(buf);
-          ESP_LOGI("IP", "Plug 7 IP updated to: %s", buf);
-
-  - id: update_plug8_ip
-    then:
-      - lambda: |-
-          char buf[20];
-          sprintf(buf, "%d.%d.%d.%d", id(plug8_ip1), id(plug8_ip2), id(plug8_ip3), id(plug8_ip4));
-          id(plug8_ip_str) = std::string(buf);
-          ESP_LOGI("IP", "Plug 8 IP updated to: %s", buf);
-
 font:
   - file: "gfonts://Roboto"
     id: font_large
@@ -1982,7 +1859,7 @@ lvgl:
             width: 230
             height: 60
             bg_color: 0xFF0000
-            widgets: [{ label: { text: "PLUG 1", align: center, text_font: font_small }}]
+            widgets: [{ label: { text: !lambda return id(plug1_name).c_str();, align: center, text_font: font_small }}]
             on_click:
               then:
                 - script.execute: register_activity
@@ -2013,7 +1890,7 @@ lvgl:
             width: 230
             height: 60
             bg_color: 0xFF0000
-            widgets: [{ label: { text: "PLUG 5", align: center, text_font: font_small }}]
+            widgets: [{ label: { text: !lambda return id(plug5_name).c_str();, align: center, text_font: font_small }}]
             on_click:
               then:
                 - script.execute: register_activity
@@ -2044,7 +1921,7 @@ lvgl:
             width: 230
             height: 60
             bg_color: 0xFF0000
-            widgets: [{ label: { text: "PLUG 2", align: center, text_font: font_small }}]
+            widgets: [{ label: { text: !lambda return id(plug2_name).c_str();, align: center, text_font: font_small }}]
             on_click:
               then:
                 - script.execute: register_activity
@@ -2074,7 +1951,7 @@ lvgl:
             width: 230
             height: 60
             bg_color: 0xFF0000
-            widgets: [{ label: { text: "PLUG 6", align: center, text_font: font_small }}]
+            widgets: [{ label: { text: !lambda return id(plug6_name).c_str();, align: center, text_font: font_small }}]
             on_click:
               then:
                 - script.execute: register_activity
@@ -2105,7 +1982,7 @@ lvgl:
             width: 230
             height: 60
             bg_color: 0xFF0000
-            widgets: [{ label: { text: "PLUG 3", align: center, text_font: font_small }}]
+            widgets: [{ label: { text: !lambda return id(plug3_name).c_str();, align: center, text_font: font_small }}]
             on_click:
               then:
                 - script.execute: register_activity
@@ -2135,7 +2012,7 @@ lvgl:
             width: 230
             height: 60
             bg_color: 0xFF0000
-            widgets: [{ label: { text: "PLUG 7", align: center, text_font: font_small }}]
+            widgets: [{ label: { text: !lambda return id(plug7_name).c_str();, align: center, text_font: font_small }}]
             on_click:
               then:
                 - script.execute: register_activity
@@ -2166,7 +2043,7 @@ lvgl:
             width: 230
             height: 60
             bg_color: 0xFF0000
-            widgets: [{ label: { text: "PLUG 4", align: center, text_font: font_small }}]
+            widgets: [{ label: { text: !lambda return id(plug4_name).c_str();, align: center, text_font: font_small }}]
             on_click:
               then:
                 - script.execute: register_activity
@@ -2196,7 +2073,7 @@ lvgl:
             width: 230
             height: 60
             bg_color: 0xFF0000
-            widgets: [{ label: { text: "PLUG 8", align: center, text_font: font_small }}]
+            widgets: [{ label: { text: !lambda return id(plug8_name).c_str();, align: center, text_font: font_small }}]
             on_click:
               then:
                 - script.execute: register_activity
@@ -2269,20 +2146,6 @@ lvgl:
             text_font: font_large
             text_color: 0xFFFFFF
 
-        # IP Settings button
-        - button:
-            id: btn_ip_settings
-            x: 380
-            y: 386
-            width: 150
-            height: 50
-            bg_color: 0x0066CC
-            widgets: [{ label: { text: "IP SETUP", align: center, text_font: font_small }}]
-            on_click:
-              then:
-                - script.execute: register_activity
-                - lvgl.page.show: ip_config_page
-
     # TIMER PAGES - Plug 1
     - id: plug1_timer_page
       widgets:
@@ -2290,7 +2153,8 @@ lvgl:
             id: lbl_timer1_title
             x: 20
             y: 10
-            text: "PLUG 1 TIMER"
+            text: !lambda |- 
+                return id(plug1_name) + std::string(" TIMER");
             text_font: font_large
             text_color: 0xFFFFFF
 
@@ -2620,7 +2484,8 @@ lvgl:
             id: lbl_timer2_title
             x: 20
             y: 10
-            text: "PLUG 2 TIMER"
+            text: !lambda |- 
+                return id(plug2_name) + std::string(" TIMER");
             text_font: font_large
             text_color: 0xFFFFFF
 
@@ -2949,7 +2814,8 @@ lvgl:
             id: lbl_timer3_title
             x: 20
             y: 10
-            text: "PLUG 3 TIMER"
+            text: !lambda |- 
+                return id(plug3_name) + std::string(" TIMER");
             text_font: font_large
             text_color: 0xFFFFFF
 
@@ -3278,7 +3144,8 @@ lvgl:
             id: lbl_timer4_title
             x: 20
             y: 10
-            text: "PLUG 4 TIMER"
+            text: !lambda |- 
+                return id(plug4_name) + std::string(" TIMER");
             text_font: font_large
             text_color: 0xFFFFFF
 
@@ -3607,7 +3474,8 @@ lvgl:
             id: lbl_timer5_title
             x: 20
             y: 10
-            text: "PLUG 5 TIMER"
+            text: !lambda |- 
+                return id(plug5_name) + std::string(" TIMER");
             text_font: font_large
             text_color: 0xFFFFFF
 
@@ -3936,7 +3804,8 @@ lvgl:
             id: lbl_timer6_title
             x: 20
             y: 10
-            text: "PLUG 6 TIMER"
+            text: !lambda |- 
+                return id(plug6_name) + std::string(" TIMER");
             text_font: font_large
             text_color: 0xFFFFFF
 
@@ -4265,7 +4134,8 @@ lvgl:
             id: lbl_timer7_title
             x: 20
             y: 10
-            text: "PLUG 7 TIMER"
+            text: !lambda |- 
+                return id(plug7_name) + std::string(" TIMER");
             text_font: font_large
             text_color: 0xFFFFFF
 
@@ -4594,7 +4464,8 @@ lvgl:
             id: lbl_timer8_title
             x: 20
             y: 10
-            text: "PLUG 8 TIMER"
+            text: !lambda |- 
+                return id(plug8_name) + std::string(" TIMER");
             text_font: font_large
             text_color: 0xFFFFFF
 
@@ -4978,1324 +4849,6 @@ lvgl:
             - lvgl.page.show: main_page
 
     # IP CONFIGURATION PAGE
-    - id: ip_config_page
-      widgets:
-      - obj:
-          id: ip_bg
-          x: 0
-          y: 0
-          width: 800
-          height: 480
-          bg_color: 0x101830
-          scrollable: true
-
-      - label:
-          text: "IP ADDRESS CONFIGURATION"
-          align: top_mid
-          y: 10
-          text_font: font_large
-          text_color: 0xFFFF00
-
-      - button:
-          id: btn_ip_save
-          x: 450
-          y: 10
-          width: 180
-          height: 50
-          bg_color: 0xFF6600
-          widgets: [{ label: { text: "SAVE & APPLY", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - script.execute: update_plug1_ip
-            - script.execute: update_plug2_ip
-            - script.execute: update_plug3_ip
-            - script.execute: update_plug4_ip
-            - script.execute: update_plug5_ip
-            - script.execute: update_plug6_ip
-            - script.execute: update_plug7_ip
-            - script.execute: update_plug8_ip
-            - lambda: |-
-                ESP_LOGI("IP", "All IP addresses saved and applied!");
-                // Flash the button to show confirmation
-                lv_obj_set_style_bg_color(id(btn_ip_save), lv_color_hex(0x00FF00), LV_PART_MAIN);
-            - delay: 500ms
-            - lambda: |-
-                lv_obj_set_style_bg_color(id(btn_ip_save), lv_color_hex(0xFF6600), LV_PART_MAIN);
-
-      - button:
-          id: btn_ip_back
-          x: 650
-          y: 10
-          width: 130
-          height: 50
-          bg_color: 0x444444
-          widgets: [{ label: { text: "BACK", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lvgl.page.show: main_page
-
-      # PLUG 1 IP Configuration
-      - label:
-          text: "Plug 1:"
-          x: 20
-          y: 70
-          text_font: font_small
-          text_color: 0xFFFFFF
-
-      - label:
-          id: lbl_plug1_ip
-          text: "192.168.68.79"
-          x: 100
-          y: 70
-          text_font: font_small
-          text_color: 0x00FF00
-
-      # Plug 1 Octet 1
-      - button:
-          x: 250
-          y: 65
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "-", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: |-
-                id(plug1_ip1) = max(0, id(plug1_ip1) - 1);
-            - script.execute: update_plug1_ip
-            - lvgl.label.update:
-                id: lbl_plug1_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug1_ip1), id(plug1_ip2), id(plug1_ip3), id(plug1_ip4));
-                  return buf;
-
-      - button:
-          x: 295
-          y: 65
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "+", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: |-
-                id(plug1_ip1) = min(255, id(plug1_ip1) + 1);
-            - script.execute: update_plug1_ip
-            - lvgl.label.update:
-                id: lbl_plug1_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug1_ip1), id(plug1_ip2), id(plug1_ip3), id(plug1_ip4));
-                  return buf;
-
-      # Plug 1 Octet 2
-      - button:
-          x: 340
-          y: 65
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "-", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: |-
-                id(plug1_ip2) = max(0, id(plug1_ip2) - 1);
-            - script.execute: update_plug1_ip
-            - lvgl.label.update:
-                id: lbl_plug1_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug1_ip1), id(plug1_ip2), id(plug1_ip3), id(plug1_ip4));
-                  return buf;
-
-      - button:
-          x: 385
-          y: 65
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "+", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: |-
-                id(plug1_ip2) = min(255, id(plug1_ip2) + 1);
-            - script.execute: update_plug1_ip
-            - lvgl.label.update:
-                id: lbl_plug1_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug1_ip1), id(plug1_ip2), id(plug1_ip3), id(plug1_ip4));
-                  return buf;
-
-      # Plug 1 Octet 3
-      - button:
-          x: 430
-          y: 65
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "-", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: |-
-                id(plug1_ip3) = max(0, id(plug1_ip3) - 1);
-            - script.execute: update_plug1_ip
-            - lvgl.label.update:
-                id: lbl_plug1_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug1_ip1), id(plug1_ip2), id(plug1_ip3), id(plug1_ip4));
-                  return buf;
-
-      - button:
-          x: 475
-          y: 65
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "+", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: |-
-                id(plug1_ip3) = min(255, id(plug1_ip3) + 1);
-            - script.execute: update_plug1_ip
-            - lvgl.label.update:
-                id: lbl_plug1_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug1_ip1), id(plug1_ip2), id(plug1_ip3), id(plug1_ip4));
-                  return buf;
-
-      # Plug 1 Octet 4
-      - button:
-          x: 520
-          y: 65
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "-", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: |-
-                id(plug1_ip4) = max(0, id(plug1_ip4) - 1);
-            - script.execute: update_plug1_ip
-            - lvgl.label.update:
-                id: lbl_plug1_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug1_ip1), id(plug1_ip2), id(plug1_ip3), id(plug1_ip4));
-                  return buf;
-
-      - button:
-          x: 565
-          y: 65
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "+", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: |-
-                id(plug1_ip4) = min(255, id(plug1_ip4) + 1);
-            - script.execute: update_plug1_ip
-            - lvgl.label.update:
-                id: lbl_plug1_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug1_ip1), id(plug1_ip2), id(plug1_ip3), id(plug1_ip4));
-                  return buf;
-
-      # PLUG 2 IP Configuration
-      - label:
-          text: "Plug 2:"
-          x: 20
-          y: 110
-          text_font: font_small
-          text_color: 0xFFFFFF
-
-      - label:
-          id: lbl_plug2_ip
-          text: "192.168.68.77"
-          x: 100
-          y: 110
-          text_font: font_small
-          text_color: 0x00FF00
-
-      # Similar button pattern for Plug 2 - abbreviated for space
-      - button:
-          x: 250
-          y: 105
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "-", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: id(plug2_ip1) = max(0, id(plug2_ip1) - 1);
-            - lvgl.label.update:
-                id: lbl_plug2_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug2_ip1), id(plug2_ip2), id(plug2_ip3), id(plug2_ip4));
-                  return buf;
-
-      - button:
-          x: 295
-          y: 105
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "+", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: id(plug2_ip1) = min(255, id(plug2_ip1) + 1);
-            - lvgl.label.update:
-                id: lbl_plug2_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug2_ip1), id(plug2_ip2), id(plug2_ip3), id(plug2_ip4));
-                  return buf;
-
-      - button:
-          x: 340
-          y: 105
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "-", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: id(plug2_ip2) = max(0, id(plug2_ip2) - 1);
-            - lvgl.label.update:
-                id: lbl_plug2_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug2_ip1), id(plug2_ip2), id(plug2_ip3), id(plug2_ip4));
-                  return buf;
-
-      - button:
-          x: 385
-          y: 105
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "+", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: id(plug2_ip2) = min(255, id(plug2_ip2) + 1);
-            - lvgl.label.update:
-                id: lbl_plug2_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug2_ip1), id(plug2_ip2), id(plug2_ip3), id(plug2_ip4));
-                  return buf;
-
-      - button:
-          x: 430
-          y: 105
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "-", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: id(plug2_ip3) = max(0, id(plug2_ip3) - 1);
-            - lvgl.label.update:
-                id: lbl_plug2_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug2_ip1), id(plug2_ip2), id(plug2_ip3), id(plug2_ip4));
-                  return buf;
-
-      - button:
-          x: 475
-          y: 105
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "+", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: id(plug2_ip3) = min(255, id(plug2_ip3) + 1);
-            - lvgl.label.update:
-                id: lbl_plug2_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug2_ip1), id(plug2_ip2), id(plug2_ip3), id(plug2_ip4));
-                  return buf;
-
-      - button:
-          x: 520
-          y: 105
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "-", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: id(plug2_ip4) = max(0, id(plug2_ip4) - 1);
-            - lvgl.label.update:
-                id: lbl_plug2_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug2_ip1), id(plug2_ip2), id(plug2_ip3), id(plug2_ip4));
-                  return buf;
-
-      - button:
-          x: 565
-          y: 105
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "+", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: id(plug2_ip4) = min(255, id(plug2_ip4) + 1);
-            - lvgl.label.update:
-                id: lbl_plug2_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug2_ip1), id(plug2_ip2), id(plug2_ip3), id(plug2_ip4));
-                  return buf;
-
-
-      # PLUG 3 IP Configuration
-      - label:
-          text: "Plug 3:"
-          x: 20
-          y: 150
-          text_font: font_small
-          text_color: 0xFFFFFF
-
-      - label:
-          id: lbl_plug3_ip
-          text: "192.168.68.76"
-          x: 100
-          y: 150
-          text_font: font_small
-          text_color: 0x00FF00
-
-      # Octet 1
-      - button:
-          x: 250
-          y: 145
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "-", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: id(plug3_ip1) = max(0, id(plug3_ip1) - 1);
-            - lvgl.label.update:
-                id: lbl_plug3_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug3_ip1), id(plug3_ip2), id(plug3_ip3), id(plug3_ip4));
-                  return buf;
-
-      - button:
-          x: 295
-          y: 145
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "+", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: id(plug3_ip1) = min(255, id(plug3_ip1) + 1);
-            - lvgl.label.update:
-                id: lbl_plug3_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug3_ip1), id(plug3_ip2), id(plug3_ip3), id(plug3_ip4));
-                  return buf;
-
-      # Octet 2
-      - button:
-          x: 340
-          y: 145
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "-", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: id(plug3_ip2) = max(0, id(plug3_ip2) - 1);
-            - lvgl.label.update:
-                id: lbl_plug3_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug3_ip1), id(plug3_ip2), id(plug3_ip3), id(plug3_ip4));
-                  return buf;
-
-      - button:
-          x: 385
-          y: 145
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "+", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: id(plug3_ip2) = min(255, id(plug3_ip2) + 1);
-            - lvgl.label.update:
-                id: lbl_plug3_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug3_ip1), id(plug3_ip2), id(plug3_ip3), id(plug3_ip4));
-                  return buf;
-
-      # Octet 3
-      - button:
-          x: 430
-          y: 145
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "-", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: id(plug3_ip3) = max(0, id(plug3_ip3) - 1);
-            - lvgl.label.update:
-                id: lbl_plug3_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug3_ip1), id(plug3_ip2), id(plug3_ip3), id(plug3_ip4));
-                  return buf;
-
-      - button:
-          x: 475
-          y: 145
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "+", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: id(plug3_ip3) = min(255, id(plug3_ip3) + 1);
-            - lvgl.label.update:
-                id: lbl_plug3_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug3_ip1), id(plug3_ip2), id(plug3_ip3), id(plug3_ip4));
-                  return buf;
-
-      # Octet 4
-      - button:
-          x: 520
-          y: 145
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "-", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: id(plug3_ip4) = max(0, id(plug3_ip4) - 1);
-            - lvgl.label.update:
-                id: lbl_plug3_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug3_ip1), id(plug3_ip2), id(plug3_ip3), id(plug3_ip4));
-                  return buf;
-
-      - button:
-          x: 565
-          y: 145
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "+", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: id(plug3_ip4) = min(255, id(plug3_ip4) + 1);
-            - lvgl.label.update:
-                id: lbl_plug3_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug3_ip1), id(plug3_ip2), id(plug3_ip3), id(plug3_ip4));
-                  return buf;
-
-      # PLUG 4 IP Configuration
-      - label:
-          text: "Plug 4:"
-          x: 20
-          y: 190
-          text_font: font_small
-          text_color: 0xFFFFFF
-
-      - label:
-          id: lbl_plug4_ip
-          text: "192.168.68.75"
-          x: 100
-          y: 190
-          text_font: font_small
-          text_color: 0x00FF00
-
-      # Octet 1
-      - button:
-          x: 250
-          y: 185
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "-", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: id(plug4_ip1) = max(0, id(plug4_ip1) - 1);
-            - lvgl.label.update:
-                id: lbl_plug4_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug4_ip1), id(plug4_ip2), id(plug4_ip3), id(plug4_ip4));
-                  return buf;
-
-      - button:
-          x: 295
-          y: 185
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "+", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: id(plug4_ip1) = min(255, id(plug4_ip1) + 1);
-            - lvgl.label.update:
-                id: lbl_plug4_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug4_ip1), id(plug4_ip2), id(plug4_ip3), id(plug4_ip4));
-                  return buf;
-
-      # Octet 2
-      - button:
-          x: 340
-          y: 185
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "-", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: id(plug4_ip2) = max(0, id(plug4_ip2) - 1);
-            - lvgl.label.update:
-                id: lbl_plug4_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug4_ip1), id(plug4_ip2), id(plug4_ip3), id(plug4_ip4));
-                  return buf;
-
-      - button:
-          x: 385
-          y: 185
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "+", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: id(plug4_ip2) = min(255, id(plug4_ip2) + 1);
-            - lvgl.label.update:
-                id: lbl_plug4_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug4_ip1), id(plug4_ip2), id(plug4_ip3), id(plug4_ip4));
-                  return buf;
-
-      # Octet 3
-      - button:
-          x: 430
-          y: 185
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "-", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: id(plug4_ip3) = max(0, id(plug4_ip3) - 1);
-            - lvgl.label.update:
-                id: lbl_plug4_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug4_ip1), id(plug4_ip2), id(plug4_ip3), id(plug4_ip4));
-                  return buf;
-
-      - button:
-          x: 475
-          y: 185
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "+", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: id(plug4_ip3) = min(255, id(plug4_ip3) + 1);
-            - lvgl.label.update:
-                id: lbl_plug4_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug4_ip1), id(plug4_ip2), id(plug4_ip3), id(plug4_ip4));
-                  return buf;
-
-      # Octet 4
-      - button:
-          x: 520
-          y: 185
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "-", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: id(plug4_ip4) = max(0, id(plug4_ip4) - 1);
-            - lvgl.label.update:
-                id: lbl_plug4_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug4_ip1), id(plug4_ip2), id(plug4_ip3), id(plug4_ip4));
-                  return buf;
-
-      - button:
-          x: 565
-          y: 185
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "+", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: id(plug4_ip4) = min(255, id(plug4_ip4) + 1);
-            - lvgl.label.update:
-                id: lbl_plug4_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug4_ip1), id(plug4_ip2), id(plug4_ip3), id(plug4_ip4));
-                  return buf;
-
-      # PLUG 5 IP Configuration
-      - label:
-          text: "Plug 5:"
-          x: 20
-          y: 230
-          text_font: font_small
-          text_color: 0xFFFFFF
-
-      - label:
-          id: lbl_plug5_ip
-          text: "192.168.68.203"
-          x: 100
-          y: 230
-          text_font: font_small
-          text_color: 0x00FF00
-
-      # Octet 1
-      - button:
-          x: 250
-          y: 225
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "-", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: id(plug5_ip1) = max(0, id(plug5_ip1) - 1);
-            - lvgl.label.update:
-                id: lbl_plug5_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug5_ip1), id(plug5_ip2), id(plug5_ip3), id(plug5_ip4));
-                  return buf;
-
-      - button:
-          x: 295
-          y: 225
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "+", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: id(plug5_ip1) = min(255, id(plug5_ip1) + 1);
-            - lvgl.label.update:
-                id: lbl_plug5_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug5_ip1), id(plug5_ip2), id(plug5_ip3), id(plug5_ip4));
-                  return buf;
-
-      # Octet 2
-      - button:
-          x: 340
-          y: 225
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "-", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: id(plug5_ip2) = max(0, id(plug5_ip2) - 1);
-            - lvgl.label.update:
-                id: lbl_plug5_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug5_ip1), id(plug5_ip2), id(plug5_ip3), id(plug5_ip4));
-                  return buf;
-
-      - button:
-          x: 385
-          y: 225
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "+", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: id(plug5_ip2) = min(255, id(plug5_ip2) + 1);
-            - lvgl.label.update:
-                id: lbl_plug5_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug5_ip1), id(plug5_ip2), id(plug5_ip3), id(plug5_ip4));
-                  return buf;
-
-      # Octet 3
-      - button:
-          x: 430
-          y: 225
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "-", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: id(plug5_ip3) = max(0, id(plug5_ip3) - 1);
-            - lvgl.label.update:
-                id: lbl_plug5_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug5_ip1), id(plug5_ip2), id(plug5_ip3), id(plug5_ip4));
-                  return buf;
-
-      - button:
-          x: 475
-          y: 225
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "+", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: id(plug5_ip3) = min(255, id(plug5_ip3) + 1);
-            - lvgl.label.update:
-                id: lbl_plug5_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug5_ip1), id(plug5_ip2), id(plug5_ip3), id(plug5_ip4));
-                  return buf;
-
-      # Octet 4
-      - button:
-          x: 520
-          y: 225
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "-", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: id(plug5_ip4) = max(0, id(plug5_ip4) - 1);
-            - lvgl.label.update:
-                id: lbl_plug5_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug5_ip1), id(plug5_ip2), id(plug5_ip3), id(plug5_ip4));
-                  return buf;
-
-      - button:
-          x: 565
-          y: 225
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "+", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: id(plug5_ip4) = min(255, id(plug5_ip4) + 1);
-            - lvgl.label.update:
-                id: lbl_plug5_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug5_ip1), id(plug5_ip2), id(plug5_ip3), id(plug5_ip4));
-                  return buf;
-
-      # PLUG 6 IP Configuration
-      - label:
-          text: "Plug 6:"
-          x: 20
-          y: 270
-          text_font: font_small
-          text_color: 0xFFFFFF
-
-      - label:
-          id: lbl_plug6_ip
-          text: "192.168.68.204"
-          x: 100
-          y: 270
-          text_font: font_small
-          text_color: 0x00FF00
-
-      # Octet 1
-      - button:
-          x: 250
-          y: 265
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "-", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: id(plug6_ip1) = max(0, id(plug6_ip1) - 1);
-            - lvgl.label.update:
-                id: lbl_plug6_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug6_ip1), id(plug6_ip2), id(plug6_ip3), id(plug6_ip4));
-                  return buf;
-
-      - button:
-          x: 295
-          y: 265
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "+", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: id(plug6_ip1) = min(255, id(plug6_ip1) + 1);
-            - lvgl.label.update:
-                id: lbl_plug6_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug6_ip1), id(plug6_ip2), id(plug6_ip3), id(plug6_ip4));
-                  return buf;
-
-      # Octet 2
-      - button:
-          x: 340
-          y: 265
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "-", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: id(plug6_ip2) = max(0, id(plug6_ip2) - 1);
-            - lvgl.label.update:
-                id: lbl_plug6_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug6_ip1), id(plug6_ip2), id(plug6_ip3), id(plug6_ip4));
-                  return buf;
-
-      - button:
-          x: 385
-          y: 265
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "+", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: id(plug6_ip2) = min(255, id(plug6_ip2) + 1);
-            - lvgl.label.update:
-                id: lbl_plug6_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug6_ip1), id(plug6_ip2), id(plug6_ip3), id(plug6_ip4));
-                  return buf;
-
-      # Octet 3
-      - button:
-          x: 430
-          y: 265
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "-", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: id(plug6_ip3) = max(0, id(plug6_ip3) - 1);
-            - lvgl.label.update:
-                id: lbl_plug6_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug6_ip1), id(plug6_ip2), id(plug6_ip3), id(plug6_ip4));
-                  return buf;
-
-      - button:
-          x: 475
-          y: 265
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "+", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: id(plug6_ip3) = min(255, id(plug6_ip3) + 1);
-            - lvgl.label.update:
-                id: lbl_plug6_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug6_ip1), id(plug6_ip2), id(plug6_ip3), id(plug6_ip4));
-                  return buf;
-
-      # Octet 4
-      - button:
-          x: 520
-          y: 265
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "-", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: id(plug6_ip4) = max(0, id(plug6_ip4) - 1);
-            - lvgl.label.update:
-                id: lbl_plug6_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug6_ip1), id(plug6_ip2), id(plug6_ip3), id(plug6_ip4));
-                  return buf;
-
-      - button:
-          x: 565
-          y: 265
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "+", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: id(plug6_ip4) = min(255, id(plug6_ip4) + 1);
-            - lvgl.label.update:
-                id: lbl_plug6_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug6_ip1), id(plug6_ip2), id(plug6_ip3), id(plug6_ip4));
-                  return buf;
-
-      # PLUG 7 IP Configuration
-      - label:
-          text: "Plug 7:"
-          x: 20
-          y: 310
-          text_font: font_small
-          text_color: 0xFFFFFF
-
-      - label:
-          id: lbl_plug7_ip
-          text: "192.168.68.205"
-          x: 100
-          y: 310
-          text_font: font_small
-          text_color: 0x00FF00
-
-      # Octet 1
-      - button:
-          x: 250
-          y: 305
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "-", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: id(plug7_ip1) = max(0, id(plug7_ip1) - 1);
-            - lvgl.label.update:
-                id: lbl_plug7_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug7_ip1), id(plug7_ip2), id(plug7_ip3), id(plug7_ip4));
-                  return buf;
-
-      - button:
-          x: 295
-          y: 305
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "+", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: id(plug7_ip1) = min(255, id(plug7_ip1) + 1);
-            - lvgl.label.update:
-                id: lbl_plug7_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug7_ip1), id(plug7_ip2), id(plug7_ip3), id(plug7_ip4));
-                  return buf;
-
-      # Octet 2
-      - button:
-          x: 340
-          y: 305
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "-", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: id(plug7_ip2) = max(0, id(plug7_ip2) - 1);
-            - lvgl.label.update:
-                id: lbl_plug7_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug7_ip1), id(plug7_ip2), id(plug7_ip3), id(plug7_ip4));
-                  return buf;
-
-      - button:
-          x: 385
-          y: 305
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "+", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: id(plug7_ip2) = min(255, id(plug7_ip2) + 1);
-            - lvgl.label.update:
-                id: lbl_plug7_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug7_ip1), id(plug7_ip2), id(plug7_ip3), id(plug7_ip4));
-                  return buf;
-
-      # Octet 3
-      - button:
-          x: 430
-          y: 305
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "-", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: id(plug7_ip3) = max(0, id(plug7_ip3) - 1);
-            - lvgl.label.update:
-                id: lbl_plug7_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug7_ip1), id(plug7_ip2), id(plug7_ip3), id(plug7_ip4));
-                  return buf;
-
-      - button:
-          x: 475
-          y: 305
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "+", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: id(plug7_ip3) = min(255, id(plug7_ip3) + 1);
-            - lvgl.label.update:
-                id: lbl_plug7_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug7_ip1), id(plug7_ip2), id(plug7_ip3), id(plug7_ip4));
-                  return buf;
-
-      # Octet 4
-      - button:
-          x: 520
-          y: 305
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "-", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: id(plug7_ip4) = max(0, id(plug7_ip4) - 1);
-            - lvgl.label.update:
-                id: lbl_plug7_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug7_ip1), id(plug7_ip2), id(plug7_ip3), id(plug7_ip4));
-                  return buf;
-
-      - button:
-          x: 565
-          y: 305
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "+", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: id(plug7_ip4) = min(255, id(plug7_ip4) + 1);
-            - lvgl.label.update:
-                id: lbl_plug7_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug7_ip1), id(plug7_ip2), id(plug7_ip3), id(plug7_ip4));
-                  return buf;
-
-      # PLUG 8 IP Configuration
-      - label:
-          text: "Plug 8:"
-          x: 20
-          y: 350
-          text_font: font_small
-          text_color: 0xFFFFFF
-
-      - label:
-          id: lbl_plug8_ip
-          text: "192.168.68.206"
-          x: 100
-          y: 350
-          text_font: font_small
-          text_color: 0x00FF00
-
-      # Octet 1
-      - button:
-          x: 250
-          y: 345
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "-", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: id(plug8_ip1) = max(0, id(plug8_ip1) - 1);
-            - lvgl.label.update:
-                id: lbl_plug8_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug8_ip1), id(plug8_ip2), id(plug8_ip3), id(plug8_ip4));
-                  return buf;
-
-      - button:
-          x: 295
-          y: 345
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "+", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: id(plug8_ip1) = min(255, id(plug8_ip1) + 1);
-            - lvgl.label.update:
-                id: lbl_plug8_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug8_ip1), id(plug8_ip2), id(plug8_ip3), id(plug8_ip4));
-                  return buf;
-
-      # Octet 2
-      - button:
-          x: 340
-          y: 345
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "-", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: id(plug8_ip2) = max(0, id(plug8_ip2) - 1);
-            - lvgl.label.update:
-                id: lbl_plug8_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug8_ip1), id(plug8_ip2), id(plug8_ip3), id(plug8_ip4));
-                  return buf;
-
-      - button:
-          x: 385
-          y: 345
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "+", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: id(plug8_ip2) = min(255, id(plug8_ip2) + 1);
-            - lvgl.label.update:
-                id: lbl_plug8_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug8_ip1), id(plug8_ip2), id(plug8_ip3), id(plug8_ip4));
-                  return buf;
-
-      # Octet 3
-      - button:
-          x: 430
-          y: 345
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "-", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: id(plug8_ip3) = max(0, id(plug8_ip3) - 1);
-            - lvgl.label.update:
-                id: lbl_plug8_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug8_ip1), id(plug8_ip2), id(plug8_ip3), id(plug8_ip4));
-                  return buf;
-
-      - button:
-          x: 475
-          y: 345
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "+", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: id(plug8_ip3) = min(255, id(plug8_ip3) + 1);
-            - lvgl.label.update:
-                id: lbl_plug8_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug8_ip1), id(plug8_ip2), id(plug8_ip3), id(plug8_ip4));
-                  return buf;
-
-      # Octet 4
-      - button:
-          x: 520
-          y: 345
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "-", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: id(plug8_ip4) = max(0, id(plug8_ip4) - 1);
-            - lvgl.label.update:
-                id: lbl_plug8_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug8_ip1), id(plug8_ip2), id(plug8_ip3), id(plug8_ip4));
-                  return buf;
-
-      - button:
-          x: 565
-          y: 345
-          width: 40
-          height: 30
-          bg_color: 0x444444
-          widgets: [{ label: { text: "+", align: center, text_font: font_small }}]
-          on_click:
-            then:
-            - lambda: id(plug8_ip4) = min(255, id(plug8_ip4) + 1);
-            - lvgl.label.update:
-                id: lbl_plug8_ip
-                text: !lambda |-
-                  char buf[20];
-                  sprintf(buf, "%d.%d.%d.%d", id(plug8_ip1), id(plug8_ip2), id(plug8_ip3), id(plug8_ip4));
-                  return buf;
-
 interval:
   - interval: 10s
     then:
