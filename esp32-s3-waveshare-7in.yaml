@@ -4997,12 +4997,38 @@ lvgl:
           text_color: 0xFFFF00
 
       - button:
+          id: btn_ip_save
+          x: 450
+          y: 10
+          width: 180
+          height: 50
+          bg_color: 0xFF6600
+          widgets: [{ label: { text: "SAVE & APPLY", align: center, text_font: font_small }}]
+          on_click:
+            then:
+            - script.execute: update_plug1_ip
+            - script.execute: update_plug2_ip
+            - script.execute: update_plug3_ip
+            - script.execute: update_plug4_ip
+            - script.execute: update_plug5_ip
+            - script.execute: update_plug6_ip
+            - script.execute: update_plug7_ip
+            - script.execute: update_plug8_ip
+            - lambda: |-
+                ESP_LOGI("IP", "All IP addresses saved and applied!");
+                // Flash the button to show confirmation
+                lv_obj_set_style_bg_color(id(btn_ip_save), lv_color_hex(0x00FF00), LV_PART_MAIN);
+            - delay: 500ms
+            - lambda: |-
+                lv_obj_set_style_bg_color(id(btn_ip_save), lv_color_hex(0xFF6600), LV_PART_MAIN);
+
+      - button:
           id: btn_ip_back
           x: 650
           y: 10
           width: 130
           height: 50
-          bg_color: 0x228B22
+          bg_color: 0x444444
           widgets: [{ label: { text: "BACK", align: center, text_font: font_small }}]
           on_click:
             then:
@@ -5039,7 +5065,10 @@ lvgl:
             - script.execute: update_plug1_ip
             - lvgl.label.update:
                 id: lbl_plug1_ip
-                text: !lambda return id(plug1_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug1_ip1), id(plug1_ip2), id(plug1_ip3), id(plug1_ip4));
+                  return buf;
 
       - button:
           x: 295
@@ -5055,7 +5084,10 @@ lvgl:
             - script.execute: update_plug1_ip
             - lvgl.label.update:
                 id: lbl_plug1_ip
-                text: !lambda return id(plug1_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug1_ip1), id(plug1_ip2), id(plug1_ip3), id(plug1_ip4));
+                  return buf;
 
       # Plug 1 Octet 2
       - button:
@@ -5072,7 +5104,10 @@ lvgl:
             - script.execute: update_plug1_ip
             - lvgl.label.update:
                 id: lbl_plug1_ip
-                text: !lambda return id(plug1_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug1_ip1), id(plug1_ip2), id(plug1_ip3), id(plug1_ip4));
+                  return buf;
 
       - button:
           x: 385
@@ -5088,7 +5123,10 @@ lvgl:
             - script.execute: update_plug1_ip
             - lvgl.label.update:
                 id: lbl_plug1_ip
-                text: !lambda return id(plug1_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug1_ip1), id(plug1_ip2), id(plug1_ip3), id(plug1_ip4));
+                  return buf;
 
       # Plug 1 Octet 3
       - button:
@@ -5105,7 +5143,10 @@ lvgl:
             - script.execute: update_plug1_ip
             - lvgl.label.update:
                 id: lbl_plug1_ip
-                text: !lambda return id(plug1_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug1_ip1), id(plug1_ip2), id(plug1_ip3), id(plug1_ip4));
+                  return buf;
 
       - button:
           x: 475
@@ -5121,7 +5162,10 @@ lvgl:
             - script.execute: update_plug1_ip
             - lvgl.label.update:
                 id: lbl_plug1_ip
-                text: !lambda return id(plug1_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug1_ip1), id(plug1_ip2), id(plug1_ip3), id(plug1_ip4));
+                  return buf;
 
       # Plug 1 Octet 4
       - button:
@@ -5138,7 +5182,10 @@ lvgl:
             - script.execute: update_plug1_ip
             - lvgl.label.update:
                 id: lbl_plug1_ip
-                text: !lambda return id(plug1_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug1_ip1), id(plug1_ip2), id(plug1_ip3), id(plug1_ip4));
+                  return buf;
 
       - button:
           x: 565
@@ -5154,7 +5201,10 @@ lvgl:
             - script.execute: update_plug1_ip
             - lvgl.label.update:
                 id: lbl_plug1_ip
-                text: !lambda return id(plug1_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug1_ip1), id(plug1_ip2), id(plug1_ip3), id(plug1_ip4));
+                  return buf;
 
       # PLUG 2 IP Configuration
       - label:
@@ -5183,10 +5233,12 @@ lvgl:
           on_click:
             then:
             - lambda: id(plug2_ip1) = max(0, id(plug2_ip1) - 1);
-            - script.execute: update_plug2_ip
             - lvgl.label.update:
                 id: lbl_plug2_ip
-                text: !lambda return id(plug2_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug2_ip1), id(plug2_ip2), id(plug2_ip3), id(plug2_ip4));
+                  return buf;
 
       - button:
           x: 295
@@ -5198,10 +5250,12 @@ lvgl:
           on_click:
             then:
             - lambda: id(plug2_ip1) = min(255, id(plug2_ip1) + 1);
-            - script.execute: update_plug2_ip
             - lvgl.label.update:
                 id: lbl_plug2_ip
-                text: !lambda return id(plug2_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug2_ip1), id(plug2_ip2), id(plug2_ip3), id(plug2_ip4));
+                  return buf;
 
       - button:
           x: 340
@@ -5213,10 +5267,12 @@ lvgl:
           on_click:
             then:
             - lambda: id(plug2_ip2) = max(0, id(plug2_ip2) - 1);
-            - script.execute: update_plug2_ip
             - lvgl.label.update:
                 id: lbl_plug2_ip
-                text: !lambda return id(plug2_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug2_ip1), id(plug2_ip2), id(plug2_ip3), id(plug2_ip4));
+                  return buf;
 
       - button:
           x: 385
@@ -5228,10 +5284,12 @@ lvgl:
           on_click:
             then:
             - lambda: id(plug2_ip2) = min(255, id(plug2_ip2) + 1);
-            - script.execute: update_plug2_ip
             - lvgl.label.update:
                 id: lbl_plug2_ip
-                text: !lambda return id(plug2_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug2_ip1), id(plug2_ip2), id(plug2_ip3), id(plug2_ip4));
+                  return buf;
 
       - button:
           x: 430
@@ -5243,10 +5301,12 @@ lvgl:
           on_click:
             then:
             - lambda: id(plug2_ip3) = max(0, id(plug2_ip3) - 1);
-            - script.execute: update_plug2_ip
             - lvgl.label.update:
                 id: lbl_plug2_ip
-                text: !lambda return id(plug2_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug2_ip1), id(plug2_ip2), id(plug2_ip3), id(plug2_ip4));
+                  return buf;
 
       - button:
           x: 475
@@ -5258,10 +5318,12 @@ lvgl:
           on_click:
             then:
             - lambda: id(plug2_ip3) = min(255, id(plug2_ip3) + 1);
-            - script.execute: update_plug2_ip
             - lvgl.label.update:
                 id: lbl_plug2_ip
-                text: !lambda return id(plug2_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug2_ip1), id(plug2_ip2), id(plug2_ip3), id(plug2_ip4));
+                  return buf;
 
       - button:
           x: 520
@@ -5273,10 +5335,12 @@ lvgl:
           on_click:
             then:
             - lambda: id(plug2_ip4) = max(0, id(plug2_ip4) - 1);
-            - script.execute: update_plug2_ip
             - lvgl.label.update:
                 id: lbl_plug2_ip
-                text: !lambda return id(plug2_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug2_ip1), id(plug2_ip2), id(plug2_ip3), id(plug2_ip4));
+                  return buf;
 
       - button:
           x: 565
@@ -5288,10 +5352,12 @@ lvgl:
           on_click:
             then:
             - lambda: id(plug2_ip4) = min(255, id(plug2_ip4) + 1);
-            - script.execute: update_plug2_ip
             - lvgl.label.update:
                 id: lbl_plug2_ip
-                text: !lambda return id(plug2_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug2_ip1), id(plug2_ip2), id(plug2_ip3), id(plug2_ip4));
+                  return buf;
 
 
       # PLUG 3 IP Configuration
@@ -5321,10 +5387,12 @@ lvgl:
           on_click:
             then:
             - lambda: id(plug3_ip1) = max(0, id(plug3_ip1) - 1);
-            - script.execute: update_plug3_ip
             - lvgl.label.update:
                 id: lbl_plug3_ip
-                text: !lambda return id(plug3_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug3_ip1), id(plug3_ip2), id(plug3_ip3), id(plug3_ip4));
+                  return buf;
 
       - button:
           x: 295
@@ -5336,10 +5404,12 @@ lvgl:
           on_click:
             then:
             - lambda: id(plug3_ip1) = min(255, id(plug3_ip1) + 1);
-            - script.execute: update_plug3_ip
             - lvgl.label.update:
                 id: lbl_plug3_ip
-                text: !lambda return id(plug3_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug3_ip1), id(plug3_ip2), id(plug3_ip3), id(plug3_ip4));
+                  return buf;
 
       # Octet 2
       - button:
@@ -5352,10 +5422,12 @@ lvgl:
           on_click:
             then:
             - lambda: id(plug3_ip2) = max(0, id(plug3_ip2) - 1);
-            - script.execute: update_plug3_ip
             - lvgl.label.update:
                 id: lbl_plug3_ip
-                text: !lambda return id(plug3_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug3_ip1), id(plug3_ip2), id(plug3_ip3), id(plug3_ip4));
+                  return buf;
 
       - button:
           x: 385
@@ -5367,10 +5439,12 @@ lvgl:
           on_click:
             then:
             - lambda: id(plug3_ip2) = min(255, id(plug3_ip2) + 1);
-            - script.execute: update_plug3_ip
             - lvgl.label.update:
                 id: lbl_plug3_ip
-                text: !lambda return id(plug3_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug3_ip1), id(plug3_ip2), id(plug3_ip3), id(plug3_ip4));
+                  return buf;
 
       # Octet 3
       - button:
@@ -5383,10 +5457,12 @@ lvgl:
           on_click:
             then:
             - lambda: id(plug3_ip3) = max(0, id(plug3_ip3) - 1);
-            - script.execute: update_plug3_ip
             - lvgl.label.update:
                 id: lbl_plug3_ip
-                text: !lambda return id(plug3_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug3_ip1), id(plug3_ip2), id(plug3_ip3), id(plug3_ip4));
+                  return buf;
 
       - button:
           x: 475
@@ -5398,10 +5474,12 @@ lvgl:
           on_click:
             then:
             - lambda: id(plug3_ip3) = min(255, id(plug3_ip3) + 1);
-            - script.execute: update_plug3_ip
             - lvgl.label.update:
                 id: lbl_plug3_ip
-                text: !lambda return id(plug3_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug3_ip1), id(plug3_ip2), id(plug3_ip3), id(plug3_ip4));
+                  return buf;
 
       # Octet 4
       - button:
@@ -5414,10 +5492,12 @@ lvgl:
           on_click:
             then:
             - lambda: id(plug3_ip4) = max(0, id(plug3_ip4) - 1);
-            - script.execute: update_plug3_ip
             - lvgl.label.update:
                 id: lbl_plug3_ip
-                text: !lambda return id(plug3_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug3_ip1), id(plug3_ip2), id(plug3_ip3), id(plug3_ip4));
+                  return buf;
 
       - button:
           x: 565
@@ -5429,10 +5509,12 @@ lvgl:
           on_click:
             then:
             - lambda: id(plug3_ip4) = min(255, id(plug3_ip4) + 1);
-            - script.execute: update_plug3_ip
             - lvgl.label.update:
                 id: lbl_plug3_ip
-                text: !lambda return id(plug3_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug3_ip1), id(plug3_ip2), id(plug3_ip3), id(plug3_ip4));
+                  return buf;
 
       # PLUG 4 IP Configuration
       - label:
@@ -5461,10 +5543,12 @@ lvgl:
           on_click:
             then:
             - lambda: id(plug4_ip1) = max(0, id(plug4_ip1) - 1);
-            - script.execute: update_plug4_ip
             - lvgl.label.update:
                 id: lbl_plug4_ip
-                text: !lambda return id(plug4_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug4_ip1), id(plug4_ip2), id(plug4_ip3), id(plug4_ip4));
+                  return buf;
 
       - button:
           x: 295
@@ -5476,10 +5560,12 @@ lvgl:
           on_click:
             then:
             - lambda: id(plug4_ip1) = min(255, id(plug4_ip1) + 1);
-            - script.execute: update_plug4_ip
             - lvgl.label.update:
                 id: lbl_plug4_ip
-                text: !lambda return id(plug4_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug4_ip1), id(plug4_ip2), id(plug4_ip3), id(plug4_ip4));
+                  return buf;
 
       # Octet 2
       - button:
@@ -5492,10 +5578,12 @@ lvgl:
           on_click:
             then:
             - lambda: id(plug4_ip2) = max(0, id(plug4_ip2) - 1);
-            - script.execute: update_plug4_ip
             - lvgl.label.update:
                 id: lbl_plug4_ip
-                text: !lambda return id(plug4_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug4_ip1), id(plug4_ip2), id(plug4_ip3), id(plug4_ip4));
+                  return buf;
 
       - button:
           x: 385
@@ -5507,10 +5595,12 @@ lvgl:
           on_click:
             then:
             - lambda: id(plug4_ip2) = min(255, id(plug4_ip2) + 1);
-            - script.execute: update_plug4_ip
             - lvgl.label.update:
                 id: lbl_plug4_ip
-                text: !lambda return id(plug4_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug4_ip1), id(plug4_ip2), id(plug4_ip3), id(plug4_ip4));
+                  return buf;
 
       # Octet 3
       - button:
@@ -5523,10 +5613,12 @@ lvgl:
           on_click:
             then:
             - lambda: id(plug4_ip3) = max(0, id(plug4_ip3) - 1);
-            - script.execute: update_plug4_ip
             - lvgl.label.update:
                 id: lbl_plug4_ip
-                text: !lambda return id(plug4_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug4_ip1), id(plug4_ip2), id(plug4_ip3), id(plug4_ip4));
+                  return buf;
 
       - button:
           x: 475
@@ -5538,10 +5630,12 @@ lvgl:
           on_click:
             then:
             - lambda: id(plug4_ip3) = min(255, id(plug4_ip3) + 1);
-            - script.execute: update_plug4_ip
             - lvgl.label.update:
                 id: lbl_plug4_ip
-                text: !lambda return id(plug4_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug4_ip1), id(plug4_ip2), id(plug4_ip3), id(plug4_ip4));
+                  return buf;
 
       # Octet 4
       - button:
@@ -5554,10 +5648,12 @@ lvgl:
           on_click:
             then:
             - lambda: id(plug4_ip4) = max(0, id(plug4_ip4) - 1);
-            - script.execute: update_plug4_ip
             - lvgl.label.update:
                 id: lbl_plug4_ip
-                text: !lambda return id(plug4_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug4_ip1), id(plug4_ip2), id(plug4_ip3), id(plug4_ip4));
+                  return buf;
 
       - button:
           x: 565
@@ -5569,10 +5665,12 @@ lvgl:
           on_click:
             then:
             - lambda: id(plug4_ip4) = min(255, id(plug4_ip4) + 1);
-            - script.execute: update_plug4_ip
             - lvgl.label.update:
                 id: lbl_plug4_ip
-                text: !lambda return id(plug4_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug4_ip1), id(plug4_ip2), id(plug4_ip3), id(plug4_ip4));
+                  return buf;
 
       # PLUG 5 IP Configuration
       - label:
@@ -5601,10 +5699,12 @@ lvgl:
           on_click:
             then:
             - lambda: id(plug5_ip1) = max(0, id(plug5_ip1) - 1);
-            - script.execute: update_plug5_ip
             - lvgl.label.update:
                 id: lbl_plug5_ip
-                text: !lambda return id(plug5_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug5_ip1), id(plug5_ip2), id(plug5_ip3), id(plug5_ip4));
+                  return buf;
 
       - button:
           x: 295
@@ -5616,10 +5716,12 @@ lvgl:
           on_click:
             then:
             - lambda: id(plug5_ip1) = min(255, id(plug5_ip1) + 1);
-            - script.execute: update_plug5_ip
             - lvgl.label.update:
                 id: lbl_plug5_ip
-                text: !lambda return id(plug5_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug5_ip1), id(plug5_ip2), id(plug5_ip3), id(plug5_ip4));
+                  return buf;
 
       # Octet 2
       - button:
@@ -5632,10 +5734,12 @@ lvgl:
           on_click:
             then:
             - lambda: id(plug5_ip2) = max(0, id(plug5_ip2) - 1);
-            - script.execute: update_plug5_ip
             - lvgl.label.update:
                 id: lbl_plug5_ip
-                text: !lambda return id(plug5_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug5_ip1), id(plug5_ip2), id(plug5_ip3), id(plug5_ip4));
+                  return buf;
 
       - button:
           x: 385
@@ -5647,10 +5751,12 @@ lvgl:
           on_click:
             then:
             - lambda: id(plug5_ip2) = min(255, id(plug5_ip2) + 1);
-            - script.execute: update_plug5_ip
             - lvgl.label.update:
                 id: lbl_plug5_ip
-                text: !lambda return id(plug5_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug5_ip1), id(plug5_ip2), id(plug5_ip3), id(plug5_ip4));
+                  return buf;
 
       # Octet 3
       - button:
@@ -5663,10 +5769,12 @@ lvgl:
           on_click:
             then:
             - lambda: id(plug5_ip3) = max(0, id(plug5_ip3) - 1);
-            - script.execute: update_plug5_ip
             - lvgl.label.update:
                 id: lbl_plug5_ip
-                text: !lambda return id(plug5_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug5_ip1), id(plug5_ip2), id(plug5_ip3), id(plug5_ip4));
+                  return buf;
 
       - button:
           x: 475
@@ -5678,10 +5786,12 @@ lvgl:
           on_click:
             then:
             - lambda: id(plug5_ip3) = min(255, id(plug5_ip3) + 1);
-            - script.execute: update_plug5_ip
             - lvgl.label.update:
                 id: lbl_plug5_ip
-                text: !lambda return id(plug5_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug5_ip1), id(plug5_ip2), id(plug5_ip3), id(plug5_ip4));
+                  return buf;
 
       # Octet 4
       - button:
@@ -5694,10 +5804,12 @@ lvgl:
           on_click:
             then:
             - lambda: id(plug5_ip4) = max(0, id(plug5_ip4) - 1);
-            - script.execute: update_plug5_ip
             - lvgl.label.update:
                 id: lbl_plug5_ip
-                text: !lambda return id(plug5_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug5_ip1), id(plug5_ip2), id(plug5_ip3), id(plug5_ip4));
+                  return buf;
 
       - button:
           x: 565
@@ -5709,10 +5821,12 @@ lvgl:
           on_click:
             then:
             - lambda: id(plug5_ip4) = min(255, id(plug5_ip4) + 1);
-            - script.execute: update_plug5_ip
             - lvgl.label.update:
                 id: lbl_plug5_ip
-                text: !lambda return id(plug5_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug5_ip1), id(plug5_ip2), id(plug5_ip3), id(plug5_ip4));
+                  return buf;
 
       # PLUG 6 IP Configuration
       - label:
@@ -5741,10 +5855,12 @@ lvgl:
           on_click:
             then:
             - lambda: id(plug6_ip1) = max(0, id(plug6_ip1) - 1);
-            - script.execute: update_plug6_ip
             - lvgl.label.update:
                 id: lbl_plug6_ip
-                text: !lambda return id(plug6_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug6_ip1), id(plug6_ip2), id(plug6_ip3), id(plug6_ip4));
+                  return buf;
 
       - button:
           x: 295
@@ -5756,10 +5872,12 @@ lvgl:
           on_click:
             then:
             - lambda: id(plug6_ip1) = min(255, id(plug6_ip1) + 1);
-            - script.execute: update_plug6_ip
             - lvgl.label.update:
                 id: lbl_plug6_ip
-                text: !lambda return id(plug6_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug6_ip1), id(plug6_ip2), id(plug6_ip3), id(plug6_ip4));
+                  return buf;
 
       # Octet 2
       - button:
@@ -5772,10 +5890,12 @@ lvgl:
           on_click:
             then:
             - lambda: id(plug6_ip2) = max(0, id(plug6_ip2) - 1);
-            - script.execute: update_plug6_ip
             - lvgl.label.update:
                 id: lbl_plug6_ip
-                text: !lambda return id(plug6_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug6_ip1), id(plug6_ip2), id(plug6_ip3), id(plug6_ip4));
+                  return buf;
 
       - button:
           x: 385
@@ -5787,10 +5907,12 @@ lvgl:
           on_click:
             then:
             - lambda: id(plug6_ip2) = min(255, id(plug6_ip2) + 1);
-            - script.execute: update_plug6_ip
             - lvgl.label.update:
                 id: lbl_plug6_ip
-                text: !lambda return id(plug6_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug6_ip1), id(plug6_ip2), id(plug6_ip3), id(plug6_ip4));
+                  return buf;
 
       # Octet 3
       - button:
@@ -5803,10 +5925,12 @@ lvgl:
           on_click:
             then:
             - lambda: id(plug6_ip3) = max(0, id(plug6_ip3) - 1);
-            - script.execute: update_plug6_ip
             - lvgl.label.update:
                 id: lbl_plug6_ip
-                text: !lambda return id(plug6_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug6_ip1), id(plug6_ip2), id(plug6_ip3), id(plug6_ip4));
+                  return buf;
 
       - button:
           x: 475
@@ -5818,10 +5942,12 @@ lvgl:
           on_click:
             then:
             - lambda: id(plug6_ip3) = min(255, id(plug6_ip3) + 1);
-            - script.execute: update_plug6_ip
             - lvgl.label.update:
                 id: lbl_plug6_ip
-                text: !lambda return id(plug6_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug6_ip1), id(plug6_ip2), id(plug6_ip3), id(plug6_ip4));
+                  return buf;
 
       # Octet 4
       - button:
@@ -5834,10 +5960,12 @@ lvgl:
           on_click:
             then:
             - lambda: id(plug6_ip4) = max(0, id(plug6_ip4) - 1);
-            - script.execute: update_plug6_ip
             - lvgl.label.update:
                 id: lbl_plug6_ip
-                text: !lambda return id(plug6_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug6_ip1), id(plug6_ip2), id(plug6_ip3), id(plug6_ip4));
+                  return buf;
 
       - button:
           x: 565
@@ -5849,10 +5977,12 @@ lvgl:
           on_click:
             then:
             - lambda: id(plug6_ip4) = min(255, id(plug6_ip4) + 1);
-            - script.execute: update_plug6_ip
             - lvgl.label.update:
                 id: lbl_plug6_ip
-                text: !lambda return id(plug6_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug6_ip1), id(plug6_ip2), id(plug6_ip3), id(plug6_ip4));
+                  return buf;
 
       # PLUG 7 IP Configuration
       - label:
@@ -5881,10 +6011,12 @@ lvgl:
           on_click:
             then:
             - lambda: id(plug7_ip1) = max(0, id(plug7_ip1) - 1);
-            - script.execute: update_plug7_ip
             - lvgl.label.update:
                 id: lbl_plug7_ip
-                text: !lambda return id(plug7_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug7_ip1), id(plug7_ip2), id(plug7_ip3), id(plug7_ip4));
+                  return buf;
 
       - button:
           x: 295
@@ -5896,10 +6028,12 @@ lvgl:
           on_click:
             then:
             - lambda: id(plug7_ip1) = min(255, id(plug7_ip1) + 1);
-            - script.execute: update_plug7_ip
             - lvgl.label.update:
                 id: lbl_plug7_ip
-                text: !lambda return id(plug7_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug7_ip1), id(plug7_ip2), id(plug7_ip3), id(plug7_ip4));
+                  return buf;
 
       # Octet 2
       - button:
@@ -5912,10 +6046,12 @@ lvgl:
           on_click:
             then:
             - lambda: id(plug7_ip2) = max(0, id(plug7_ip2) - 1);
-            - script.execute: update_plug7_ip
             - lvgl.label.update:
                 id: lbl_plug7_ip
-                text: !lambda return id(plug7_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug7_ip1), id(plug7_ip2), id(plug7_ip3), id(plug7_ip4));
+                  return buf;
 
       - button:
           x: 385
@@ -5927,10 +6063,12 @@ lvgl:
           on_click:
             then:
             - lambda: id(plug7_ip2) = min(255, id(plug7_ip2) + 1);
-            - script.execute: update_plug7_ip
             - lvgl.label.update:
                 id: lbl_plug7_ip
-                text: !lambda return id(plug7_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug7_ip1), id(plug7_ip2), id(plug7_ip3), id(plug7_ip4));
+                  return buf;
 
       # Octet 3
       - button:
@@ -5943,10 +6081,12 @@ lvgl:
           on_click:
             then:
             - lambda: id(plug7_ip3) = max(0, id(plug7_ip3) - 1);
-            - script.execute: update_plug7_ip
             - lvgl.label.update:
                 id: lbl_plug7_ip
-                text: !lambda return id(plug7_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug7_ip1), id(plug7_ip2), id(plug7_ip3), id(plug7_ip4));
+                  return buf;
 
       - button:
           x: 475
@@ -5958,10 +6098,12 @@ lvgl:
           on_click:
             then:
             - lambda: id(plug7_ip3) = min(255, id(plug7_ip3) + 1);
-            - script.execute: update_plug7_ip
             - lvgl.label.update:
                 id: lbl_plug7_ip
-                text: !lambda return id(plug7_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug7_ip1), id(plug7_ip2), id(plug7_ip3), id(plug7_ip4));
+                  return buf;
 
       # Octet 4
       - button:
@@ -5974,10 +6116,12 @@ lvgl:
           on_click:
             then:
             - lambda: id(plug7_ip4) = max(0, id(plug7_ip4) - 1);
-            - script.execute: update_plug7_ip
             - lvgl.label.update:
                 id: lbl_plug7_ip
-                text: !lambda return id(plug7_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug7_ip1), id(plug7_ip2), id(plug7_ip3), id(plug7_ip4));
+                  return buf;
 
       - button:
           x: 565
@@ -5989,10 +6133,12 @@ lvgl:
           on_click:
             then:
             - lambda: id(plug7_ip4) = min(255, id(plug7_ip4) + 1);
-            - script.execute: update_plug7_ip
             - lvgl.label.update:
                 id: lbl_plug7_ip
-                text: !lambda return id(plug7_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug7_ip1), id(plug7_ip2), id(plug7_ip3), id(plug7_ip4));
+                  return buf;
 
       # PLUG 8 IP Configuration
       - label:
@@ -6021,10 +6167,12 @@ lvgl:
           on_click:
             then:
             - lambda: id(plug8_ip1) = max(0, id(plug8_ip1) - 1);
-            - script.execute: update_plug8_ip
             - lvgl.label.update:
                 id: lbl_plug8_ip
-                text: !lambda return id(plug8_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug8_ip1), id(plug8_ip2), id(plug8_ip3), id(plug8_ip4));
+                  return buf;
 
       - button:
           x: 295
@@ -6036,10 +6184,12 @@ lvgl:
           on_click:
             then:
             - lambda: id(plug8_ip1) = min(255, id(plug8_ip1) + 1);
-            - script.execute: update_plug8_ip
             - lvgl.label.update:
                 id: lbl_plug8_ip
-                text: !lambda return id(plug8_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug8_ip1), id(plug8_ip2), id(plug8_ip3), id(plug8_ip4));
+                  return buf;
 
       # Octet 2
       - button:
@@ -6052,10 +6202,12 @@ lvgl:
           on_click:
             then:
             - lambda: id(plug8_ip2) = max(0, id(plug8_ip2) - 1);
-            - script.execute: update_plug8_ip
             - lvgl.label.update:
                 id: lbl_plug8_ip
-                text: !lambda return id(plug8_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug8_ip1), id(plug8_ip2), id(plug8_ip3), id(plug8_ip4));
+                  return buf;
 
       - button:
           x: 385
@@ -6067,10 +6219,12 @@ lvgl:
           on_click:
             then:
             - lambda: id(plug8_ip2) = min(255, id(plug8_ip2) + 1);
-            - script.execute: update_plug8_ip
             - lvgl.label.update:
                 id: lbl_plug8_ip
-                text: !lambda return id(plug8_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug8_ip1), id(plug8_ip2), id(plug8_ip3), id(plug8_ip4));
+                  return buf;
 
       # Octet 3
       - button:
@@ -6083,10 +6237,12 @@ lvgl:
           on_click:
             then:
             - lambda: id(plug8_ip3) = max(0, id(plug8_ip3) - 1);
-            - script.execute: update_plug8_ip
             - lvgl.label.update:
                 id: lbl_plug8_ip
-                text: !lambda return id(plug8_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug8_ip1), id(plug8_ip2), id(plug8_ip3), id(plug8_ip4));
+                  return buf;
 
       - button:
           x: 475
@@ -6098,10 +6254,12 @@ lvgl:
           on_click:
             then:
             - lambda: id(plug8_ip3) = min(255, id(plug8_ip3) + 1);
-            - script.execute: update_plug8_ip
             - lvgl.label.update:
                 id: lbl_plug8_ip
-                text: !lambda return id(plug8_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug8_ip1), id(plug8_ip2), id(plug8_ip3), id(plug8_ip4));
+                  return buf;
 
       # Octet 4
       - button:
@@ -6114,10 +6272,12 @@ lvgl:
           on_click:
             then:
             - lambda: id(plug8_ip4) = max(0, id(plug8_ip4) - 1);
-            - script.execute: update_plug8_ip
             - lvgl.label.update:
                 id: lbl_plug8_ip
-                text: !lambda return id(plug8_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug8_ip1), id(plug8_ip2), id(plug8_ip3), id(plug8_ip4));
+                  return buf;
 
       - button:
           x: 565
@@ -6129,10 +6289,12 @@ lvgl:
           on_click:
             then:
             - lambda: id(plug8_ip4) = min(255, id(plug8_ip4) + 1);
-            - script.execute: update_plug8_ip
             - lvgl.label.update:
                 id: lbl_plug8_ip
-                text: !lambda return id(plug8_ip_str).c_str();
+                text: !lambda |-
+                  char buf[20];
+                  sprintf(buf, "%d.%d.%d.%d", id(plug8_ip1), id(plug8_ip2), id(plug8_ip3), id(plug8_ip4));
+                  return buf;
 
 interval:
   - interval: 10s
