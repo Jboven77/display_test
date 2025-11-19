@@ -4259,16 +4259,12 @@ lvgl:
                     id: keyboard_ip
                     mode: LV_KEYBOARD_MODE_TEXT_LOWER
                     textarea: ip1_text
-                - lvgl.widget.show:
-                    id: keyboard_ip
             on_focus:
               then:
                 - lvgl.keyboard.update:
                     id: keyboard_ip
                     mode: LV_KEYBOARD_MODE_TEXT_LOWER
                     textarea: ip1_text
-                - lvgl.widget.show:
-                    id: keyboard_ip
 
         # Plug 2 IP
         - label:
@@ -4297,16 +4293,12 @@ lvgl:
                     id: keyboard_ip
                     mode: LV_KEYBOARD_MODE_TEXT_LOWER
                     textarea: ip2_text
-                - lvgl.widget.show:
-                    id: keyboard_ip
             on_focus:
               then:
                 - lvgl.keyboard.update:
                     id: keyboard_ip
                     mode: LV_KEYBOARD_MODE_TEXT_LOWER
                     textarea: ip2_text
-                - lvgl.widget.show:
-                    id: keyboard_ip
 
         # Plug 3 IP
         - label:
@@ -4335,16 +4327,12 @@ lvgl:
                     id: keyboard_ip
                     mode: LV_KEYBOARD_MODE_TEXT_LOWER
                     textarea: ip3_text
-                - lvgl.widget.show:
-                    id: keyboard_ip
             on_focus:
               then:
                 - lvgl.keyboard.update:
                     id: keyboard_ip
                     mode: LV_KEYBOARD_MODE_TEXT_LOWER
                     textarea: ip3_text
-                - lvgl.widget.show:
-                    id: keyboard_ip
 
         # Plug 4 IP
         - label:
@@ -4373,16 +4361,12 @@ lvgl:
                     id: keyboard_ip
                     mode: LV_KEYBOARD_MODE_TEXT_LOWER
                     textarea: ip4_text
-                - lvgl.widget.show:
-                    id: keyboard_ip
             on_focus:
               then:
                 - lvgl.keyboard.update:
                     id: keyboard_ip
                     mode: LV_KEYBOARD_MODE_TEXT_LOWER
                     textarea: ip4_text
-                - lvgl.widget.show:
-                    id: keyboard_ip
 
         # Plug 5 IP
         - label:
@@ -4411,16 +4395,12 @@ lvgl:
                     id: keyboard_ip
                     mode: LV_KEYBOARD_MODE_TEXT_LOWER
                     textarea: ip5_text
-                - lvgl.widget.show:
-                    id: keyboard_ip
             on_focus:
               then:
                 - lvgl.keyboard.update:
                     id: keyboard_ip
                     mode: LV_KEYBOARD_MODE_TEXT_LOWER
                     textarea: ip5_text
-                - lvgl.widget.show:
-                    id: keyboard_ip
 
         # Plug 6 IP
         - label:
@@ -4449,16 +4429,12 @@ lvgl:
                     id: keyboard_ip
                     mode: LV_KEYBOARD_MODE_TEXT_LOWER
                     textarea: ip6_text
-                - lvgl.widget.show:
-                    id: keyboard_ip
             on_focus:
               then:
                 - lvgl.keyboard.update:
                     id: keyboard_ip
                     mode: LV_KEYBOARD_MODE_TEXT_LOWER
                     textarea: ip6_text
-                - lvgl.widget.show:
-                    id: keyboard_ip
 
         # Plug 7 IP
         - label:
@@ -4487,16 +4463,12 @@ lvgl:
                     id: keyboard_ip
                     mode: LV_KEYBOARD_MODE_TEXT_LOWER
                     textarea: ip7_text
-                - lvgl.widget.show:
-                    id: keyboard_ip
             on_focus:
               then:
                 - lvgl.keyboard.update:
                     id: keyboard_ip
                     mode: LV_KEYBOARD_MODE_TEXT_LOWER
                     textarea: ip7_text
-                - lvgl.widget.show:
-                    id: keyboard_ip
 
         # Plug 8 IP
         - label:
@@ -4525,16 +4497,12 @@ lvgl:
                     id: keyboard_ip
                     mode: LV_KEYBOARD_MODE_TEXT_LOWER
                     textarea: ip8_text
-                - lvgl.widget.show:
-                    id: keyboard_ip
             on_focus:
               then:
                 - lvgl.keyboard.update:
                     id: keyboard_ip
                     mode: LV_KEYBOARD_MODE_TEXT_LOWER
                     textarea: ip8_text
-                - lvgl.widget.show:
-                    id: keyboard_ip
 
         # On-screen Keyboard
         - keyboard:
@@ -4545,7 +4513,6 @@ lvgl:
             height: 200
             mode: LV_KEYBOARD_MODE_TEXT_LOWER
             textarea: ip1_text
-            hidden: true
 
         # Save Button
         - button:
@@ -4562,8 +4529,6 @@ lvgl:
                   text_font: font_small
             on_click:
               then:
-                - lvgl.widget.hide:
-                    id: keyboard_ip
                 - logger.log:
                     format: "IP addresses saved"
                     level: INFO
@@ -4585,8 +4550,6 @@ lvgl:
                   text_font: font_small
             on_click:
               then:
-                - lvgl.widget.hide:
-                    id: keyboard_ip
                 - lvgl.page.show: main_page
 
 interval:
