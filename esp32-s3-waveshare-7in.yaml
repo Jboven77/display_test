@@ -30,8 +30,8 @@ esphome:
     board_upload.maximum_ram_size: 524288
 
 psram:
-  mode: quad
-  speed: 80MHz
+  mode: octal
+  speed: 40MHz
 
 esp32:
   board: esp32-s3-devkitc-1
@@ -48,8 +48,8 @@ esp32:
       CONFIG_ESP_DEFAULT_CPU_FREQ_MHZ_160: y
       CONFIG_ESPTOOLPY_FLASHMODE_QIO: y
       CONFIG_ESPTOOLPY_FLASHFREQ_120M: y
-      CONFIG_SPIRAM_MODE_QUAD: y
-      CONFIG_SPIRAM_SPEED_80M: y
+      CONFIG_SPIRAM_MODE_OCT: y
+      CONFIG_SPIRAM_SPEED_40M: y
       CONFIG_SPIRAM_FETCH_INSTRUCTIONS: y
       CONFIG_SPIRAM_RODATA: y
       CONFIG_ESP32S3_DATA_CACHE_LINE_64B: y
