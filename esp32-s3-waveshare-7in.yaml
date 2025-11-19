@@ -1,4 +1,5 @@
 substitutions:
+  # Plug IP Addresses
   plug1_ip: "192.168.68.76"
   plug2_ip: "192.168.68.77"
   plug3_ip: "192.168.68.75"
@@ -7,6 +8,16 @@ substitutions:
   plug6_ip: "192.168.68.204"
   plug7_ip: "192.168.68.205"
   plug8_ip: "192.168.68.206"
+
+  # Plug Button Names (customize these to match your devices)
+  plug1_name: "PLUG 1"
+  plug2_name: "PLUG 2"
+  plug3_name: "PLUG 3"
+  plug4_name: "PLUG 4"
+  plug5_name: "PLUG 5"
+  plug6_name: "PLUG 6"
+  plug7_name: "PLUG 7"
+  plug8_name: "PLUG 8"
 
 esphome:
   name: waveshare-esp32-s3-7in
@@ -1186,8 +1197,6 @@ lvgl:
           lv_obj_set_style_bg_color(id(btn_plug8_timer),
             id(plug8_schedule_persist) ? lv_color_hex(0x228B22) : lv_color_hex(0x444444),
             LV_PART_MAIN);
-
-                    lv_label_set_text(id(lbl_plug8_text), "PLUG 8");
   pages:
     # MAIN PAGE
     - id: main_page
@@ -1217,7 +1226,7 @@ lvgl:
             width: 230
             height: 60
             bg_color: 0xFF0000
-            widgets: [{ label: { text: "PLUG 1", align: center, text_font: font_small }}]
+            widgets: [{ label: { text: "${plug1_name}", align: center, text_font: font_small }}]
             on_click:
               then:
                 - script.execute: register_activity
@@ -1250,7 +1259,7 @@ lvgl:
             width: 230
             height: 60
             bg_color: 0xFF0000
-            widgets: [{ label: { text: "PLUG 5", align: center, text_font: font_small }}]
+            widgets: [{ label: { text: "${plug5_name}", align: center, text_font: font_small }}]
             on_click:
               then:
                 - script.execute: register_activity
@@ -1284,7 +1293,7 @@ lvgl:
             width: 230
             height: 60
             bg_color: 0xFF0000
-            widgets: [{ label: { text: "PLUG 2", align: center, text_font: font_small }}]
+            widgets: [{ label: { text: "${plug2_name}", align: center, text_font: font_small }}]
             on_click:
               then:
                 - script.execute: register_activity
@@ -1317,7 +1326,7 @@ lvgl:
             width: 230
             height: 60
             bg_color: 0xFF0000
-            widgets: [{ label: { text: "PLUG 6", align: center, text_font: font_small }}]
+            widgets: [{ label: { text: "${plug6_name}", align: center, text_font: font_small }}]
             on_click:
               then:
                 - script.execute: register_activity
@@ -1351,7 +1360,7 @@ lvgl:
             width: 230
             height: 60
             bg_color: 0xFF0000
-            widgets: [{ label: { text: "PLUG 3", align: center, text_font: font_small }}]
+            widgets: [{ label: { text: "${plug3_name}", align: center, text_font: font_small }}]
             on_click:
               then:
                 - script.execute: register_activity
@@ -1384,7 +1393,7 @@ lvgl:
             width: 230
             height: 60
             bg_color: 0xFF0000
-            widgets: [{ label: { text: "PLUG 7", align: center, text_font: font_small }}]
+            widgets: [{ label: { text: "${plug7_name}", align: center, text_font: font_small }}]
             on_click:
               then:
                 - script.execute: register_activity
@@ -1418,7 +1427,7 @@ lvgl:
             width: 230
             height: 60
             bg_color: 0xFF0000
-            widgets: [{ label: { text: "PLUG 4", align: center, text_font: font_small }}]
+            widgets: [{ label: { text: "${plug4_name}", align: center, text_font: font_small }}]
             on_click:
               then:
                 - script.execute: register_activity
@@ -1454,7 +1463,7 @@ lvgl:
             widgets:
               - label:
                   id: lbl_plug8_text     # text label for Plug 8 button
-                  text: "PLUG 8"         # initial, overridden in on_ready
+                  text: "${plug8_name}"         # initial, overridden in on_ready
                   align: center
                   text_font: font_small
             on_click:
@@ -1580,7 +1589,7 @@ lvgl:
             id: lbl_timer1_title
             x: 20
             y: 10
-            text: "PLUG 1 TIMER"
+            text: "${plug1_name} TIMER"
             text_font: font_large
             text_color: 0xFFFFFF
 
@@ -1911,7 +1920,7 @@ lvgl:
             id: lbl_timer2_title
             x: 20
             y: 10
-            text: "PLUG 2 TIMER"
+            text: "${plug2_name} TIMER"
             text_font: font_large
             text_color: 0xFFFFFF
 
@@ -2242,7 +2251,7 @@ lvgl:
             id: lbl_timer3_title
             x: 20
             y: 10
-            text: "PLUG 3 TIMER"
+            text: "${plug3_name} TIMER"
             text_font: font_large
             text_color: 0xFFFFFF
 
@@ -2573,7 +2582,7 @@ lvgl:
             id: lbl_timer4_title
             x: 20
             y: 10
-            text: "PLUG 4 TIMER"
+            text: "${plug4_name} TIMER"
             text_font: font_large
             text_color: 0xFFFFFF
 
@@ -2904,7 +2913,7 @@ lvgl:
             id: lbl_timer5_title
             x: 20
             y: 10
-            text: "PLUG 5 TIMER"
+            text: "${plug5_name} TIMER"
             text_font: font_large
             text_color: 0xFFFFFF
 
@@ -3235,7 +3244,7 @@ lvgl:
             id: lbl_timer6_title
             x: 20
             y: 10
-            text: "PLUG 6 TIMER"
+            text: "${plug6_name} TIMER"
             text_font: font_large
             text_color: 0xFFFFFF
 
@@ -3566,7 +3575,7 @@ lvgl:
             id: lbl_timer7_title
             x: 20
             y: 10
-            text: "PLUG 7 TIMER"
+            text: "${plug7_name} TIMER"
             text_font: font_large
             text_color: 0xFFFFFF
 
@@ -3897,7 +3906,7 @@ lvgl:
             id: lbl_timer8_title
             x: 20
             y: 10
-            text: "PLUG 8 TIMER"
+            text: "${plug8_name} TIMER"
             text_font: font_large
             text_color: 0xFFFFFF
 
