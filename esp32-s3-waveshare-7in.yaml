@@ -1112,6 +1112,32 @@ lvgl:
           lv_label_set_text(id(lbl_timer6_clock), buf);
           lv_label_set_text(id(lbl_timer7_clock), buf);
           lv_label_set_text(id(lbl_timer8_clock), buf);
+      - lambda: |-
+          // Initialize timer button colors based on persisted schedule state
+          lv_obj_set_style_bg_color(id(btn_plug1_timer),
+            id(plug1_schedule_persist) ? lv_color_hex(0x228B22) : lv_color_hex(0x444444),
+            LV_PART_MAIN);
+          lv_obj_set_style_bg_color(id(btn_plug2_timer),
+            id(plug2_schedule_persist) ? lv_color_hex(0x228B22) : lv_color_hex(0x444444),
+            LV_PART_MAIN);
+          lv_obj_set_style_bg_color(id(btn_plug3_timer),
+            id(plug3_schedule_persist) ? lv_color_hex(0x228B22) : lv_color_hex(0x444444),
+            LV_PART_MAIN);
+          lv_obj_set_style_bg_color(id(btn_plug4_timer),
+            id(plug4_schedule_persist) ? lv_color_hex(0x228B22) : lv_color_hex(0x444444),
+            LV_PART_MAIN);
+          lv_obj_set_style_bg_color(id(btn_plug5_timer),
+            id(plug5_schedule_persist) ? lv_color_hex(0x228B22) : lv_color_hex(0x444444),
+            LV_PART_MAIN);
+          lv_obj_set_style_bg_color(id(btn_plug6_timer),
+            id(plug6_schedule_persist) ? lv_color_hex(0x228B22) : lv_color_hex(0x444444),
+            LV_PART_MAIN);
+          lv_obj_set_style_bg_color(id(btn_plug7_timer),
+            id(plug7_schedule_persist) ? lv_color_hex(0x228B22) : lv_color_hex(0x444444),
+            LV_PART_MAIN);
+          lv_obj_set_style_bg_color(id(btn_plug8_timer),
+            id(plug8_schedule_persist) ? lv_color_hex(0x228B22) : lv_color_hex(0x444444),
+            LV_PART_MAIN);
 
                     lv_label_set_text(id(lbl_plug8_text), "PLUG 8");
   pages:
