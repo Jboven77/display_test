@@ -1094,6 +1094,9 @@ script:
   # IP update scripts - rebuild IP strings from octets
 font:
   - file: "gfonts://Roboto"
+    id: font_xlarge
+    size: 48
+  - file: "gfonts://Roboto"
     id: font_large
     size: 26
   - file: "gfonts://Roboto"
@@ -2137,13 +2140,14 @@ lvgl:
                     lv_obj_set_style_bg_color(id(btn_bl_auto), lv_color_hex(0x444444), LV_PART_MAIN);
                 - script.execute: register_activity
 
-        # Main page clock
+        # Main page clock - centered and larger
         - label:
             id: lbl_main_time
-            x: 655
-            y: 393
+            align: center
+            x: 400
+            y: 375
             text: "--:-- --"
-            text_font: font_large
+            text_font: font_xlarge
             text_color: 0xFFFFFF
 
     # TIMER PAGES - Plug 1
