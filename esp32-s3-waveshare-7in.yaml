@@ -1,5 +1,4 @@
 substitutions:
-  # Plug IP Addresses
   plug1_ip: "192.168.68.76"
   plug2_ip: "192.168.68.77"
   plug3_ip: "192.168.68.75"
@@ -9,19 +8,9 @@ substitutions:
   plug7_ip: "192.168.68.205"
   plug8_ip: "192.168.68.206"
 
-  # Plug Button Names (customize these to match your devices)
-  plug1_name: "PLUG 1"
-  plug2_name: "PLUG 2"
-  plug3_name: "PLUG 3"
-  plug4_name: "PLUG 4"
-  plug5_name: "PLUG 5"
-  plug6_name: "PLUG 6"
-  plug7_name: "PLUG 7"
-  plug8_name: "PLUG 8"
-
 esphome:
-  name: plugs
-  friendly_name: TotalSense Plugs
+  name: waveshare-esp32-s3-7in
+  friendly_name: Waveshare ESP32-S3 7in
   min_version: "2025.4.2"
   platformio_options:
     build_flags: "-DBOARD_HAS_PSRAM"
@@ -31,13 +20,13 @@ esphome:
 
 psram:
   mode: octal
-  speed: 40MHz
+  speed: 80MHz
 
 esp32:
   board: esp32-s3-devkitc-1
   variant: ESP32S3
   flash_size: 8MB
-  cpu_frequency: 80MHz
+  cpu_frequency: 240MHz
   framework:
     type: esp-idf
     sdkconfig_options:
@@ -45,11 +34,11 @@ esp32:
       CONFIG_ESP32S3_DATA_CACHE_64KB: "y"
       CONFIG_ESPTOOLPY_FLASHSIZE_8MB: "y"
       CONFIG_FREERTOS_HZ: "1000"
-      CONFIG_ESP_DEFAULT_CPU_FREQ_MHZ_80: y
+      CONFIG_ESP_DEFAULT_CPU_FREQ_MHZ_240: y
       CONFIG_ESPTOOLPY_FLASHMODE_QIO: y
       CONFIG_ESPTOOLPY_FLASHFREQ_120M: y
       CONFIG_SPIRAM_MODE_OCT: y
-      CONFIG_SPIRAM_SPEED_40M: y
+      CONFIG_SPIRAM_SPEED_80M: y
       CONFIG_SPIRAM_FETCH_INSTRUCTIONS: y
       CONFIG_SPIRAM_RODATA: y
       CONFIG_ESP32S3_DATA_CACHE_LINE_64B: y
@@ -178,6 +167,55 @@ globals:
     restore_value: no
     initial_value: "false"
 
+  # IP Address Storage (persisted across boots)
+  - id: plug1_ip_str
+    type: std::string
+    restore_value: yes
+    max_restore_data_length: 20
+    initial_value: '"192.168.68.76"'
+
+  - id: plug2_ip_str
+    type: std::string
+    restore_value: yes
+    max_restore_data_length: 20
+    initial_value: '"192.168.68.75"'
+
+  - id: plug3_ip_str
+    type: std::string
+    restore_value: yes
+    max_restore_data_length: 20
+    initial_value: '"192.168.68.77"'
+
+  - id: plug4_ip_str
+    type: std::string
+    restore_value: yes
+    max_restore_data_length: 20
+    initial_value: '"192.168.68.79"'
+
+  - id: plug5_ip_str
+    type: std::string
+    restore_value: yes
+    max_restore_data_length: 20
+    initial_value: '"192.168.68.203"'
+
+  - id: plug6_ip_str
+    type: std::string
+    restore_value: yes
+    max_restore_data_length: 20
+    initial_value: '"192.168.68.204"'
+
+  - id: plug7_ip_str
+    type: std::string
+    restore_value: yes
+    max_restore_data_length: 20
+    initial_value: '"192.168.68.205"'
+
+  - id: plug8_ip_str
+    type: std::string
+    restore_value: yes
+    max_restore_data_length: 20
+    initial_value: '"192.168.68.206"'
+
   # Timer Schedule State (persisted across boots)
   - id: plug1_schedule_persist
     type: bool
@@ -220,79 +258,6 @@ globals:
     initial_value: "false"
 
   # ================================
-text:
-  - platform: template
-    name: "Plug 1 IP"
-    id: plug1_ip_input
-    optimistic: true
-    initial_value: "192.168.68.76"
-    mode: text
-    icon: mdi:ip-network
-    entity_category: config
-
-  - platform: template
-    name: "Plug 2 IP"
-    id: plug2_ip_input
-    optimistic: true
-    initial_value: "192.168.68.77"
-    mode: text
-    icon: mdi:ip-network
-    entity_category: config
-
-  - platform: template
-    name: "Plug 3 IP"
-    id: plug3_ip_input
-    optimistic: true
-    initial_value: "192.168.68.75"
-    mode: text
-    icon: mdi:ip-network
-    entity_category: config
-
-  - platform: template
-    name: "Plug 4 IP"
-    id: plug4_ip_input
-    optimistic: true
-    initial_value: "192.168.68.79"
-    mode: text
-    icon: mdi:ip-network
-    entity_category: config
-
-  - platform: template
-    name: "Plug 5 IP"
-    id: plug5_ip_input
-    optimistic: true
-    initial_value: "192.168.68.203"
-    mode: text
-    icon: mdi:ip-network
-    entity_category: config
-
-  - platform: template
-    name: "Plug 6 IP"
-    id: plug6_ip_input
-    optimistic: true
-    initial_value: "192.168.68.204"
-    mode: text
-    icon: mdi:ip-network
-    entity_category: config
-
-  - platform: template
-    name: "Plug 7 IP"
-    id: plug7_ip_input
-    optimistic: true
-    initial_value: "192.168.68.205"
-    mode: text
-    icon: mdi:ip-network
-    entity_category: config
-
-  - platform: template
-    name: "Plug 8 IP"
-    id: plug8_ip_input
-    optimistic: true
-    initial_value: "192.168.68.206"
-    mode: text
-    icon: mdi:ip-network
-    entity_category: config
-
 switch:
   # CH422G backlight power
   - platform: gpio
@@ -384,126 +349,112 @@ script:
   - id: plug1_turn_on
     then:
       - logger.log: "Schedule: turning Plug 1 ON"
-      - lambda: |-
-          std::string url = "http://" + id(plug1_ip_input).state + "/switch/kauf_plug/turn_on";
-          id(http_client).post(url, "");
+      - http_request.post:
+          url: "http://${plug1_ip}/switch/kauf_plug/turn_on"
       - delay: 500ms
       - script.execute: plug1_update_state
 
   - id: plug1_turn_off
     then:
       - logger.log: "Schedule: turning Plug 1 OFF"
-      - lambda: |-
-          std::string url = "http://" + id(plug1_ip_input).state + "/switch/kauf_plug/turn_off";
-          id(http_client).post(url, "");
+      - http_request.post:
+          url: "http://${plug1_ip}/switch/kauf_plug/turn_off"
       - delay: 500ms
       - script.execute: plug1_update_state
 
   - id: plug2_turn_on
     then:
       - logger.log: "Schedule: turning Plug 2 ON"
-      - lambda: |-
-          std::string url = "http://" + id(plug2_ip_input).state + "/switch/kauf_plug/turn_on";
-          id(http_client).post(url, "");
+      - http_request.post:
+          url: "http://${plug2_ip}/switch/kauf_plug/turn_on"
       - delay: 500ms
       - script.execute: plug2_update_state
 
   - id: plug2_turn_off
     then:
       - logger.log: "Schedule: turning Plug 2 OFF"
-      - lambda: |-
-          std::string url = "http://" + id(plug2_ip_input).state + "/switch/kauf_plug/turn_off";
-          id(http_client).post(url, "");
+      - http_request.post:
+          url: "http://${plug2_ip}/switch/kauf_plug/turn_off"
       - delay: 500ms
       - script.execute: plug2_update_state
 
   - id: plug3_turn_on
     then:
       - logger.log: "Schedule: turning Plug 3 ON"
-      - lambda: |-
-          std::string url = "http://" + id(plug3_ip_input).state + "/switch/kauf_plug/turn_on";
-          id(http_client).post(url, "");
+      - http_request.post:
+          url: "http://${plug3_ip}/switch/kauf_plug/turn_on"
       - delay: 500ms
       - script.execute: plug3_update_state
 
   - id: plug3_turn_off
     then:
       - logger.log: "Schedule: turning Plug 3 OFF"
-      - lambda: |-
-          std::string url = "http://" + id(plug3_ip_input).state + "/switch/kauf_plug/turn_off";
-          id(http_client).post(url, "");
+      - http_request.post:
+          url: "http://${plug3_ip}/switch/kauf_plug/turn_off"
       - delay: 500ms
       - script.execute: plug3_update_state
 
   - id: plug4_turn_on
     then:
       - logger.log: "Schedule: turning Plug 4 ON"
-      - lambda: |-
-          std::string url = "http://" + id(plug4_ip_input).state + "/switch/kauf_plug/turn_on";
-          id(http_client).post(url, "");
+      - http_request.post:
+          url: "http://${plug4_ip}/switch/kauf_plug/turn_on"
       - delay: 500ms
       - script.execute: plug4_update_state
 
   - id: plug4_turn_off
     then:
       - logger.log: "Schedule: turning Plug 4 OFF"
-      - lambda: |-
-          std::string url = "http://" + id(plug4_ip_input).state + "/switch/kauf_plug/turn_off";
-          id(http_client).post(url, "");
+      - http_request.post:
+          url: "http://${plug4_ip}/switch/kauf_plug/turn_off"
       - delay: 500ms
       - script.execute: plug4_update_state
 
   - id: plug5_turn_on
     then:
       - logger.log: "Schedule: turning Plug 5 ON"
-      - lambda: |-
-          std::string url = "http://" + id(plug5_ip_input).state + "/switch/kauf_plug/turn_on";
-          id(http_client).post(url, "");
+      - http_request.post:
+          url: "http://${plug5_ip}/switch/kauf_plug/turn_on"
       - delay: 500ms
       - script.execute: plug5_update_state
 
   - id: plug5_turn_off
     then:
       - logger.log: "Schedule: turning Plug 5 OFF"
-      - lambda: |-
-          std::string url = "http://" + id(plug5_ip_input).state + "/switch/kauf_plug/turn_off";
-          id(http_client).post(url, "");
+      - http_request.post:
+          url: "http://${plug5_ip}/switch/kauf_plug/turn_off"
       - delay: 500ms
       - script.execute: plug5_update_state
 
   - id: plug6_turn_on
     then:
       - logger.log: "Schedule: turning Plug 6 ON"
-      - lambda: |-
-          std::string url = "http://" + id(plug6_ip_input).state + "/switch/kauf_plug/turn_on";
-          id(http_client).post(url, "");
+      - http_request.post:
+          url: "http://${plug6_ip}/switch/kauf_plug/turn_on"
       - delay: 500ms
       - script.execute: plug6_update_state
 
   - id: plug6_turn_off
     then:
       - logger.log: "Schedule: turning Plug 6 OFF"
-      - lambda: |-
-          std::string url = "http://" + id(plug6_ip_input).state + "/switch/kauf_plug/turn_off";
-          id(http_client).post(url, "");
+      - http_request.post:
+          url: "http://${plug6_ip}/switch/kauf_plug/turn_off"
       - delay: 500ms
       - script.execute: plug6_update_state
 
   - id: plug7_turn_on
     then:
       - logger.log: "Schedule: turning Plug 7 ON"
-      - lambda: |-
-          std::string url = "http://" + id(plug7_ip_input).state + "/switch/kauf_plug/turn_on";
-          id(http_client).post(url, "");
+      - http_request.post:
+          url: "http://${plug7_ip}/switch/kauf_plug/turn_on"
       - delay: 500ms
       - script.execute: plug7_update_state
 
   - id: plug7_turn_off
     then:
       - logger.log: "Schedule: turning Plug 7 OFF"
-      - lambda: |-
-          std::string url = "http://" + id(plug7_ip_input).state + "/switch/kauf_plug/turn_off";
-          id(http_client).post(url, "");
+      - http_request.post:
+          url: "http://${plug7_ip}/switch/kauf_plug/turn_off"
       - delay: 500ms
       - script.execute: plug7_update_state
 
@@ -512,342 +463,171 @@ script:
   # Kauf PLF12 plug state helpers
   - id: plug1_update_state
     then:
-      - lambda: |-
-          std::string ip = id(plug1_ip_input).state;
-          std::string url = "http://" + ip + "/switch/kauf_plug";
-
-          esp_http_client_config_t config = {};
-          config.url = url.c_str();
-          config.method = HTTP_METHOD_GET;
-          config.timeout_ms = 3000;
-
-          esp_http_client_handle_t client = esp_http_client_init(&config);
-          esp_err_t err = esp_http_client_perform(client);
-
-          if (err == ESP_OK && esp_http_client_get_status_code(client) == 200) {
-            int content_length = esp_http_client_get_content_length(client);
-            if (content_length > 0 && content_length < 4096) {
-              char *buffer = new char[content_length + 1];
-              int read_len = esp_http_client_read_response(client, buffer, content_length);
-              buffer[read_len] = '\0';
-
-              std::string body(buffer);
-              delete[] buffer;
-
-              bool on = body.find("\"state\":\"ON\"") != std::string::npos;
-              id(plug1_ui_state) = on;
-              auto col = on ? lv_color_hex(0x00FF00) : lv_color_hex(0xFF0000);
-              lv_obj_set_style_bg_color(id(btn_plug1), col, LV_PART_MAIN);
-            } else {
-              id(plug1_ui_state) = false;
-              lv_obj_set_style_bg_color(id(btn_plug1), lv_color_hex(0xFF0000), LV_PART_MAIN);
-            }
-          } else {
-            id(plug1_ui_state) = false;
-            lv_obj_set_style_bg_color(id(btn_plug1), lv_color_hex(0xFF0000), LV_PART_MAIN);
-          }
-
-          esp_http_client_cleanup(client);
+      - http_request.get:
+          url: "http://${plug1_ip}/switch/kauf_plug"
+          capture_response: true
+          on_response:
+            then:
+              - lambda: |-
+                  bool on = body.find("\"state\":\"ON\"") != std::string::npos;
+                  id(plug1_ui_state) = on;
+                  auto col = on ? lv_color_hex(0x00FF00) : lv_color_hex(0xFF0000);
+                  lv_obj_set_style_bg_color(id(btn_plug1), col, LV_PART_MAIN);
+          on_error:
+            then:
+              - lambda: |-
+                  id(plug1_ui_state) = false;
+                  lv_obj_set_style_bg_color(id(btn_plug1), lv_color_hex(0xFF0000), LV_PART_MAIN);
 
   - id: plug2_update_state
     then:
-      - lambda: |-
-          std::string ip = id(plug2_ip_input).state;
-          std::string url = "http://" + ip + "/switch/kauf_plug";
-
-          esp_http_client_config_t config = {};
-          config.url = url.c_str();
-          config.method = HTTP_METHOD_GET;
-          config.timeout_ms = 3000;
-
-          esp_http_client_handle_t client = esp_http_client_init(&config);
-          esp_err_t err = esp_http_client_perform(client);
-
-          if (err == ESP_OK && esp_http_client_get_status_code(client) == 200) {
-            int content_length = esp_http_client_get_content_length(client);
-            if (content_length > 0 && content_length < 4096) {
-              char *buffer = new char[content_length + 1];
-              int read_len = esp_http_client_read_response(client, buffer, content_length);
-              buffer[read_len] = '\0';
-
-              std::string body(buffer);
-              delete[] buffer;
-
-              bool on = body.find("\"state\":\"ON\"") != std::string::npos;
-              id(plug2_ui_state) = on;
-              auto col = on ? lv_color_hex(0x00FF00) : lv_color_hex(0xFF0000);
-              lv_obj_set_style_bg_color(id(btn_plug2), col, LV_PART_MAIN);
-            } else {
-              id(plug2_ui_state) = false;
-              lv_obj_set_style_bg_color(id(btn_plug2), lv_color_hex(0xFF0000), LV_PART_MAIN);
-            }
-          } else {
-            id(plug2_ui_state) = false;
-            lv_obj_set_style_bg_color(id(btn_plug2), lv_color_hex(0xFF0000), LV_PART_MAIN);
-          }
-
-          esp_http_client_cleanup(client);
+      - http_request.get:
+          url: "http://${plug2_ip}/switch/kauf_plug"
+          capture_response: true
+          on_response:
+            then:
+              - lambda: |-
+                  bool on = body.find("\"state\":\"ON\"") != std::string::npos;
+                  id(plug2_ui_state) = on;
+                  auto col = on ? lv_color_hex(0x00FF00) : lv_color_hex(0xFF0000);
+                  lv_obj_set_style_bg_color(id(btn_plug2), col, LV_PART_MAIN);
+          on_error:
+            then:
+              - lambda: |-
+                  id(plug2_ui_state) = false;
+                  lv_obj_set_style_bg_color(id(btn_plug2), lv_color_hex(0xFF0000), LV_PART_MAIN);
 
   - id: plug3_update_state
     then:
-      - lambda: |-
-          std::string ip = id(plug3_ip_input).state;
-          std::string url = "http://" + ip + "/switch/kauf_plug";
-
-          esp_http_client_config_t config = {};
-          config.url = url.c_str();
-          config.method = HTTP_METHOD_GET;
-          config.timeout_ms = 3000;
-
-          esp_http_client_handle_t client = esp_http_client_init(&config);
-          esp_err_t err = esp_http_client_perform(client);
-
-          if (err == ESP_OK && esp_http_client_get_status_code(client) == 200) {
-            int content_length = esp_http_client_get_content_length(client);
-            if (content_length > 0 && content_length < 4096) {
-              char *buffer = new char[content_length + 1];
-              int read_len = esp_http_client_read_response(client, buffer, content_length);
-              buffer[read_len] = '\0';
-
-              std::string body(buffer);
-              delete[] buffer;
-
-              bool on = body.find("\"state\":\"ON\"") != std::string::npos;
-              id(plug3_ui_state) = on;
-              auto col = on ? lv_color_hex(0x00FF00) : lv_color_hex(0xFF0000);
-              lv_obj_set_style_bg_color(id(btn_plug3), col, LV_PART_MAIN);
-            } else {
-              id(plug3_ui_state) = false;
-              lv_obj_set_style_bg_color(id(btn_plug3), lv_color_hex(0xFF0000), LV_PART_MAIN);
-            }
-          } else {
-            id(plug3_ui_state) = false;
-            lv_obj_set_style_bg_color(id(btn_plug3), lv_color_hex(0xFF0000), LV_PART_MAIN);
-          }
-
-          esp_http_client_cleanup(client);
+      - http_request.get:
+          url: "http://${plug3_ip}/switch/kauf_plug"
+          capture_response: true
+          on_response:
+            then:
+              - lambda: |-
+                  bool on = body.find("\"state\":\"ON\"") != std::string::npos;
+                  id(plug3_ui_state) = on;
+                  auto col = on ? lv_color_hex(0x00FF00) : lv_color_hex(0xFF0000);
+                  lv_obj_set_style_bg_color(id(btn_plug3), col, LV_PART_MAIN);
+          on_error:
+            then:
+              - lambda: |-
+                  id(plug3_ui_state) = false;
+                  lv_obj_set_style_bg_color(id(btn_plug3), lv_color_hex(0xFF0000), LV_PART_MAIN);
 
   - id: plug4_update_state
     then:
-      - lambda: |-
-          std::string ip = id(plug4_ip_input).state;
-          std::string url = "http://" + ip + "/switch/kauf_plug";
-
-          esp_http_client_config_t config = {};
-          config.url = url.c_str();
-          config.method = HTTP_METHOD_GET;
-          config.timeout_ms = 3000;
-
-          esp_http_client_handle_t client = esp_http_client_init(&config);
-          esp_err_t err = esp_http_client_perform(client);
-
-          if (err == ESP_OK && esp_http_client_get_status_code(client) == 200) {
-            int content_length = esp_http_client_get_content_length(client);
-            if (content_length > 0 && content_length < 4096) {
-              char *buffer = new char[content_length + 1];
-              int read_len = esp_http_client_read_response(client, buffer, content_length);
-              buffer[read_len] = '\0';
-
-              std::string body(buffer);
-              delete[] buffer;
-
-              bool on = body.find("\"state\":\"ON\"") != std::string::npos;
-              id(plug4_ui_state) = on;
-              auto col = on ? lv_color_hex(0x00FF00) : lv_color_hex(0xFF0000);
-              lv_obj_set_style_bg_color(id(btn_plug4), col, LV_PART_MAIN);
-            } else {
-              id(plug4_ui_state) = false;
-              lv_obj_set_style_bg_color(id(btn_plug4), lv_color_hex(0xFF0000), LV_PART_MAIN);
-            }
-          } else {
-            id(plug4_ui_state) = false;
-            lv_obj_set_style_bg_color(id(btn_plug4), lv_color_hex(0xFF0000), LV_PART_MAIN);
-          }
-
-          esp_http_client_cleanup(client);
+      - http_request.get:
+          url: "http://${plug4_ip}/switch/kauf_plug"
+          capture_response: true
+          on_response:
+            then:
+              - lambda: |-
+                  bool on = body.find("\"state\":\"ON\"") != std::string::npos;
+                  id(plug4_ui_state) = on;
+                  auto col = on ? lv_color_hex(0x00FF00) : lv_color_hex(0xFF0000);
+                  lv_obj_set_style_bg_color(id(btn_plug4), col, LV_PART_MAIN);
+          on_error:
+            then:
+              - lambda: |-
+                  id(plug4_ui_state) = false;
+                  lv_obj_set_style_bg_color(id(btn_plug4), lv_color_hex(0xFF0000), LV_PART_MAIN);
 
   - id: plug5_update_state
     then:
-      - lambda: |-
-          std::string ip = id(plug5_ip_input).state;
-          std::string url = "http://" + ip + "/switch/kauf_plug";
-
-          esp_http_client_config_t config = {};
-          config.url = url.c_str();
-          config.method = HTTP_METHOD_GET;
-          config.timeout_ms = 3000;
-
-          esp_http_client_handle_t client = esp_http_client_init(&config);
-          esp_err_t err = esp_http_client_perform(client);
-
-          if (err == ESP_OK && esp_http_client_get_status_code(client) == 200) {
-            int content_length = esp_http_client_get_content_length(client);
-            if (content_length > 0 && content_length < 4096) {
-              char *buffer = new char[content_length + 1];
-              int read_len = esp_http_client_read_response(client, buffer, content_length);
-              buffer[read_len] = '\0';
-
-              std::string body(buffer);
-              delete[] buffer;
-
-              bool on = body.find("\"state\":\"ON\"") != std::string::npos;
-              id(plug5_ui_state) = on;
-              auto col = on ? lv_color_hex(0x00FF00) : lv_color_hex(0xFF0000);
-              lv_obj_set_style_bg_color(id(btn_plug5), col, LV_PART_MAIN);
-            } else {
-              id(plug5_ui_state) = false;
-              lv_obj_set_style_bg_color(id(btn_plug5), lv_color_hex(0xFF0000), LV_PART_MAIN);
-            }
-          } else {
-            id(plug5_ui_state) = false;
-            lv_obj_set_style_bg_color(id(btn_plug5), lv_color_hex(0xFF0000), LV_PART_MAIN);
-          }
-
-          esp_http_client_cleanup(client);
+      - http_request.get:
+          url: "http://${plug5_ip}/switch/kauf_plug"
+          capture_response: true
+          on_response:
+            then:
+              - lambda: |-
+                  bool on = body.find("\"state\":\"ON\"") != std::string::npos;
+                  id(plug5_ui_state) = on;
+                  auto col = on ? lv_color_hex(0x00FF00) : lv_color_hex(0xFF0000);
+                  lv_obj_set_style_bg_color(id(btn_plug5), col, LV_PART_MAIN);
+          on_error:
+            then:
+              - lambda: |-
+                  id(plug5_ui_state) = false;
+                  lv_obj_set_style_bg_color(id(btn_plug5), lv_color_hex(0xFF0000), LV_PART_MAIN);
 
   - id: plug6_update_state
     then:
-      - lambda: |-
-          std::string ip = id(plug6_ip_input).state;
-          std::string url = "http://" + ip + "/switch/kauf_plug";
-
-          esp_http_client_config_t config = {};
-          config.url = url.c_str();
-          config.method = HTTP_METHOD_GET;
-          config.timeout_ms = 3000;
-
-          esp_http_client_handle_t client = esp_http_client_init(&config);
-          esp_err_t err = esp_http_client_perform(client);
-
-          if (err == ESP_OK && esp_http_client_get_status_code(client) == 200) {
-            int content_length = esp_http_client_get_content_length(client);
-            if (content_length > 0 && content_length < 4096) {
-              char *buffer = new char[content_length + 1];
-              int read_len = esp_http_client_read_response(client, buffer, content_length);
-              buffer[read_len] = '\0';
-
-              std::string body(buffer);
-              delete[] buffer;
-
-              bool on = body.find("\"state\":\"ON\"") != std::string::npos;
-              id(plug6_ui_state) = on;
-              auto col = on ? lv_color_hex(0x00FF00) : lv_color_hex(0xFF0000);
-              lv_obj_set_style_bg_color(id(btn_plug6), col, LV_PART_MAIN);
-            } else {
-              id(plug6_ui_state) = false;
-              lv_obj_set_style_bg_color(id(btn_plug6), lv_color_hex(0xFF0000), LV_PART_MAIN);
-            }
-          } else {
-            id(plug6_ui_state) = false;
-            lv_obj_set_style_bg_color(id(btn_plug6), lv_color_hex(0xFF0000), LV_PART_MAIN);
-          }
-
-          esp_http_client_cleanup(client);
+      - http_request.get:
+          url: "http://${plug6_ip}/switch/kauf_plug"
+          capture_response: true
+          on_response:
+            then:
+              - lambda: |-
+                  bool on = body.find("\"state\":\"ON\"") != std::string::npos;
+                  id(plug6_ui_state) = on;
+                  auto col = on ? lv_color_hex(0x00FF00) : lv_color_hex(0xFF0000);
+                  lv_obj_set_style_bg_color(id(btn_plug6), col, LV_PART_MAIN);
+          on_error:
+            then:
+              - lambda: |-
+                  id(plug6_ui_state) = false;
+                  lv_obj_set_style_bg_color(id(btn_plug6), lv_color_hex(0xFF0000), LV_PART_MAIN);
 
   - id: plug7_update_state
     then:
-      - lambda: |-
-          std::string ip = id(plug7_ip_input).state;
-          std::string url = "http://" + ip + "/switch/kauf_plug";
-
-          esp_http_client_config_t config = {};
-          config.url = url.c_str();
-          config.method = HTTP_METHOD_GET;
-          config.timeout_ms = 3000;
-
-          esp_http_client_handle_t client = esp_http_client_init(&config);
-          esp_err_t err = esp_http_client_perform(client);
-
-          if (err == ESP_OK && esp_http_client_get_status_code(client) == 200) {
-            int content_length = esp_http_client_get_content_length(client);
-            if (content_length > 0 && content_length < 4096) {
-              char *buffer = new char[content_length + 1];
-              int read_len = esp_http_client_read_response(client, buffer, content_length);
-              buffer[read_len] = '\0';
-
-              std::string body(buffer);
-              delete[] buffer;
-
-              bool on = body.find("\"state\":\"ON\"") != std::string::npos;
-              id(plug7_ui_state) = on;
-              auto col = on ? lv_color_hex(0x00FF00) : lv_color_hex(0xFF0000);
-              lv_obj_set_style_bg_color(id(btn_plug7), col, LV_PART_MAIN);
-            } else {
-              id(plug7_ui_state) = false;
-              lv_obj_set_style_bg_color(id(btn_plug7), lv_color_hex(0xFF0000), LV_PART_MAIN);
-            }
-          } else {
-            id(plug7_ui_state) = false;
-            lv_obj_set_style_bg_color(id(btn_plug7), lv_color_hex(0xFF0000), LV_PART_MAIN);
-          }
-
-          esp_http_client_cleanup(client);
+      - http_request.get:
+          url: "http://${plug7_ip}/switch/kauf_plug"
+          capture_response: true
+          on_response:
+            then:
+              - lambda: |-
+                  bool on = body.find("\"state\":\"ON\"") != std::string::npos;
+                  id(plug7_ui_state) = on;
+                  auto col = on ? lv_color_hex(0x00FF00) : lv_color_hex(0xFF0000);
+                  lv_obj_set_style_bg_color(id(btn_plug7), col, LV_PART_MAIN);
+          on_error:
+            then:
+              - lambda: |-
+                  id(plug7_ui_state) = false;
+                  lv_obj_set_style_bg_color(id(btn_plug7), lv_color_hex(0xFF0000), LV_PART_MAIN);
 
   - id: toggle_plug8_device
     then:
       - logger.log: "Manual: toggling Plug 8"
-      - lambda: |-
-          std::string url = "http://" + id(plug8_ip_input).state + "/switch/kauf_plug/toggle";
-          id(http_client).post(url, "");
+      - http_request.post:
+          url: "http://${plug8_ip}/switch/kauf_plug/toggle"
       - delay: 500ms
       - script.execute: plug8_update_state
 
   - id: plug8_turn_on
     then:
       - logger.log: "Schedule: turning Plug 8 ON"
-      - lambda: |-
-          std::string url = "http://" + id(plug8_ip_input).state + "/switch/kauf_plug/turn_on";
-          id(http_client).post(url, "");
+      - http_request.post:
+          url: "http://${plug8_ip}/switch/kauf_plug/turn_on"
       - delay: 500ms
       - script.execute: plug8_update_state
 
   - id: plug8_turn_off
     then:
       - logger.log: "Schedule: turning Plug 8 OFF"
-      - lambda: |-
-          std::string url = "http://" + id(plug8_ip_input).state + "/switch/kauf_plug/turn_off";
-          id(http_client).post(url, "");
+      - http_request.post:
+          url: "http://${plug8_ip}/switch/kauf_plug/turn_off"
       - delay: 500ms
       - script.execute: plug8_update_state
 
   - id: plug8_update_state
     then:
-      - lambda: |-
-          std::string ip = id(plug8_ip_input).state;
-          std::string url = "http://" + ip + "/switch/kauf_plug";
-
-          esp_http_client_config_t config = {};
-          config.url = url.c_str();
-          config.method = HTTP_METHOD_GET;
-          config.timeout_ms = 3000;
-
-          esp_http_client_handle_t client = esp_http_client_init(&config);
-          esp_err_t err = esp_http_client_perform(client);
-
-          if (err == ESP_OK && esp_http_client_get_status_code(client) == 200) {
-            int content_length = esp_http_client_get_content_length(client);
-            if (content_length > 0 && content_length < 4096) {
-              char *buffer = new char[content_length + 1];
-              int read_len = esp_http_client_read_response(client, buffer, content_length);
-              buffer[read_len] = '\0';
-
-              std::string body(buffer);
-              delete[] buffer;
-
-              bool on = body.find("\"state\":\"ON\"") != std::string::npos;
-              id(plug8_ui_state) = on;
-              auto col = on ? lv_color_hex(0x00FF00) : lv_color_hex(0xFF0000);
-              lv_obj_set_style_bg_color(id(btn_plug8), col, LV_PART_MAIN);
-            } else {
-              id(plug8_ui_state) = false;
-              lv_obj_set_style_bg_color(id(btn_plug8), lv_color_hex(0xFF0000), LV_PART_MAIN);
-            }
-          } else {
-            id(plug8_ui_state) = false;
-            lv_obj_set_style_bg_color(id(btn_plug8), lv_color_hex(0xFF0000), LV_PART_MAIN);
-          }
-
-          esp_http_client_cleanup(client);
+      - http_request.get:
+          url: "http://${plug8_ip}/switch/kauf_plug"
+          capture_response: true
+          on_response:
+            then:
+              - lambda: |-
+                  bool on = body.find("\"state\":\"ON\"") != std::string::npos;
+                  id(plug8_ui_state) = on;
+                  auto col = on ? lv_color_hex(0x00FF00) : lv_color_hex(0xFF0000);
+                  lv_obj_set_style_bg_color(id(btn_plug8), col, LV_PART_MAIN);
+          on_error:
+            then:
+              - lambda: |-
+                  id(plug8_ui_state) = false;
+                  lv_obj_set_style_bg_color(id(btn_plug8), lv_color_hex(0xFF0000), LV_PART_MAIN);
 
 
 font:
@@ -1353,9 +1133,6 @@ lvgl:
   on_ready:
     then:
       - lvgl.page.show:
-          id: boot_screen
-      - delay: 2s
-      - lvgl.page.show:
           id: main_page
       - script.execute: register_activity
       - script.execute: plug1_update_state
@@ -1409,52 +1186,9 @@ lvgl:
           lv_obj_set_style_bg_color(id(btn_plug8_timer),
             id(plug8_schedule_persist) ? lv_color_hex(0x228B22) : lv_color_hex(0x444444),
             LV_PART_MAIN);
+
+                    lv_label_set_text(id(lbl_plug8_text), "PLUG 8");
   pages:
-    # BOOT SPLASH SCREEN
-    - id: boot_screen
-      widgets:
-        - obj:
-            x: 0
-            y: 0
-            width: 800
-            height: 480
-            bg_color: 0x0A0E27  # Deep professional blue-black
-            border_width: 0
-
-        # Main brand title
-        - label:
-            align: center
-            y: -40
-            text: "TotalSense"
-            text_font: font_large
-            text_color: 0x00D4FF  # Bright cyan for tech feel
-
-        # Subtitle
-        - label:
-            align: center
-            y: 20
-            text: "by Jeremy Boven"
-            text_font: font_small
-            text_color: 0x8899AA  # Subtle gray-blue
-
-        # Optional decorative line above
-        - obj:
-            align: center
-            y: -80
-            width: 300
-            height: 3
-            bg_color: 0x00D4FF
-            border_width: 0
-
-        # Optional decorative line below
-        - obj:
-            align: center
-            y: 60
-            width: 200
-            height: 2
-            bg_color: 0x8899AA
-            border_width: 0
-
     # MAIN PAGE
     - id: main_page
       widgets:
@@ -1483,13 +1217,12 @@ lvgl:
             width: 230
             height: 60
             bg_color: 0xFF0000
-            widgets: [{ label: { text: "${plug1_name}", align: center, text_font: font_small }}]
+            widgets: [{ label: { text: "PLUG 1", align: center, text_font: font_small }}]
             on_click:
               then:
                 - script.execute: register_activity
-                - lambda: |-
-                    std::string url = "http://" + id(plug1_ip_input).state + "/switch/kauf_plug/toggle";
-                    id(http_client).post(url, "");
+                - http_request.post:
+                    url: "http://${plug1_ip}/switch/kauf_plug/toggle"
                 - delay: 500ms
                 - script.execute: plug1_update_state
 
@@ -1517,13 +1250,12 @@ lvgl:
             width: 230
             height: 60
             bg_color: 0xFF0000
-            widgets: [{ label: { text: "${plug5_name}", align: center, text_font: font_small }}]
+            widgets: [{ label: { text: "PLUG 5", align: center, text_font: font_small }}]
             on_click:
               then:
                 - script.execute: register_activity
-                - lambda: |-
-                    std::string url = "http://" + id(plug5_ip_input).state + "/switch/kauf_plug/toggle";
-                    id(http_client).post(url, "");
+                - http_request.post:
+                    url: "http://${plug5_ip}/switch/kauf_plug/toggle"
                 - delay: 500ms
                 - script.execute: plug5_update_state
 
@@ -1552,13 +1284,12 @@ lvgl:
             width: 230
             height: 60
             bg_color: 0xFF0000
-            widgets: [{ label: { text: "${plug2_name}", align: center, text_font: font_small }}]
+            widgets: [{ label: { text: "PLUG 2", align: center, text_font: font_small }}]
             on_click:
               then:
                 - script.execute: register_activity
-                - lambda: |-
-                    std::string url = "http://" + id(plug2_ip_input).state + "/switch/kauf_plug/toggle";
-                    id(http_client).post(url, "");
+                - http_request.post:
+                    url: "http://${plug2_ip}/switch/kauf_plug/toggle"
                 - delay: 500ms
                 - script.execute: plug2_update_state
 
@@ -1586,13 +1317,12 @@ lvgl:
             width: 230
             height: 60
             bg_color: 0xFF0000
-            widgets: [{ label: { text: "${plug6_name}", align: center, text_font: font_small }}]
+            widgets: [{ label: { text: "PLUG 6", align: center, text_font: font_small }}]
             on_click:
               then:
                 - script.execute: register_activity
-                - lambda: |-
-                    std::string url = "http://" + id(plug6_ip_input).state + "/switch/kauf_plug/toggle";
-                    id(http_client).post(url, "");
+                - http_request.post:
+                    url: "http://${plug6_ip}/switch/kauf_plug/toggle"
                 - delay: 500ms
                 - script.execute: plug6_update_state
 
@@ -1621,13 +1351,12 @@ lvgl:
             width: 230
             height: 60
             bg_color: 0xFF0000
-            widgets: [{ label: { text: "${plug3_name}", align: center, text_font: font_small }}]
+            widgets: [{ label: { text: "PLUG 3", align: center, text_font: font_small }}]
             on_click:
               then:
                 - script.execute: register_activity
-                - lambda: |-
-                    std::string url = "http://" + id(plug3_ip_input).state + "/switch/kauf_plug/toggle";
-                    id(http_client).post(url, "");
+                - http_request.post:
+                    url: "http://${plug3_ip}/switch/kauf_plug/toggle"
                 - delay: 500ms
                 - script.execute: plug3_update_state
 
@@ -1655,13 +1384,12 @@ lvgl:
             width: 230
             height: 60
             bg_color: 0xFF0000
-            widgets: [{ label: { text: "${plug7_name}", align: center, text_font: font_small }}]
+            widgets: [{ label: { text: "PLUG 7", align: center, text_font: font_small }}]
             on_click:
               then:
                 - script.execute: register_activity
-                - lambda: |-
-                    std::string url = "http://" + id(plug7_ip_input).state + "/switch/kauf_plug/toggle";
-                    id(http_client).post(url, "");
+                - http_request.post:
+                    url: "http://${plug7_ip}/switch/kauf_plug/toggle"
                 - delay: 500ms
                 - script.execute: plug7_update_state
 
@@ -1690,13 +1418,12 @@ lvgl:
             width: 230
             height: 60
             bg_color: 0xFF0000
-            widgets: [{ label: { text: "${plug4_name}", align: center, text_font: font_small }}]
+            widgets: [{ label: { text: "PLUG 4", align: center, text_font: font_small }}]
             on_click:
               then:
                 - script.execute: register_activity
-                - lambda: |-
-                    std::string url = "http://" + id(plug4_ip_input).state + "/switch/kauf_plug/toggle";
-                    id(http_client).post(url, "");
+                - http_request.post:
+                    url: "http://${plug4_ip}/switch/kauf_plug/toggle"
                 - delay: 500ms
                 - script.execute: plug4_update_state
 
@@ -1727,7 +1454,7 @@ lvgl:
             widgets:
               - label:
                   id: lbl_plug8_text     # text label for Plug 8 button
-                  text: "${plug8_name}"         # initial, overridden in on_ready
+                  text: "PLUG 8"         # initial, overridden in on_ready
                   align: center
                   text_font: font_small
             on_click:
@@ -1797,6 +1524,45 @@ lvgl:
                     lv_obj_set_style_bg_color(id(btn_bl_auto), lv_color_hex(0x444444), LV_PART_MAIN);
                 - script.execute: register_activity
 
+        # IP Settings button
+        - button:
+            id: btn_ip_settings
+            x: 380
+            y: 386
+            width: 130
+            height: 50
+            bg_color: 0xFF8800
+            widgets: [{ label: { text: "IP Setup", align: center, text_font: font_small }}]
+            on_click:
+              then:
+                - script.execute: register_activity
+                - lambda: |-
+                    auto fix = [](std::string s)->std::string {
+                      if (s.size() >= 2 && s.front() == '"' && s.back() == '"') return s.substr(1, s.size()-2);
+                      return s;
+                    };
+                    std::string s1 = fix(id(plug1_ip_str));
+                    std::string s2 = fix(id(plug2_ip_str));
+                    std::string s3 = fix(id(plug3_ip_str));
+                    std::string s4 = fix(id(plug4_ip_str));
+                    std::string s5 = fix(id(plug5_ip_str));
+                    std::string s6 = fix(id(plug6_ip_str));
+                    std::string s7 = fix(id(plug7_ip_str));
+                    std::string s8 = fix(id(plug8_ip_str));
+                    lv_textarea_set_text(id(ip1_text), s1.c_str());
+                    lv_textarea_set_text(id(ip2_text), s2.c_str());
+                    lv_textarea_set_text(id(ip3_text), s3.c_str());
+                    lv_textarea_set_text(id(ip4_text), s4.c_str());
+                    lv_textarea_set_text(id(ip5_text), s5.c_str());
+                    lv_textarea_set_text(id(ip6_text), s6.c_str());
+                    lv_textarea_set_text(id(ip7_text), s7.c_str());
+                    lv_textarea_set_text(id(ip8_text), s8.c_str());
+                - lvgl.keyboard.update:
+                    id: keyboard_ip
+                    mode: LV_KEYBOARD_MODE_TEXT_LOWER
+                    textarea: ip1_text
+                - lvgl.page.show: ip_setup_page
+
         # main page clock (bottom right)
         # CLOCK POSITION ADJUSTMENT (moved down 5px)
         - label:
@@ -1814,7 +1580,7 @@ lvgl:
             id: lbl_timer1_title
             x: 20
             y: 10
-            text: "${plug1_name} TIMER"
+            text: "PLUG 1 TIMER"
             text_font: font_large
             text_color: 0xFFFFFF
 
@@ -2145,7 +1911,7 @@ lvgl:
             id: lbl_timer2_title
             x: 20
             y: 10
-            text: "${plug2_name} TIMER"
+            text: "PLUG 2 TIMER"
             text_font: font_large
             text_color: 0xFFFFFF
 
@@ -2476,7 +2242,7 @@ lvgl:
             id: lbl_timer3_title
             x: 20
             y: 10
-            text: "${plug3_name} TIMER"
+            text: "PLUG 3 TIMER"
             text_font: font_large
             text_color: 0xFFFFFF
 
@@ -2807,7 +2573,7 @@ lvgl:
             id: lbl_timer4_title
             x: 20
             y: 10
-            text: "${plug4_name} TIMER"
+            text: "PLUG 4 TIMER"
             text_font: font_large
             text_color: 0xFFFFFF
 
@@ -3138,7 +2904,7 @@ lvgl:
             id: lbl_timer5_title
             x: 20
             y: 10
-            text: "${plug5_name} TIMER"
+            text: "PLUG 5 TIMER"
             text_font: font_large
             text_color: 0xFFFFFF
 
@@ -3469,7 +3235,7 @@ lvgl:
             id: lbl_timer6_title
             x: 20
             y: 10
-            text: "${plug6_name} TIMER"
+            text: "PLUG 6 TIMER"
             text_font: font_large
             text_color: 0xFFFFFF
 
@@ -3800,7 +3566,7 @@ lvgl:
             id: lbl_timer7_title
             x: 20
             y: 10
-            text: "${plug7_name} TIMER"
+            text: "PLUG 7 TIMER"
             text_font: font_large
             text_color: 0xFFFFFF
 
@@ -4131,7 +3897,7 @@ lvgl:
             id: lbl_timer8_title
             x: 20
             y: 10
-            text: "${plug8_name} TIMER"
+            text: "PLUG 8 TIMER"
             text_font: font_large
             text_color: 0xFFFFFF
 
@@ -4454,6 +4220,347 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "OFF: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+
+    # IP ADDRESS SETUP PAGE
+    - id: ip_setup_page
+      widgets:
+        # Background
+        - obj:
+            id: ip_bg
+            x: 0
+            y: 0
+            width: 800
+            height: 480
+            bg_color: 0x101830
+
+        # Title
+        - label:
+            id: lbl_ip_title
+            align: top_mid
+            y: 10
+            text: "IP Address Setup"
+            text_font: font_large
+            text_color: 0xFFFFFF
+
+        # Plug 1 IP
+        - label:
+            text: "Plug 1:"
+            x: 20
+            y: 60
+            text_color: 0xFFFFFF
+            text_font: font_small
+
+        - textarea:
+            id: ip1_text
+            x: 120
+            y: 55
+            width: 200
+            height: 35
+            one_line: true
+            placeholder_text: "192.168.68.76"
+            on_value:
+              then:
+                - lambda: |-
+                    id(plug1_ip_str) = text;
+                    ESP_LOGI("ip_setup", "Plug 1 IP set to: %s", id(plug1_ip_str).c_str());
+            on_click:
+              then:
+                - lvgl.keyboard.update:
+                    id: keyboard_ip
+                    mode: LV_KEYBOARD_MODE_TEXT_LOWER
+                    textarea: ip1_text
+            on_focus:
+              then:
+                - lvgl.keyboard.update:
+                    id: keyboard_ip
+                    mode: LV_KEYBOARD_MODE_TEXT_LOWER
+                    textarea: ip1_text
+
+        # Plug 2 IP
+        - label:
+            text: "Plug 2:"
+            x: 20
+            y: 100
+            text_color: 0xFFFFFF
+            text_font: font_small
+
+        - textarea:
+            id: ip2_text
+            x: 120
+            y: 95
+            width: 200
+            height: 35
+            one_line: true
+            placeholder_text: "192.168.68.200"
+            on_value:
+              then:
+                - lambda: |-
+                    id(plug2_ip_str) = text;
+                    ESP_LOGI("ip_setup", "Plug 2 IP set to: %s", id(plug2_ip_str).c_str());
+            on_click:
+              then:
+                - lvgl.keyboard.update:
+                    id: keyboard_ip
+                    mode: LV_KEYBOARD_MODE_TEXT_LOWER
+                    textarea: ip2_text
+            on_focus:
+              then:
+                - lvgl.keyboard.update:
+                    id: keyboard_ip
+                    mode: LV_KEYBOARD_MODE_TEXT_LOWER
+                    textarea: ip2_text
+
+        # Plug 3 IP
+        - label:
+            text: "Plug 3:"
+            x: 20
+            y: 140
+            text_color: 0xFFFFFF
+            text_font: font_small
+
+        - textarea:
+            id: ip3_text
+            x: 120
+            y: 135
+            width: 200
+            height: 35
+            one_line: true
+            placeholder_text: "192.168.68.201"
+            on_value:
+              then:
+                - lambda: |-
+                    id(plug3_ip_str) = text;
+                    ESP_LOGI("ip_setup", "Plug 3 IP set to: %s", id(plug3_ip_str).c_str());
+            on_click:
+              then:
+                - lvgl.keyboard.update:
+                    id: keyboard_ip
+                    mode: LV_KEYBOARD_MODE_TEXT_LOWER
+                    textarea: ip3_text
+            on_focus:
+              then:
+                - lvgl.keyboard.update:
+                    id: keyboard_ip
+                    mode: LV_KEYBOARD_MODE_TEXT_LOWER
+                    textarea: ip3_text
+
+        # Plug 4 IP
+        - label:
+            text: "Plug 4:"
+            x: 20
+            y: 180
+            text_color: 0xFFFFFF
+            text_font: font_small
+
+        - textarea:
+            id: ip4_text
+            x: 120
+            y: 175
+            width: 200
+            height: 35
+            one_line: true
+            placeholder_text: "192.168.68.202"
+            on_value:
+              then:
+                - lambda: |-
+                    id(plug4_ip_str) = text;
+                    ESP_LOGI("ip_setup", "Plug 4 IP set to: %s", id(plug4_ip_str).c_str());
+            on_click:
+              then:
+                - lvgl.keyboard.update:
+                    id: keyboard_ip
+                    mode: LV_KEYBOARD_MODE_TEXT_LOWER
+                    textarea: ip4_text
+            on_focus:
+              then:
+                - lvgl.keyboard.update:
+                    id: keyboard_ip
+                    mode: LV_KEYBOARD_MODE_TEXT_LOWER
+                    textarea: ip4_text
+
+        # Plug 5 IP
+        - label:
+            text: "Plug 5:"
+            x: 420
+            y: 60
+            text_color: 0xFFFFFF
+            text_font: font_small
+
+        - textarea:
+            id: ip5_text
+            x: 520
+            y: 55
+            width: 200
+            height: 35
+            one_line: true
+            placeholder_text: "192.168.68.203"
+            on_value:
+              then:
+                - lambda: |-
+                    id(plug5_ip_str) = text;
+                    ESP_LOGI("ip_setup", "Plug 5 IP set to: %s", id(plug5_ip_str).c_str());
+            on_click:
+              then:
+                - lvgl.keyboard.update:
+                    id: keyboard_ip
+                    mode: LV_KEYBOARD_MODE_TEXT_LOWER
+                    textarea: ip5_text
+            on_focus:
+              then:
+                - lvgl.keyboard.update:
+                    id: keyboard_ip
+                    mode: LV_KEYBOARD_MODE_TEXT_LOWER
+                    textarea: ip5_text
+
+        # Plug 6 IP
+        - label:
+            text: "Plug 6:"
+            x: 420
+            y: 100
+            text_color: 0xFFFFFF
+            text_font: font_small
+
+        - textarea:
+            id: ip6_text
+            x: 520
+            y: 95
+            width: 200
+            height: 35
+            one_line: true
+            placeholder_text: "192.168.68.204"
+            on_value:
+              then:
+                - lambda: |-
+                    id(plug6_ip_str) = text;
+                    ESP_LOGI("ip_setup", "Plug 6 IP set to: %s", id(plug6_ip_str).c_str());
+            on_click:
+              then:
+                - lvgl.keyboard.update:
+                    id: keyboard_ip
+                    mode: LV_KEYBOARD_MODE_TEXT_LOWER
+                    textarea: ip6_text
+            on_focus:
+              then:
+                - lvgl.keyboard.update:
+                    id: keyboard_ip
+                    mode: LV_KEYBOARD_MODE_TEXT_LOWER
+                    textarea: ip6_text
+
+        # Plug 7 IP
+        - label:
+            text: "Plug 7:"
+            x: 420
+            y: 140
+            text_color: 0xFFFFFF
+            text_font: font_small
+
+        - textarea:
+            id: ip7_text
+            x: 520
+            y: 135
+            width: 200
+            height: 35
+            one_line: true
+            placeholder_text: "192.168.68.205"
+            on_value:
+              then:
+                - lambda: |-
+                    id(plug7_ip_str) = text;
+                    ESP_LOGI("ip_setup", "Plug 7 IP set to: %s", id(plug7_ip_str).c_str());
+            on_click:
+              then:
+                - lvgl.keyboard.update:
+                    id: keyboard_ip
+                    mode: LV_KEYBOARD_MODE_TEXT_LOWER
+                    textarea: ip7_text
+            on_focus:
+              then:
+                - lvgl.keyboard.update:
+                    id: keyboard_ip
+                    mode: LV_KEYBOARD_MODE_TEXT_LOWER
+                    textarea: ip7_text
+
+        # Plug 8 IP
+        - label:
+            text: "Plug 8:"
+            x: 420
+            y: 180
+            text_color: 0xFFFFFF
+            text_font: font_small
+
+        - textarea:
+            id: ip8_text
+            x: 520
+            y: 175
+            width: 200
+            height: 35
+            one_line: true
+            placeholder_text: "192.168.68.206"
+            on_value:
+              then:
+                - lambda: |-
+                    id(plug8_ip_str) = text;
+                    ESP_LOGI("ip_setup", "Plug 8 IP set to: %s", id(plug8_ip_str).c_str());
+            on_click:
+              then:
+                - lvgl.keyboard.update:
+                    id: keyboard_ip
+                    mode: LV_KEYBOARD_MODE_TEXT_LOWER
+                    textarea: ip8_text
+            on_focus:
+              then:
+                - lvgl.keyboard.update:
+                    id: keyboard_ip
+                    mode: LV_KEYBOARD_MODE_TEXT_LOWER
+                    textarea: ip8_text
+
+        # On-screen Keyboard
+        - keyboard:
+            id: keyboard_ip
+            x: 0
+            y: 230
+            width: 800
+            height: 200
+            mode: LV_KEYBOARD_MODE_TEXT_LOWER
+            textarea: ip1_text
+
+        # Save Button
+        - button:
+            id: btn_ip_save
+            x: 250
+            y: 420
+            width: 150
+            height: 45
+            bg_color: 0x228B22
+            widgets:
+              - label:
+                  text: "Save IPs"
+                  align: center
+                  text_font: font_small
+            on_click:
+              then:
+                - logger.log:
+                    format: "IP addresses saved"
+                    level: INFO
+                    tag: ip_setup
+                - lvgl.page.show: main_page
+
+        # Back Button
+        - button:
+            id: btn_ip_back
+            x: 420
+            y: 420
+            width: 150
+            height: 45
+            bg_color: 0x444444
+            widgets:
+              - label:
+                  text: "Back"
+                  align: center
+                  text_font: font_small
+            on_click:
+              then:
+                - lvgl.page.show: main_page
 
 interval:
   - interval: 10s
