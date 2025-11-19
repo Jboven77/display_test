@@ -209,6 +209,47 @@ globals:
     max_restore_data_length: 20
     initial_value: '"192.168.68.206"'
 
+  # Timer Schedule State (persisted across boots)
+  - id: plug1_schedule_persist
+    type: bool
+    restore_value: yes
+    initial_value: "false"
+
+  - id: plug2_schedule_persist
+    type: bool
+    restore_value: yes
+    initial_value: "false"
+
+  - id: plug3_schedule_persist
+    type: bool
+    restore_value: yes
+    initial_value: "false"
+
+  - id: plug4_schedule_persist
+    type: bool
+    restore_value: yes
+    initial_value: "false"
+
+  - id: plug5_schedule_persist
+    type: bool
+    restore_value: yes
+    initial_value: "false"
+
+  - id: plug6_schedule_persist
+    type: bool
+    restore_value: yes
+    initial_value: "false"
+
+  - id: plug7_schedule_persist
+    type: bool
+    restore_value: yes
+    initial_value: "false"
+
+  - id: plug8_schedule_persist
+    type: bool
+    restore_value: yes
+    initial_value: "false"
+
   # ================================
 switch:
   # CH422G backlight power
