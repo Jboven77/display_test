@@ -386,7 +386,7 @@ script:
       - logger.log: "Schedule: turning Plug 1 ON"
       - lambda: |-
           std::string url = "http://" + id(plug1_ip_input).state + "/switch/kauf_plug/turn_on";
-          id(http_client).post(url);
+          id(http_client).post(url, "");
       - delay: 500ms
       - script.execute: plug1_update_state
 
@@ -395,7 +395,7 @@ script:
       - logger.log: "Schedule: turning Plug 1 OFF"
       - lambda: |-
           std::string url = "http://" + id(plug1_ip_input).state + "/switch/kauf_plug/turn_off";
-          id(http_client).post(url);
+          id(http_client).post(url, "");
       - delay: 500ms
       - script.execute: plug1_update_state
 
@@ -404,7 +404,7 @@ script:
       - logger.log: "Schedule: turning Plug 2 ON"
       - lambda: |-
           std::string url = "http://" + id(plug2_ip_input).state + "/switch/kauf_plug/turn_on";
-          id(http_client).post(url);
+          id(http_client).post(url, "");
       - delay: 500ms
       - script.execute: plug2_update_state
 
@@ -413,7 +413,7 @@ script:
       - logger.log: "Schedule: turning Plug 2 OFF"
       - lambda: |-
           std::string url = "http://" + id(plug2_ip_input).state + "/switch/kauf_plug/turn_off";
-          id(http_client).post(url);
+          id(http_client).post(url, "");
       - delay: 500ms
       - script.execute: plug2_update_state
 
@@ -422,7 +422,7 @@ script:
       - logger.log: "Schedule: turning Plug 3 ON"
       - lambda: |-
           std::string url = "http://" + id(plug3_ip_input).state + "/switch/kauf_plug/turn_on";
-          id(http_client).post(url);
+          id(http_client).post(url, "");
       - delay: 500ms
       - script.execute: plug3_update_state
 
@@ -431,7 +431,7 @@ script:
       - logger.log: "Schedule: turning Plug 3 OFF"
       - lambda: |-
           std::string url = "http://" + id(plug3_ip_input).state + "/switch/kauf_plug/turn_off";
-          id(http_client).post(url);
+          id(http_client).post(url, "");
       - delay: 500ms
       - script.execute: plug3_update_state
 
@@ -440,7 +440,7 @@ script:
       - logger.log: "Schedule: turning Plug 4 ON"
       - lambda: |-
           std::string url = "http://" + id(plug4_ip_input).state + "/switch/kauf_plug/turn_on";
-          id(http_client).post(url);
+          id(http_client).post(url, "");
       - delay: 500ms
       - script.execute: plug4_update_state
 
@@ -449,7 +449,7 @@ script:
       - logger.log: "Schedule: turning Plug 4 OFF"
       - lambda: |-
           std::string url = "http://" + id(plug4_ip_input).state + "/switch/kauf_plug/turn_off";
-          id(http_client).post(url);
+          id(http_client).post(url, "");
       - delay: 500ms
       - script.execute: plug4_update_state
 
@@ -458,7 +458,7 @@ script:
       - logger.log: "Schedule: turning Plug 5 ON"
       - lambda: |-
           std::string url = "http://" + id(plug5_ip_input).state + "/switch/kauf_plug/turn_on";
-          id(http_client).post(url);
+          id(http_client).post(url, "");
       - delay: 500ms
       - script.execute: plug5_update_state
 
@@ -467,7 +467,7 @@ script:
       - logger.log: "Schedule: turning Plug 5 OFF"
       - lambda: |-
           std::string url = "http://" + id(plug5_ip_input).state + "/switch/kauf_plug/turn_off";
-          id(http_client).post(url);
+          id(http_client).post(url, "");
       - delay: 500ms
       - script.execute: plug5_update_state
 
@@ -476,7 +476,7 @@ script:
       - logger.log: "Schedule: turning Plug 6 ON"
       - lambda: |-
           std::string url = "http://" + id(plug6_ip_input).state + "/switch/kauf_plug/turn_on";
-          id(http_client).post(url);
+          id(http_client).post(url, "");
       - delay: 500ms
       - script.execute: plug6_update_state
 
@@ -485,7 +485,7 @@ script:
       - logger.log: "Schedule: turning Plug 6 OFF"
       - lambda: |-
           std::string url = "http://" + id(plug6_ip_input).state + "/switch/kauf_plug/turn_off";
-          id(http_client).post(url);
+          id(http_client).post(url, "");
       - delay: 500ms
       - script.execute: plug6_update_state
 
@@ -494,7 +494,7 @@ script:
       - logger.log: "Schedule: turning Plug 7 ON"
       - lambda: |-
           std::string url = "http://" + id(plug7_ip_input).state + "/switch/kauf_plug/turn_on";
-          id(http_client).post(url);
+          id(http_client).post(url, "");
       - delay: 500ms
       - script.execute: plug7_update_state
 
@@ -503,7 +503,7 @@ script:
       - logger.log: "Schedule: turning Plug 7 OFF"
       - lambda: |-
           std::string url = "http://" + id(plug7_ip_input).state + "/switch/kauf_plug/turn_off";
-          id(http_client).post(url);
+          id(http_client).post(url, "");
       - delay: 500ms
       - script.execute: plug7_update_state
 
@@ -788,7 +788,7 @@ script:
       - logger.log: "Manual: toggling Plug 8"
       - lambda: |-
           std::string url = "http://" + id(plug8_ip_input).state + "/switch/kauf_plug/toggle";
-          id(http_client).post(url);
+          id(http_client).post(url, "");
       - delay: 500ms
       - script.execute: plug8_update_state
 
@@ -797,7 +797,7 @@ script:
       - logger.log: "Schedule: turning Plug 8 ON"
       - lambda: |-
           std::string url = "http://" + id(plug8_ip_input).state + "/switch/kauf_plug/turn_on";
-          id(http_client).post(url);
+          id(http_client).post(url, "");
       - delay: 500ms
       - script.execute: plug8_update_state
 
@@ -806,7 +806,7 @@ script:
       - logger.log: "Schedule: turning Plug 8 OFF"
       - lambda: |-
           std::string url = "http://" + id(plug8_ip_input).state + "/switch/kauf_plug/turn_off";
-          id(http_client).post(url);
+          id(http_client).post(url, "");
       - delay: 500ms
       - script.execute: plug8_update_state
 
@@ -1489,7 +1489,7 @@ lvgl:
                 - script.execute: register_activity
                 - lambda: |-
                     std::string url = "http://" + id(plug1_ip_input).state + "/switch/kauf_plug/toggle";
-                    id(http_client).post(url);
+                    id(http_client).post(url, "");
                 - delay: 500ms
                 - script.execute: plug1_update_state
 
@@ -1523,7 +1523,7 @@ lvgl:
                 - script.execute: register_activity
                 - lambda: |-
                     std::string url = "http://" + id(plug5_ip_input).state + "/switch/kauf_plug/toggle";
-                    id(http_client).post(url);
+                    id(http_client).post(url, "");
                 - delay: 500ms
                 - script.execute: plug5_update_state
 
@@ -1558,7 +1558,7 @@ lvgl:
                 - script.execute: register_activity
                 - lambda: |-
                     std::string url = "http://" + id(plug2_ip_input).state + "/switch/kauf_plug/toggle";
-                    id(http_client).post(url);
+                    id(http_client).post(url, "");
                 - delay: 500ms
                 - script.execute: plug2_update_state
 
@@ -1592,7 +1592,7 @@ lvgl:
                 - script.execute: register_activity
                 - lambda: |-
                     std::string url = "http://" + id(plug6_ip_input).state + "/switch/kauf_plug/toggle";
-                    id(http_client).post(url);
+                    id(http_client).post(url, "");
                 - delay: 500ms
                 - script.execute: plug6_update_state
 
@@ -1627,7 +1627,7 @@ lvgl:
                 - script.execute: register_activity
                 - lambda: |-
                     std::string url = "http://" + id(plug3_ip_input).state + "/switch/kauf_plug/toggle";
-                    id(http_client).post(url);
+                    id(http_client).post(url, "");
                 - delay: 500ms
                 - script.execute: plug3_update_state
 
@@ -1661,7 +1661,7 @@ lvgl:
                 - script.execute: register_activity
                 - lambda: |-
                     std::string url = "http://" + id(plug7_ip_input).state + "/switch/kauf_plug/toggle";
-                    id(http_client).post(url);
+                    id(http_client).post(url, "");
                 - delay: 500ms
                 - script.execute: plug7_update_state
 
@@ -1696,7 +1696,7 @@ lvgl:
                 - script.execute: register_activity
                 - lambda: |-
                     std::string url = "http://" + id(plug4_ip_input).state + "/switch/kauf_plug/toggle";
-                    id(http_client).post(url);
+                    id(http_client).post(url, "");
                 - delay: 500ms
                 - script.execute: plug4_update_state
 
