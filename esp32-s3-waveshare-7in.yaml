@@ -29,8 +29,6 @@ esp32:
   cpu_frequency: 240MHz
   framework:
     type: esp-idf
-    advanced:
-      enable_idf_experimental_features: true
     sdkconfig_options:
       COMPILER_OPTIMIZATION_SIZE: y
       CONFIG_ESP32S3_DATA_CACHE_64KB: "y"
@@ -40,7 +38,6 @@ esp32:
       CONFIG_ESPTOOLPY_FLASHMODE_QIO: y
       CONFIG_ESPTOOLPY_FLASHFREQ_120M: y
       CONFIG_SPIRAM_MODE_OCT: y
-      CONFIG_IDF_EXPERIMENTAL_FEATURES: y
       CONFIG_SPIRAM_SPEED_120M: y
       CONFIG_SPIRAM_FETCH_INSTRUCTIONS: y
       CONFIG_SPIRAM_RODATA: y
