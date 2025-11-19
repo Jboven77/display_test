@@ -30,7 +30,7 @@ esphome:
     board_upload.maximum_ram_size: 524288
 
 psram:
-  mode: octal
+  mode: quad
   speed: 80MHz
 
 esp32:
@@ -48,7 +48,7 @@ esp32:
       CONFIG_ESP_DEFAULT_CPU_FREQ_MHZ_240: y
       CONFIG_ESPTOOLPY_FLASHMODE_QIO: y
       CONFIG_ESPTOOLPY_FLASHFREQ_120M: y
-      CONFIG_SPIRAM_MODE_OCT: y
+      CONFIG_SPIRAM_MODE_QUAD: y
       CONFIG_SPIRAM_SPEED_80M: y
       CONFIG_SPIRAM_FETCH_INSTRUCTIONS: y
       CONFIG_SPIRAM_RODATA: y
@@ -1144,6 +1144,9 @@ lvgl:
   on_ready:
     then:
       - lvgl.page.show:
+          id: boot_screen
+      - delay: 2s
+      - lvgl.page.show:
           id: main_page
       - script.execute: register_activity
       - script.execute: plug1_update_state
@@ -1198,6 +1201,51 @@ lvgl:
             id(plug8_schedule_persist) ? lv_color_hex(0x228B22) : lv_color_hex(0x444444),
             LV_PART_MAIN);
   pages:
+    # BOOT SPLASH SCREEN
+    - id: boot_screen
+      widgets:
+        - obj:
+            x: 0
+            y: 0
+            width: 800
+            height: 480
+            bg_color: 0x0A0E27  # Deep professional blue-black
+            border_width: 0
+
+        # Main brand title
+        - label:
+            align: center
+            y: -40
+            text: "TotalSense"
+            text_font: font_large
+            text_color: 0x00D4FF  # Bright cyan for tech feel
+
+        # Subtitle
+        - label:
+            align: center
+            y: 20
+            text: "by Jeremy Boven"
+            text_font: font_small
+            text_color: 0x8899AA  # Subtle gray-blue
+
+        # Optional decorative line above
+        - obj:
+            align: center
+            y: -80
+            width: 300
+            height: 3
+            bg_color: 0x00D4FF
+            border_width: 0
+
+        # Optional decorative line below
+        - obj:
+            align: center
+            y: 60
+            width: 200
+            height: 2
+            bg_color: 0x8899AA
+            border_width: 0
+
     # MAIN PAGE
     - id: main_page
       widgets:
