@@ -1,0 +1,63 @@
+name: Build ESPHome Firmware
+
+on:
+  push:
+    branches:
+      - 'claude/**'
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Cache pip packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements*.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install ESPHome
+        run: |
+          pip install esphome
+
+      - name: Build firmware
+        run: |
+          esphome compile esp32-s3-waveshare-7in.yaml
+
+      - name: Copy firmware files
+        run: |
+          mkdir -p firmware
+          cp .esphome/build/waveshare-esp32-s3-7in/.pioenvs/waveshare-esp32-s3-7in/firmware.bin firmware/waveshare-esp32-s3-7in.bin || true
+          cp .esphome/build/waveshare-esp32-s3-7in/.pioenvs/waveshare-esp32-s3-7in/firmware.elf firmware/waveshare-esp32-s3-7in.elf || true
+          cp .esphome/build/waveshare-esp32-s3-7in/.pioenvs/waveshare-esp32-s3-7in/partitions.bin firmware/partitions.bin || true
+          cp .esphome/build/waveshare-esp32-s3-7in/.pioenvs/waveshare-esp32-s3-7in/bootloader.bin firmware/bootloader.bin || true
+
+      - name: Upload firmware as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: esphome-firmware-${{ github.sha }}
+          path: firmware/
+          retention-days: 30
+
+      - name: Create Release (on main branch)
+        if: github.ref == 'refs/heads/main'
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: firmware-${{ github.run_number }}
+          name: ESPHome Firmware Build ${{ github.run_number }}
+          files: firmware/*
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
