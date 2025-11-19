@@ -2153,10 +2153,18 @@ lvgl:
             id: lbl_timer1_title
             x: 20
             y: 10
-            text: !lambda |- 
+            text: !lambda |-
                 return id(plug1_name) + std::string(" TIMER");
             text_font: font_large
             text_color: 0xFFFFFF
+
+        - label:
+            id: lbl_timer1_ip
+            x: 20
+            y: 45
+            text: !lambda return ("IP: " + id(plug1_ip_str)).c_str();
+            text_font: font_small
+            text_color: 0x00FF00
 
         - label:
             id: lbl_timer1_clock
@@ -2490,6 +2498,14 @@ lvgl:
             text_color: 0xFFFFFF
 
         - label:
+            id: lbl_timer2_ip
+            x: 20
+            y: 45
+            text: !lambda return ("IP: " + id(plug2_ip_str)).c_str();
+            text_font: font_small
+            text_color: 0x00FF00
+
+        - label:
             id: lbl_timer2_clock
             x: 520
             y: 20
@@ -2818,6 +2834,14 @@ lvgl:
                 return id(plug3_name) + std::string(" TIMER");
             text_font: font_large
             text_color: 0xFFFFFF
+
+        - label:
+            id: lbl_timer3_ip
+            x: 20
+            y: 45
+            text: !lambda return ("IP: " + id(plug3_ip_str)).c_str();
+            text_font: font_small
+            text_color: 0x00FF00
 
         - label:
             id: lbl_timer3_clock
@@ -3150,6 +3174,14 @@ lvgl:
             text_color: 0xFFFFFF
 
         - label:
+            id: lbl_timer4_ip
+            x: 20
+            y: 45
+            text: !lambda return ("IP: " + id(plug4_ip_str)).c_str();
+            text_font: font_small
+            text_color: 0x00FF00
+
+        - label:
             id: lbl_timer4_clock
             x: 520
             y: 20
@@ -3478,6 +3510,14 @@ lvgl:
                 return id(plug5_name) + std::string(" TIMER");
             text_font: font_large
             text_color: 0xFFFFFF
+
+        - label:
+            id: lbl_timer5_ip
+            x: 20
+            y: 45
+            text: !lambda return ("IP: " + id(plug5_ip_str)).c_str();
+            text_font: font_small
+            text_color: 0x00FF00
 
         - label:
             id: lbl_timer5_clock
@@ -3810,6 +3850,14 @@ lvgl:
             text_color: 0xFFFFFF
 
         - label:
+            id: lbl_timer6_ip
+            x: 20
+            y: 45
+            text: !lambda return ("IP: " + id(plug6_ip_str)).c_str();
+            text_font: font_small
+            text_color: 0x00FF00
+
+        - label:
             id: lbl_timer6_clock
             x: 520
             y: 20
@@ -4140,6 +4188,14 @@ lvgl:
             text_color: 0xFFFFFF
 
         - label:
+            id: lbl_timer7_ip
+            x: 20
+            y: 45
+            text: !lambda return ("IP: " + id(plug7_ip_str)).c_str();
+            text_font: font_small
+            text_color: 0x00FF00
+
+        - label:
             id: lbl_timer7_clock
             x: 520
             y: 20
@@ -4468,6 +4524,14 @@ lvgl:
                 return id(plug8_name) + std::string(" TIMER");
             text_font: font_large
             text_color: 0xFFFFFF
+
+        - label:
+            id: lbl_timer8_ip
+            x: 20
+            y: 45
+            text: !lambda return ("IP: " + id(plug8_ip_str)).c_str();
+            text_font: font_small
+            text_color: 0x00FF00
 
         - label:
             id: lbl_timer8_clock
