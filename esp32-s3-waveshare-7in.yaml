@@ -1376,23 +1376,7 @@ lvgl:
       - delay: 2s
       - lvgl.page.show:
           id: main_page
-      # Initialize all plug states and sensors
-      - script.execute: plug1_update_state
-      - script.execute: plug2_update_state
-      - script.execute: plug3_update_state
-      - script.execute: plug4_update_state
-      - script.execute: plug5_update_state
-      - script.execute: plug6_update_state
-      - script.execute: plug7_update_state
-      - script.execute: plug8_update_state
-      - script.execute: plug1_update_sensors
-      - script.execute: plug2_update_sensors
-      - script.execute: plug3_update_sensors
-      - script.execute: plug4_update_sensors
-      - script.execute: plug5_update_sensors
-      - script.execute: plug6_update_sensors
-      - script.execute: plug7_update_sensors
-      - script.execute: plug8_update_sensors
+      # Initialize time display only - sensors/states will update on intervals
       - lambda: |-
           auto now = id(sntp_time).now();
           if (!now.is_valid()) return;
