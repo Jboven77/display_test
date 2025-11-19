@@ -37,7 +37,7 @@ esp32:
   board: esp32-s3-devkitc-1
   variant: ESP32S3
   flash_size: 8MB
-  cpu_frequency: 240MHz
+  cpu_frequency: 160MHz
   framework:
     type: esp-idf
     sdkconfig_options:
@@ -45,7 +45,7 @@ esp32:
       CONFIG_ESP32S3_DATA_CACHE_64KB: "y"
       CONFIG_ESPTOOLPY_FLASHSIZE_8MB: "y"
       CONFIG_FREERTOS_HZ: "1000"
-      CONFIG_ESP_DEFAULT_CPU_FREQ_MHZ_240: y
+      CONFIG_ESP_DEFAULT_CPU_FREQ_MHZ_160: y
       CONFIG_ESPTOOLPY_FLASHMODE_QIO: y
       CONFIG_ESPTOOLPY_FLASHFREQ_120M: y
       CONFIG_SPIRAM_MODE_QUAD: y
