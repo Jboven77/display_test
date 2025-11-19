@@ -1,4 +1,5 @@
 substitutions:
+  # PLUG IP ADDRESSES - Change these to match your plugs
   plug1_ip: "192.168.68.79"
   plug2_ip: "192.168.68.77"
   plug3_ip: "192.168.68.76"
@@ -7,6 +8,16 @@ substitutions:
   plug6_ip: "192.168.68.204"
   plug7_ip: "192.168.68.205"
   plug8_ip: "192.168.68.206"
+
+  # PLUG BUTTON NAMES - Change these to customize button labels (max 12 characters)
+  plug1_name: "PLUG 1"
+  plug2_name: "PLUG 2"
+  plug3_name: "PLUG 3"
+  plug4_name: "PLUG 4"
+  plug5_name: "PLUG 5"
+  plug6_name: "PLUG 6"
+  plug7_name: "PLUG 7"
+  plug8_name: "PLUG 8"
 
 esphome:
   name: waveshare-esp32-s3-7in
@@ -160,123 +171,89 @@ globals:
     restore_value: no
     initial_value: "false"
 
-  ###############################################################################
-  # PLUG IP ADDRESSES - EDIT THESE TO CHANGE PLUG IPs
-  ###############################################################################
-  # Change the initial_value to match your plug IP addresses
-  # Format: initial_value: '"192.168.1.100"' (keep the quotes!)
-  ###############################################################################
-
+  # Plug IP addresses (configured in substitutions at top of file)
   - id: plug1_ip_str
     type: std::string
     restore_value: yes
     max_restore_data_length: 20
-    initial_value: '"192.168.68.79"'
-
+    initial_value: '"${plug1_ip}"'
   - id: plug2_ip_str
     type: std::string
     restore_value: yes
     max_restore_data_length: 20
-    initial_value: '"192.168.68.77"'
-
+    initial_value: '"${plug2_ip}"'
   - id: plug3_ip_str
     type: std::string
     restore_value: yes
     max_restore_data_length: 20
-    initial_value: '"192.168.68.76"'
-
+    initial_value: '"${plug3_ip}"'
   - id: plug4_ip_str
     type: std::string
     restore_value: yes
     max_restore_data_length: 20
-    initial_value: '"192.168.68.75"'
-
+    initial_value: '"${plug4_ip}"'
   - id: plug5_ip_str
     type: std::string
     restore_value: yes
     max_restore_data_length: 20
-    initial_value: '"192.168.68.203"'
-
+    initial_value: '"${plug5_ip}"'
   - id: plug6_ip_str
     type: std::string
     restore_value: yes
     max_restore_data_length: 20
-    initial_value: '"192.168.68.204"'
-
+    initial_value: '"${plug6_ip}"'
   - id: plug7_ip_str
     type: std::string
     restore_value: yes
     max_restore_data_length: 20
-    initial_value: '"192.168.68.205"'
-
+    initial_value: '"${plug7_ip}"'
   - id: plug8_ip_str
     type: std::string
     restore_value: yes
     max_restore_data_length: 20
-    initial_value: '"192.168.68.206"'
+    initial_value: '"${plug8_ip}"'
 
-  ###############################################################################
-  # END PLUG IP ADDRESSES
-  ###############################################################################
-
-  ###############################################################################
-  # PLUG NAMES - EDIT THESE TO CHANGE PLUG DISPLAY NAMES
-  ###############################################################################
-  # Change the initial_value to customize each plug's name on the display
-  # Maximum 12 characters recommended for best display
-  ###############################################################################
-
+  # Plug button names (configured in substitutions at top of file)
   - id: plug1_name
     type: std::string
     restore_value: yes
     max_restore_data_length: 30
-    initial_value: '"PLUG 1"'
-
+    initial_value: '"${plug1_name}"'
   - id: plug2_name
     type: std::string
     restore_value: yes
     max_restore_data_length: 30
-    initial_value: '"PLUG 2"'
-
+    initial_value: '"${plug2_name}"'
   - id: plug3_name
     type: std::string
     restore_value: yes
     max_restore_data_length: 30
-    initial_value: '"PLUG 3"'
-
+    initial_value: '"${plug3_name}"'
   - id: plug4_name
     type: std::string
     restore_value: yes
     max_restore_data_length: 30
-    initial_value: '"PLUG 4"'
-
+    initial_value: '"${plug4_name}"'
   - id: plug5_name
     type: std::string
     restore_value: yes
     max_restore_data_length: 30
-    initial_value: '"PLUG 5"'
-
+    initial_value: '"${plug5_name}"'
   - id: plug6_name
     type: std::string
     restore_value: yes
     max_restore_data_length: 30
-    initial_value: '"PLUG 6"'
-
+    initial_value: '"${plug6_name}"'
   - id: plug7_name
     type: std::string
     restore_value: yes
     max_restore_data_length: 30
-    initial_value: '"PLUG 7"'
-
+    initial_value: '"${plug7_name}"'
   - id: plug8_name
     type: std::string
     restore_value: yes
     max_restore_data_length: 30
-    initial_value: '"PLUG 8"'
-
-  ###############################################################################
-  # END PLUG NAMES
-  ###############################################################################
+    initial_value: '"${plug8_name}"'
 
 
   - id: plug1_schedule_persist
