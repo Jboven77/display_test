@@ -20,7 +20,7 @@ esphome:
 
 psram:
   mode: octal
-  speed: 120MHz
+  speed: 80MHz
 
 esp32:
   board: esp32-s3-devkitc-1
@@ -38,7 +38,7 @@ esp32:
       CONFIG_ESPTOOLPY_FLASHMODE_QIO: y
       CONFIG_ESPTOOLPY_FLASHFREQ_120M: y
       CONFIG_SPIRAM_MODE_OCT: y
-      CONFIG_SPIRAM_SPEED_120M: y
+      CONFIG_SPIRAM_SPEED_80M: y
       CONFIG_SPIRAM_FETCH_INSTRUCTIONS: y
       CONFIG_SPIRAM_RODATA: y
       CONFIG_ESP32S3_DATA_CACHE_LINE_64B: y
@@ -51,6 +51,16 @@ wifi:
   password: "605506Jdb"
   power_save_mode: NONE
   reboot_timeout: 0s   # prevent auto reboot on Wi-Fi idle
+  on_connect:
+    then:
+      - script.execute: plug1_update_state
+      - script.execute: plug2_update_state
+      - script.execute: plug3_update_state
+      - script.execute: plug4_update_state
+      - script.execute: plug5_update_state
+      - script.execute: plug6_update_state
+      - script.execute: plug7_update_state
+      - script.execute: plug8_update_state
 
   ap:
     ssid: "WaveshareS3-7in Fallback"
