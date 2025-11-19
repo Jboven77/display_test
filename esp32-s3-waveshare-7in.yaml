@@ -6301,16 +6301,17 @@ interval:
     then:
       - script.execute: bl_auto_off_check
 
-  # CRITICAL: Delayed startup - wait 30s after boot before fetching plug info
-  - interval: 30s
-    then:
-      - if:
-          condition:
-            wifi.connected:
-          then:
-            - script.execute: fetch_all_plug_info
+  # DISABLED: Automatic plug info fetch causes watchdog crashes with unreachable IPs
+  # Users can manually refresh from the plug info page if needed
+  # - interval: 30s
+  #   then:
+  #     - if:
+  #         condition:
+  #           wifi.connected:
+  #         then:
+  #           - script.execute: fetch_all_plug_info
 
-  # Periodic state checks
+  # Periodic state checks - Only for plugs 1-4 to avoid watchdog with dummy IPs on 5-8
   - interval: 15s
     then:
       - if:
@@ -6318,13 +6319,22 @@ interval:
             wifi.connected:
           then:
             - script.execute: plug1_update_state
+            - delay: 100ms
             - script.execute: plug2_update_state
+            - delay: 100ms
             - script.execute: plug3_update_state
+            - delay: 100ms
             - script.execute: plug4_update_state
-            - script.execute: plug5_update_state
-            - script.execute: plug6_update_state
-            - script.execute: plug7_update_state
-            - script.execute: plug8_update_state
+            # Plugs 5-8 disabled until valid IPs configured via IP Setup page
+            # Uncomment these after configuring valid IPs:
+            # - delay: 100ms
+            # - script.execute: plug5_update_state
+            # - delay: 100ms
+            # - script.execute: plug6_update_state
+            # - delay: 100ms
+            # - script.execute: plug7_update_state
+            # - delay: 100ms
+            # - script.execute: plug8_update_state
 
   # Clock update
   - interval: 10s
