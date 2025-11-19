@@ -1970,8 +1970,8 @@ lvgl:
             id: lbl_main_title
             align: top_mid
             y: 10
-            text: "Boven Household Smart-Plug Control"
-            text_font: font_small
+            text: "Smart-Home Controller"
+            text_font: font_large
             text_color: 0xFFFFFF
 
         # PLUG 1
