@@ -11,12 +11,6 @@ substitutions:
 esphome:
   name: waveshare-esp32-s3-7in
   friendly_name: Waveshare ESP32-S3 7in
-  min_version: "2025.4.2"
-  platformio_options:
-    build_flags: "-DBOARD_HAS_PSRAM"
-    board_build.arduino.memory_type: qio_opi
-    board_build.flash_mode: dio
-    board_upload.maximum_ram_size: 524288
 
 psram:
   mode: octal
@@ -25,27 +19,8 @@ psram:
 esp32:
   board: esp32-s3-devkitc-1
   variant: ESP32S3
-  flash_size: 8MB
-  cpu_frequency: 240MHz
   framework:
     type: esp-idf
-    advanced:
-      enable_idf_experimental_features: true
-    sdkconfig_options:
-      COMPILER_OPTIMIZATION_SIZE: y
-      CONFIG_ESP32S3_DATA_CACHE_64KB: "y"
-      CONFIG_ESPTOOLPY_FLASHSIZE_8MB: "y"
-      CONFIG_FREERTOS_HZ: "1000"
-      CONFIG_ESP_DEFAULT_CPU_FREQ_MHZ_240: y
-      CONFIG_ESPTOOLPY_FLASHMODE_QIO: y
-      CONFIG_ESPTOOLPY_FLASHFREQ_120M: y
-      CONFIG_SPIRAM_MODE_OCT: y
-      CONFIG_IDF_EXPERIMENTAL_FEATURES: y
-      CONFIG_SPIRAM_SPEED_120M: y
-      CONFIG_SPIRAM_FETCH_INSTRUCTIONS: y
-      CONFIG_SPIRAM_RODATA: y
-      CONFIG_ESP32S3_DATA_CACHE_LINE_64B: y
-      CONFIG_COMPILER_OPTIMIZATION_PERF: y
 
 logger:
 
