@@ -1542,6 +1542,31 @@ lvgl:
             on_click:
               then:
                 - script.execute: register_activity
+                - lambda: |-
+                    auto fix = [](std::string s)->std::string {
+                      if (s.size() >= 2 && s.front() == '"' && s.back() == '"') return s.substr(1, s.size()-2);
+                      return s;
+                    };
+                    std::string s1 = fix(id(plug1_ip_str));
+                    std::string s2 = fix(id(plug2_ip_str));
+                    std::string s3 = fix(id(plug3_ip_str));
+                    std::string s4 = fix(id(plug4_ip_str));
+                    std::string s5 = fix(id(plug5_ip_str));
+                    std::string s6 = fix(id(plug6_ip_str));
+                    std::string s7 = fix(id(plug7_ip_str));
+                    std::string s8 = fix(id(plug8_ip_str));
+                    lv_textarea_set_text(id(ip1_text), s1.c_str());
+                    lv_textarea_set_text(id(ip2_text), s2.c_str());
+                    lv_textarea_set_text(id(ip3_text), s3.c_str());
+                    lv_textarea_set_text(id(ip4_text), s4.c_str());
+                    lv_textarea_set_text(id(ip5_text), s5.c_str());
+                    lv_textarea_set_text(id(ip6_text), s6.c_str());
+                    lv_textarea_set_text(id(ip7_text), s7.c_str());
+                    lv_textarea_set_text(id(ip8_text), s8.c_str());
+                - lvgl.keyboard.update:
+                    id: keyboard_ip
+                    mode: LV_KEYBOARD_MODE_NUMBER
+                    textarea: ip1_text
                 - lvgl.page.show: ip_setup_page
 
         # main page clock (bottom right)
