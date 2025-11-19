@@ -85,7 +85,7 @@ mqtt:
 
 http_request:
   id: http_client
-  timeout: 300ms
+  timeout: 1.5s
 
 i2c:
   sda: GPIO08
