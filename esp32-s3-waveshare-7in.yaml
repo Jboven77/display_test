@@ -96,7 +96,7 @@ mqtt:
 
 http_request:
   id: http_client
-  timeout: 1.5s
+  timeout: 800ms
 
 i2c:
   sda: GPIO08
@@ -2118,14 +2118,13 @@ lvgl:
                     lv_obj_set_style_bg_color(id(btn_bl_auto), lv_color_hex(0x444444), LV_PART_MAIN);
                 - script.execute: register_activity
 
-        # Main page clock - centered and larger
+        # Main page clock
         - label:
             id: lbl_main_time
-            align: center
-            x: 400
-            y: 375
+            x: 655
+            y: 393
             text: "--:-- --"
-            text_font: font_xlarge
+            text_font: font_large
             text_color: 0xFFFFFF
 
     # TIMER PAGES - Plug 1
@@ -4906,25 +4905,6 @@ interval:
   - interval: 10s
     then:
       - script.execute: bl_auto_off_check
-
-  # ONE-TIME startup state fetch for plugs 1-4 (runs once after 5 seconds)
-  - interval: 5s
-    id: one_time_startup
-    then:
-      - if:
-          condition:
-            wifi.connected:
-          then:
-            - logger.log: "Initial state fetch for plugs 1-4"
-            - script.execute: plug1_update_state
-            - delay: 200ms
-            - script.execute: plug2_update_state
-            - delay: 200ms
-            - script.execute: plug3_update_state
-            - delay: 200ms
-            - script.execute: plug4_update_state
-            - delay: 500ms
-            - logger.log: "Initial state fetch complete"
 
   # Periodic state checks - Only for plugs 1-4 to avoid watchdog with dummy IPs on 5-8
   - interval: 15s
