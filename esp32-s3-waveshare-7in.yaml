@@ -1552,7 +1552,7 @@ lvgl:
                     lv_textarea_set_text(id(ip8_text), s8.c_str());
                 - lvgl.keyboard.update:
                     id: keyboard_ip
-                    mode: LV_KEYBOARD_MODE_NUMBER
+                    mode: LV_KEYBOARD_MODE_TEXT_LOWER
                     textarea: ip1_text
                 - lvgl.page.show: ip_setup_page
 
@@ -4260,7 +4260,7 @@ lvgl:
               then:
                 - lvgl.keyboard.update:
                     id: keyboard_ip
-                    mode: LV_KEYBOARD_MODE_NUMBER
+                    mode: LV_KEYBOARD_MODE_TEXT_LOWER
                     textarea: ip1_text
                 - lvgl.widget.show:
                     id: keyboard_ip
@@ -4268,7 +4268,7 @@ lvgl:
               then:
                 - lvgl.keyboard.update:
                     id: keyboard_ip
-                    mode: LV_KEYBOARD_MODE_NUMBER
+                    mode: LV_KEYBOARD_MODE_TEXT_LOWER
                     textarea: ip1_text
                 - lvgl.widget.show:
                     id: keyboard_ip
@@ -4298,7 +4298,7 @@ lvgl:
               then:
                 - lvgl.keyboard.update:
                     id: keyboard_ip
-                    mode: LV_KEYBOARD_MODE_NUMBER
+                    mode: LV_KEYBOARD_MODE_TEXT_LOWER
                     textarea: ip2_text
                 - lvgl.widget.show:
                     id: keyboard_ip
@@ -4306,7 +4306,7 @@ lvgl:
               then:
                 - lvgl.keyboard.update:
                     id: keyboard_ip
-                    mode: LV_KEYBOARD_MODE_NUMBER
+                    mode: LV_KEYBOARD_MODE_TEXT_LOWER
                     textarea: ip2_text
                 - lvgl.widget.show:
                     id: keyboard_ip
@@ -4336,7 +4336,7 @@ lvgl:
               then:
                 - lvgl.keyboard.update:
                     id: keyboard_ip
-                    mode: LV_KEYBOARD_MODE_NUMBER
+                    mode: LV_KEYBOARD_MODE_TEXT_LOWER
                     textarea: ip3_text
                 - lvgl.widget.show:
                     id: keyboard_ip
@@ -4344,7 +4344,7 @@ lvgl:
               then:
                 - lvgl.keyboard.update:
                     id: keyboard_ip
-                    mode: LV_KEYBOARD_MODE_NUMBER
+                    mode: LV_KEYBOARD_MODE_TEXT_LOWER
                     textarea: ip3_text
                 - lvgl.widget.show:
                     id: keyboard_ip
@@ -4374,7 +4374,7 @@ lvgl:
               then:
                 - lvgl.keyboard.update:
                     id: keyboard_ip
-                    mode: LV_KEYBOARD_MODE_NUMBER
+                    mode: LV_KEYBOARD_MODE_TEXT_LOWER
                     textarea: ip4_text
                 - lvgl.widget.show:
                     id: keyboard_ip
@@ -4382,7 +4382,7 @@ lvgl:
               then:
                 - lvgl.keyboard.update:
                     id: keyboard_ip
-                    mode: LV_KEYBOARD_MODE_NUMBER
+                    mode: LV_KEYBOARD_MODE_TEXT_LOWER
                     textarea: ip4_text
                 - lvgl.widget.show:
                     id: keyboard_ip
@@ -4412,7 +4412,7 @@ lvgl:
               then:
                 - lvgl.keyboard.update:
                     id: keyboard_ip
-                    mode: LV_KEYBOARD_MODE_NUMBER
+                    mode: LV_KEYBOARD_MODE_TEXT_LOWER
                     textarea: ip5_text
                 - lvgl.widget.show:
                     id: keyboard_ip
@@ -4420,7 +4420,7 @@ lvgl:
               then:
                 - lvgl.keyboard.update:
                     id: keyboard_ip
-                    mode: LV_KEYBOARD_MODE_NUMBER
+                    mode: LV_KEYBOARD_MODE_TEXT_LOWER
                     textarea: ip5_text
                 - lvgl.widget.show:
                     id: keyboard_ip
@@ -4450,7 +4450,7 @@ lvgl:
               then:
                 - lvgl.keyboard.update:
                     id: keyboard_ip
-                    mode: LV_KEYBOARD_MODE_NUMBER
+                    mode: LV_KEYBOARD_MODE_TEXT_LOWER
                     textarea: ip6_text
                 - lvgl.widget.show:
                     id: keyboard_ip
@@ -4458,7 +4458,7 @@ lvgl:
               then:
                 - lvgl.keyboard.update:
                     id: keyboard_ip
-                    mode: LV_KEYBOARD_MODE_NUMBER
+                    mode: LV_KEYBOARD_MODE_TEXT_LOWER
                     textarea: ip6_text
                 - lvgl.widget.show:
                     id: keyboard_ip
@@ -4488,7 +4488,7 @@ lvgl:
               then:
                 - lvgl.keyboard.update:
                     id: keyboard_ip
-                    mode: LV_KEYBOARD_MODE_NUMBER
+                    mode: LV_KEYBOARD_MODE_TEXT_LOWER
                     textarea: ip7_text
                 - lvgl.widget.show:
                     id: keyboard_ip
@@ -4496,7 +4496,7 @@ lvgl:
               then:
                 - lvgl.keyboard.update:
                     id: keyboard_ip
-                    mode: LV_KEYBOARD_MODE_NUMBER
+                    mode: LV_KEYBOARD_MODE_TEXT_LOWER
                     textarea: ip7_text
                 - lvgl.widget.show:
                     id: keyboard_ip
@@ -4526,7 +4526,7 @@ lvgl:
               then:
                 - lvgl.keyboard.update:
                     id: keyboard_ip
-                    mode: LV_KEYBOARD_MODE_NUMBER
+                    mode: LV_KEYBOARD_MODE_TEXT_LOWER
                     textarea: ip8_text
                 - lvgl.widget.show:
                     id: keyboard_ip
@@ -4534,7 +4534,7 @@ lvgl:
               then:
                 - lvgl.keyboard.update:
                     id: keyboard_ip
-                    mode: LV_KEYBOARD_MODE_NUMBER
+                    mode: LV_KEYBOARD_MODE_TEXT_LOWER
                     textarea: ip8_text
                 - lvgl.widget.show:
                     id: keyboard_ip
@@ -4546,7 +4546,7 @@ lvgl:
             y: 230
             width: 800
             height: 200
-            mode: LV_KEYBOARD_MODE_NUMBER
+            mode: LV_KEYBOARD_MODE_TEXT_LOWER
             textarea: ip1_text
             hidden: true
 
