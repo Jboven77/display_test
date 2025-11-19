@@ -4848,21 +4848,29 @@ lvgl:
             then:
             - lvgl.page.show: main_page
 
-    # IP CONFIGURATION PAGE
 interval:
   - interval: 10s
     then:
       - script.execute: bl_auto_off_check
 
-  # DISABLED: Automatic plug info fetch causes watchdog crashes with unreachable IPs
-  # Users can manually refresh from the plug info page if needed
-  # - interval: 30s
-  #   then:
-  #     - if:
-  #         condition:
-  #           wifi.connected:
-  #         then:
-  #           - script.execute: fetch_all_plug_info
+  # ONE-TIME startup state fetch for plugs 1-4 (runs once after 5 seconds)
+  - interval: 5s
+    id: one_time_startup
+    then:
+      - if:
+          condition:
+            wifi.connected:
+          then:
+            - logger.log: "Initial state fetch for plugs 1-4"
+            - script.execute: plug1_update_state
+            - delay: 200ms
+            - script.execute: plug2_update_state
+            - delay: 200ms
+            - script.execute: plug3_update_state
+            - delay: 200ms
+            - script.execute: plug4_update_state
+            - delay: 500ms
+            - logger.log: "Initial state fetch complete"
 
   # Periodic state checks - Only for plugs 1-4 to avoid watchdog with dummy IPs on 5-8
   - interval: 15s
