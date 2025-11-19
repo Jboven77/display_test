@@ -43,21 +43,58 @@ jobs:
           cp .esphome/build/waveshare-esp32-s3-7in/.pioenvs/waveshare-esp32-s3-7in/partitions.bin firmware/partitions.bin || true
           cp .esphome/build/waveshare-esp32-s3-7in/.pioenvs/waveshare-esp32-s3-7in/bootloader.bin firmware/bootloader.bin || true
 
+      - name: Get short SHA
+        id: slug
+        run: echo "sha_short=$(echo ${{ github.sha }} | cut -c1-7)" >> $GITHUB_OUTPUT
+
+      - name: Get branch name
+        id: branch
+        run: echo "branch_name=$(echo ${GITHUB_REF#refs/heads/} | sed 's/\//-/g')" >> $GITHUB_OUTPUT
+
       - name: Upload firmware as artifact
         uses: actions/upload-artifact@v4
         with:
-          name: esphome-firmware-${{ github.sha }}
+          name: esphome-firmware-${{ steps.slug.outputs.sha_short }}
           path: firmware/
           retention-days: 30
 
-      - name: Create Release (on main branch)
-        if: github.ref == 'refs/heads/main'
+      - name: Delete old releases
+        continue-on-error: true
+        run: |
+          gh release list --limit 100 | grep "firmware-" | awk '{print $1}' | tail -n +6 | xargs -I {} gh release delete {} -y
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create Release with Direct Download Link
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: firmware-${{ github.run_number }}
-          name: ESPHome Firmware Build ${{ github.run_number }}
+          tag_name: firmware-${{ steps.branch.outputs.branch_name }}-${{ steps.slug.outputs.sha_short }}
+          name: "Firmware: ${{ steps.branch.outputs.branch_name }} (${{ steps.slug.outputs.sha_short }})"
           files: firmware/*
           draft: false
-          prerelease: false
+          prerelease: true
+          body: |
+            ## 📥 Direct Download Links
+
+            **Main Firmware File:**
+            [⬇️ Download waveshare-esp32-s3-7in.bin](https://github.com/${{ github.repository }}/releases/download/firmware-${{ steps.branch.outputs.branch_name }}-${{ steps.slug.outputs.sha_short }}/waveshare-esp32-s3-7in.bin)
+
+            **All Files:**
+            - [waveshare-esp32-s3-7in.bin](https://github.com/${{ github.repository }}/releases/download/firmware-${{ steps.branch.outputs.branch_name }}-${{ steps.slug.outputs.sha_short }}/waveshare-esp32-s3-7in.bin) - Main firmware
+            - [bootloader.bin](https://github.com/${{ github.repository }}/releases/download/firmware-${{ steps.branch.outputs.branch_name }}-${{ steps.slug.outputs.sha_short }}/bootloader.bin) - Bootloader
+            - [partitions.bin](https://github.com/${{ github.repository }}/releases/download/firmware-${{ steps.branch.outputs.branch_name }}-${{ steps.slug.outputs.sha_short }}/partitions.bin) - Partition table
+
+            ---
+
+            **Branch:** `${{ steps.branch.outputs.branch_name }}`
+            **Commit:** `${{ steps.slug.outputs.sha_short }}`
+            **Build:** #${{ github.run_number }}
+
+            ## 🔧 How to Flash
+
+            1. Download the main firmware file above
+            2. Go to https://web.esphome.io/
+            3. Connect your ESP32-S3 via USB
+            4. Click "Install" and upload the .bin file
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
