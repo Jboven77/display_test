@@ -4224,7 +4224,13 @@ lvgl:
               then:
                 - lvgl.keyboard.update:
                     id: keyboard_ip
-                    mode: LV_KEYBOARD_MODE_TEXT_LOWER
+                    mode: LV_KEYBOARD_MODE_NUMBER
+                    textarea: ip1_text
+            on_focus:
+              then:
+                - lvgl.keyboard.update:
+                    id: keyboard_ip
+                    mode: LV_KEYBOARD_MODE_NUMBER
                     textarea: ip1_text
 
         # Plug 2 IP
@@ -4252,7 +4258,13 @@ lvgl:
               then:
                 - lvgl.keyboard.update:
                     id: keyboard_ip
-                    mode: LV_KEYBOARD_MODE_TEXT_LOWER
+                    mode: LV_KEYBOARD_MODE_NUMBER
+                    textarea: ip2_text
+            on_focus:
+              then:
+                - lvgl.keyboard.update:
+                    id: keyboard_ip
+                    mode: LV_KEYBOARD_MODE_NUMBER
                     textarea: ip2_text
 
         # Plug 3 IP
@@ -4280,7 +4292,13 @@ lvgl:
               then:
                 - lvgl.keyboard.update:
                     id: keyboard_ip
-                    mode: LV_KEYBOARD_MODE_TEXT_LOWER
+                    mode: LV_KEYBOARD_MODE_NUMBER
+                    textarea: ip3_text
+            on_focus:
+              then:
+                - lvgl.keyboard.update:
+                    id: keyboard_ip
+                    mode: LV_KEYBOARD_MODE_NUMBER
                     textarea: ip3_text
 
         # Plug 4 IP
@@ -4308,7 +4326,13 @@ lvgl:
               then:
                 - lvgl.keyboard.update:
                     id: keyboard_ip
-                    mode: LV_KEYBOARD_MODE_TEXT_LOWER
+                    mode: LV_KEYBOARD_MODE_NUMBER
+                    textarea: ip4_text
+            on_focus:
+              then:
+                - lvgl.keyboard.update:
+                    id: keyboard_ip
+                    mode: LV_KEYBOARD_MODE_NUMBER
                     textarea: ip4_text
 
         # Plug 5 IP
@@ -4336,7 +4360,13 @@ lvgl:
               then:
                 - lvgl.keyboard.update:
                     id: keyboard_ip
-                    mode: LV_KEYBOARD_MODE_TEXT_LOWER
+                    mode: LV_KEYBOARD_MODE_NUMBER
+                    textarea: ip5_text
+            on_focus:
+              then:
+                - lvgl.keyboard.update:
+                    id: keyboard_ip
+                    mode: LV_KEYBOARD_MODE_NUMBER
                     textarea: ip5_text
 
         # Plug 6 IP
@@ -4364,7 +4394,13 @@ lvgl:
               then:
                 - lvgl.keyboard.update:
                     id: keyboard_ip
-                    mode: LV_KEYBOARD_MODE_TEXT_LOWER
+                    mode: LV_KEYBOARD_MODE_NUMBER
+                    textarea: ip6_text
+            on_focus:
+              then:
+                - lvgl.keyboard.update:
+                    id: keyboard_ip
+                    mode: LV_KEYBOARD_MODE_NUMBER
                     textarea: ip6_text
 
         # Plug 7 IP
@@ -4392,7 +4428,13 @@ lvgl:
               then:
                 - lvgl.keyboard.update:
                     id: keyboard_ip
-                    mode: LV_KEYBOARD_MODE_TEXT_LOWER
+                    mode: LV_KEYBOARD_MODE_NUMBER
+                    textarea: ip7_text
+            on_focus:
+              then:
+                - lvgl.keyboard.update:
+                    id: keyboard_ip
+                    mode: LV_KEYBOARD_MODE_NUMBER
                     textarea: ip7_text
 
         # Plug 8 IP
@@ -4420,7 +4462,13 @@ lvgl:
               then:
                 - lvgl.keyboard.update:
                     id: keyboard_ip
-                    mode: LV_KEYBOARD_MODE_TEXT_LOWER
+                    mode: LV_KEYBOARD_MODE_NUMBER
+                    textarea: ip8_text
+            on_focus:
+              then:
+                - lvgl.keyboard.update:
+                    id: keyboard_ip
+                    mode: LV_KEYBOARD_MODE_NUMBER
                     textarea: ip8_text
 
         # On-screen Keyboard
@@ -4429,7 +4477,7 @@ lvgl:
             y: 230
             width: 800
             height: 200
-            mode: LV_KEYBOARD_MODE_TEXT_LOWER
+            mode: LV_KEYBOARD_MODE_NUMBER
             textarea: ip1_text
 
         # Save Button
