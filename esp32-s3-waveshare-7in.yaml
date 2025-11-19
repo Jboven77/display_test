@@ -1106,6 +1106,7 @@ font:
 time:
   - platform: sntp
     id: sntp_time
+    timezone: America/Detroit  # Eastern Time - Michigan (Zip 49456)
 
 number:
   - platform: template
