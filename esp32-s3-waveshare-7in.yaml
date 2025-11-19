@@ -20,8 +20,8 @@ substitutions:
   plug8_name: "PLUG 8"
 
 esphome:
-  name: waveshare-esp32-s3-7in
-  friendly_name: Waveshare ESP32-S3 7in
+  name: plugs
+  friendly_name: TotalSense Plugs
   min_version: "2025.4.2"
   platformio_options:
     build_flags: "-DBOARD_HAS_PSRAM"
