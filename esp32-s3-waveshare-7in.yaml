@@ -19,17 +19,17 @@ substitutions:
   plug7_name: "PLUG 7"
   plug8_name: "PLUG 8"
 
-  # PLUG ENABLE/DISABLE - Set to "ON" to enable state checking, "OFF" to disable
+  # PLUG ENABLE/DISABLE - Set to "true" to enable state checking, "false" to disable
   # Disabled plugs will still show on screen but won't be checked for state updates
   # Use this to prevent timeouts from unplugged/offline devices
-  plug1_enabled: "ON"
-  plug2_enabled: "ON"
-  plug3_enabled: "ON"
-  plug4_enabled: "ON"
-  plug5_enabled: "OFF"   # Not connected - disable to prevent timeouts
-  plug6_enabled: "OFF"   # Not connected - disable to prevent timeouts
-  plug7_enabled: "OFF"   # Not connected - disable to prevent timeouts
-  plug8_enabled: "OFF"   # Not connected - disable to prevent timeouts
+  plug1_enabled: "true"
+  plug2_enabled: "true"
+  plug3_enabled: "true"
+  plug4_enabled: "true"
+  plug5_enabled: "false"   # Not connected - disable to prevent timeouts
+  plug6_enabled: "false"   # Not connected - disable to prevent timeouts
+  plug7_enabled: "false"   # Not connected - disable to prevent timeouts
+  plug8_enabled: "false"   # Not connected - disable to prevent timeouts
 
 esphome:
   name: waveshare-esp32-s3-7in
@@ -170,35 +170,35 @@ globals:
   - id: plug1_enabled
     type: bool
     restore_value: no
-    initial_value: '${plug1_enabled} == "ON"'
+    initial_value: '${plug1_enabled}'
   - id: plug2_enabled
     type: bool
     restore_value: no
-    initial_value: '${plug2_enabled} == "ON"'
+    initial_value: '${plug2_enabled}'
   - id: plug3_enabled
     type: bool
     restore_value: no
-    initial_value: '${plug3_enabled} == "ON"'
+    initial_value: '${plug3_enabled}'
   - id: plug4_enabled
     type: bool
     restore_value: no
-    initial_value: '${plug4_enabled} == "ON"'
+    initial_value: '${plug4_enabled}'
   - id: plug5_enabled
     type: bool
     restore_value: no
-    initial_value: '${plug5_enabled} == "ON"'
+    initial_value: '${plug5_enabled}'
   - id: plug6_enabled
     type: bool
     restore_value: no
-    initial_value: '${plug6_enabled} == "ON"'
+    initial_value: '${plug6_enabled}'
   - id: plug7_enabled
     type: bool
     restore_value: no
-    initial_value: '${plug7_enabled} == "ON"'
+    initial_value: '${plug7_enabled}'
   - id: plug8_enabled
     type: bool
     restore_value: no
-    initial_value: '${plug8_enabled} == "ON"'
+    initial_value: '${plug8_enabled}'
 
   - id: plug1_ui_state
     type: bool
