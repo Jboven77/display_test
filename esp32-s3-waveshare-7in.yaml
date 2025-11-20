@@ -83,6 +83,9 @@ esp32:
 logger:
   level: ERROR  # Reduced from WARN for better performance
 
+preferences:
+  flash_write_interval: 1s  # Save to flash every 1 second (default is 60s)
+
 wifi:
   ssid: "JEREMY"
   password: "605506Jdb"
@@ -762,6 +765,13 @@ script:
           if (id(plug7_enabled)) { id(plug7_update_state).execute(); delay(1000); }
           if (id(plug8_enabled)) { id(plug8_update_state).execute(); delay(1000); }
           ESP_LOGI("Startup", "All enabled plug states checked");
+
+  - id: save_timer_settings
+    then:
+      - delay: 100ms  # Small delay to ensure all changes are applied
+      - lambda: |-
+          global_preferences->sync();
+          ESP_LOGI("Persist", "Timer settings saved to flash");
 
   - id: plug1_turn_on
     then:
@@ -2306,6 +2316,7 @@ lvgl:
                     } else {
                       id(plug1_schedule_enabled).turn_on();
                     }
+                - script.execute: save_timer_settings
 
         - label:
             id: lbl1_on_time
@@ -2339,6 +2350,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "ON: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn1_on_hour_plus
@@ -2364,6 +2376,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "ON: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn1_on_minute_minus
@@ -2389,6 +2402,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "ON: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn1_on_minute_plus
@@ -2414,6 +2428,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "ON: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn1_on_ampm
@@ -2432,7 +2447,9 @@ lvgl:
               then:
                 - lambda: |-
                     auto cur = id(plug1_on_ampm).state;
-                    id(plug1_on_ampm).publish_state(cur == "AM" ? "PM" : "AM");
+                    std::string new_val = cur == "AM" ? "PM" : "AM";
+                    id(plug1_on_ampm_persist) = new_val;
+                    id(plug1_on_ampm).publish_state(new_val);
                 - lvgl.label.update:
                     id: lbl1_on_ampm
                     text: !lambda |-
@@ -2446,6 +2463,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "ON: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - label:
             id: lbl1_off_time
@@ -2479,6 +2497,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "OFF: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn1_off_hour_plus
@@ -2504,6 +2523,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "OFF: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn1_off_minute_minus
@@ -2529,6 +2549,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "OFF: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn1_off_minute_plus
@@ -2554,6 +2575,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "OFF: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn1_off_ampm
@@ -2572,7 +2594,9 @@ lvgl:
               then:
                 - lambda: |-
                     auto cur = id(plug1_off_ampm).state;
-                    id(plug1_off_ampm).publish_state(cur == "AM" ? "PM" : "AM");
+                    std::string new_val = cur == "AM" ? "PM" : "AM";
+                    id(plug1_off_ampm_persist) = new_val;
+                    id(plug1_off_ampm).publish_state(new_val);
                 - lvgl.label.update:
                     id: lbl1_off_ampm
                     text: !lambda |-
@@ -2586,6 +2610,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "OFF: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
 
     # TIMER PAGES - Plug 2
@@ -2687,6 +2712,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "ON: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn2_on_hour_plus
@@ -2712,6 +2738,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "ON: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn2_on_minute_minus
@@ -2737,6 +2764,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "ON: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn2_on_minute_plus
@@ -2762,6 +2790,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "ON: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn2_on_ampm
@@ -2780,7 +2809,9 @@ lvgl:
               then:
                 - lambda: |-
                     auto cur = id(plug2_on_ampm).state;
-                    id(plug2_on_ampm).publish_state(cur == "AM" ? "PM" : "AM");
+                    std::string new_val = cur == "AM" ? "PM" : "AM";
+                    id(plug2_on_ampm_persist) = new_val;
+                    id(plug2_on_ampm).publish_state(new_val);
                 - lvgl.label.update:
                     id: lbl2_on_ampm
                     text: !lambda |-
@@ -2794,6 +2825,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "ON: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - label:
             id: lbl2_off_time
@@ -2827,6 +2859,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "OFF: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn2_off_hour_plus
@@ -2852,6 +2885,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "OFF: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn2_off_minute_minus
@@ -2877,6 +2911,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "OFF: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn2_off_minute_plus
@@ -2902,6 +2937,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "OFF: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn2_off_ampm
@@ -2920,7 +2956,9 @@ lvgl:
               then:
                 - lambda: |-
                     auto cur = id(plug2_off_ampm).state;
-                    id(plug2_off_ampm).publish_state(cur == "AM" ? "PM" : "AM");
+                    std::string new_val = cur == "AM" ? "PM" : "AM";
+                    id(plug2_off_ampm_persist) = new_val;
+                    id(plug2_off_ampm).publish_state(new_val);
                 - lvgl.label.update:
                     id: lbl2_off_ampm
                     text: !lambda |-
@@ -2934,6 +2972,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "OFF: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
     # TIMER PAGES - Plug 3
     - id: plug3_timer_page
@@ -3034,6 +3073,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "ON: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn3_on_hour_plus
@@ -3059,6 +3099,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "ON: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn3_on_minute_minus
@@ -3084,6 +3125,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "ON: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn3_on_minute_plus
@@ -3109,6 +3151,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "ON: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn3_on_ampm
@@ -3127,7 +3170,9 @@ lvgl:
               then:
                 - lambda: |-
                     auto cur = id(plug3_on_ampm).state;
-                    id(plug3_on_ampm).publish_state(cur == "AM" ? "PM" : "AM");
+                    std::string new_val = cur == "AM" ? "PM" : "AM";
+                    id(plug3_on_ampm_persist) = new_val;
+                    id(plug3_on_ampm).publish_state(new_val);
                 - lvgl.label.update:
                     id: lbl3_on_ampm
                     text: !lambda |-
@@ -3141,6 +3186,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "ON: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - label:
             id: lbl3_off_time
@@ -3174,6 +3220,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "OFF: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn3_off_hour_plus
@@ -3199,6 +3246,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "OFF: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn3_off_minute_minus
@@ -3224,6 +3272,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "OFF: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn3_off_minute_plus
@@ -3249,6 +3298,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "OFF: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn3_off_ampm
@@ -3267,7 +3317,9 @@ lvgl:
               then:
                 - lambda: |-
                     auto cur = id(plug3_off_ampm).state;
-                    id(plug3_off_ampm).publish_state(cur == "AM" ? "PM" : "AM");
+                    std::string new_val = cur == "AM" ? "PM" : "AM";
+                    id(plug3_off_ampm_persist) = new_val;
+                    id(plug3_off_ampm).publish_state(new_val);
                 - lvgl.label.update:
                     id: lbl3_off_ampm
                     text: !lambda |-
@@ -3281,6 +3333,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "OFF: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
     # TIMER PAGES - Plug 4
     - id: plug4_timer_page
@@ -3381,6 +3434,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "ON: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn4_on_hour_plus
@@ -3406,6 +3460,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "ON: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn4_on_minute_minus
@@ -3431,6 +3486,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "ON: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn4_on_minute_plus
@@ -3456,6 +3512,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "ON: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn4_on_ampm
@@ -3474,7 +3531,9 @@ lvgl:
               then:
                 - lambda: |-
                     auto cur = id(plug4_on_ampm).state;
-                    id(plug4_on_ampm).publish_state(cur == "AM" ? "PM" : "AM");
+                    std::string new_val = cur == "AM" ? "PM" : "AM";
+                    id(plug4_on_ampm_persist) = new_val;
+                    id(plug4_on_ampm).publish_state(new_val);
                 - lvgl.label.update:
                     id: lbl4_on_ampm
                     text: !lambda |-
@@ -3488,6 +3547,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "ON: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - label:
             id: lbl4_off_time
@@ -3521,6 +3581,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "OFF: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn4_off_hour_plus
@@ -3546,6 +3607,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "OFF: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn4_off_minute_minus
@@ -3571,6 +3633,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "OFF: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn4_off_minute_plus
@@ -3596,6 +3659,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "OFF: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn4_off_ampm
@@ -3614,7 +3678,9 @@ lvgl:
               then:
                 - lambda: |-
                     auto cur = id(plug4_off_ampm).state;
-                    id(plug4_off_ampm).publish_state(cur == "AM" ? "PM" : "AM");
+                    std::string new_val = cur == "AM" ? "PM" : "AM";
+                    id(plug4_off_ampm_persist) = new_val;
+                    id(plug4_off_ampm).publish_state(new_val);
                 - lvgl.label.update:
                     id: lbl4_off_ampm
                     text: !lambda |-
@@ -3628,6 +3694,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "OFF: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
     # TIMER PAGES - Plug 5
     - id: plug5_timer_page
@@ -3728,6 +3795,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "ON: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn5_on_hour_plus
@@ -3753,6 +3821,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "ON: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn5_on_minute_minus
@@ -3778,6 +3847,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "ON: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn5_on_minute_plus
@@ -3803,6 +3873,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "ON: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn5_on_ampm
@@ -3821,7 +3892,9 @@ lvgl:
               then:
                 - lambda: |-
                     auto cur = id(plug5_on_ampm).state;
-                    id(plug5_on_ampm).publish_state(cur == "AM" ? "PM" : "AM");
+                    std::string new_val = cur == "AM" ? "PM" : "AM";
+                    id(plug5_on_ampm_persist) = new_val;
+                    id(plug5_on_ampm).publish_state(new_val);
                 - lvgl.label.update:
                     id: lbl5_on_ampm
                     text: !lambda |-
@@ -3835,6 +3908,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "ON: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - label:
             id: lbl5_off_time
@@ -3868,6 +3942,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "OFF: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn5_off_hour_plus
@@ -3893,6 +3968,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "OFF: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn5_off_minute_minus
@@ -3918,6 +3994,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "OFF: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn5_off_minute_plus
@@ -3943,6 +4020,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "OFF: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn5_off_ampm
@@ -3961,7 +4039,9 @@ lvgl:
               then:
                 - lambda: |-
                     auto cur = id(plug5_off_ampm).state;
-                    id(plug5_off_ampm).publish_state(cur == "AM" ? "PM" : "AM");
+                    std::string new_val = cur == "AM" ? "PM" : "AM";
+                    id(plug5_off_ampm_persist) = new_val;
+                    id(plug5_off_ampm).publish_state(new_val);
                 - lvgl.label.update:
                     id: lbl5_off_ampm
                     text: !lambda |-
@@ -3975,6 +4055,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "OFF: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
     # TIMER PAGES - Plug 6
     - id: plug6_timer_page
@@ -4075,6 +4156,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "ON: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn6_on_hour_plus
@@ -4100,6 +4182,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "ON: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn6_on_minute_minus
@@ -4125,6 +4208,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "ON: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn6_on_minute_plus
@@ -4150,6 +4234,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "ON: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn6_on_ampm
@@ -4168,7 +4253,9 @@ lvgl:
               then:
                 - lambda: |-
                     auto cur = id(plug6_on_ampm).state;
-                    id(plug6_on_ampm).publish_state(cur == "AM" ? "PM" : "AM");
+                    std::string new_val = cur == "AM" ? "PM" : "AM";
+                    id(plug6_on_ampm_persist) = new_val;
+                    id(plug6_on_ampm).publish_state(new_val);
                 - lvgl.label.update:
                     id: lbl6_on_ampm
                     text: !lambda |-
@@ -4182,6 +4269,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "ON: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - label:
             id: lbl6_off_time
@@ -4215,6 +4303,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "OFF: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn6_off_hour_plus
@@ -4240,6 +4329,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "OFF: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn6_off_minute_minus
@@ -4265,6 +4355,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "OFF: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn6_off_minute_plus
@@ -4290,6 +4381,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "OFF: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn6_off_ampm
@@ -4308,7 +4400,9 @@ lvgl:
               then:
                 - lambda: |-
                     auto cur = id(plug6_off_ampm).state;
-                    id(plug6_off_ampm).publish_state(cur == "AM" ? "PM" : "AM");
+                    std::string new_val = cur == "AM" ? "PM" : "AM";
+                    id(plug6_off_ampm_persist) = new_val;
+                    id(plug6_off_ampm).publish_state(new_val);
                 - lvgl.label.update:
                     id: lbl6_off_ampm
                     text: !lambda |-
@@ -4322,6 +4416,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "OFF: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
     # TIMER PAGES - Plug 7
     - id: plug7_timer_page
@@ -4422,6 +4517,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "ON: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn7_on_hour_plus
@@ -4447,6 +4543,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "ON: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn7_on_minute_minus
@@ -4472,6 +4569,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "ON: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn7_on_minute_plus
@@ -4497,6 +4595,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "ON: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn7_on_ampm
@@ -4515,7 +4614,9 @@ lvgl:
               then:
                 - lambda: |-
                     auto cur = id(plug7_on_ampm).state;
-                    id(plug7_on_ampm).publish_state(cur == "AM" ? "PM" : "AM");
+                    std::string new_val = cur == "AM" ? "PM" : "AM";
+                    id(plug7_on_ampm_persist) = new_val;
+                    id(plug7_on_ampm).publish_state(new_val);
                 - lvgl.label.update:
                     id: lbl7_on_ampm
                     text: !lambda |-
@@ -4529,6 +4630,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "ON: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - label:
             id: lbl7_off_time
@@ -4562,6 +4664,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "OFF: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn7_off_hour_plus
@@ -4587,6 +4690,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "OFF: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn7_off_minute_minus
@@ -4612,6 +4716,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "OFF: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn7_off_minute_plus
@@ -4637,6 +4742,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "OFF: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn7_off_ampm
@@ -4655,7 +4761,9 @@ lvgl:
               then:
                 - lambda: |-
                     auto cur = id(plug7_off_ampm).state;
-                    id(plug7_off_ampm).publish_state(cur == "AM" ? "PM" : "AM");
+                    std::string new_val = cur == "AM" ? "PM" : "AM";
+                    id(plug7_off_ampm_persist) = new_val;
+                    id(plug7_off_ampm).publish_state(new_val);
                 - lvgl.label.update:
                     id: lbl7_off_ampm
                     text: !lambda |-
@@ -4669,6 +4777,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "OFF: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
     # TIMER PAGES - Plug 8
     - id: plug8_timer_page
@@ -4769,6 +4878,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "ON: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn8_on_hour_plus
@@ -4794,6 +4904,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "ON: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn8_on_minute_minus
@@ -4819,6 +4930,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "ON: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn8_on_minute_plus
@@ -4844,6 +4956,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "ON: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn8_on_ampm
@@ -4862,7 +4975,9 @@ lvgl:
               then:
                 - lambda: |-
                     auto cur = id(plug8_on_ampm).state;
-                    id(plug8_on_ampm).publish_state(cur == "AM" ? "PM" : "AM");
+                    std::string new_val = cur == "AM" ? "PM" : "AM";
+                    id(plug8_on_ampm_persist) = new_val;
+                    id(plug8_on_ampm).publish_state(new_val);
                 - lvgl.label.update:
                     id: lbl8_on_ampm
                     text: !lambda |-
@@ -4876,6 +4991,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "ON: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - label:
             id: lbl8_off_time
@@ -4909,6 +5025,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "OFF: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn8_off_hour_plus
@@ -4934,6 +5051,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "OFF: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn8_off_minute_minus
@@ -4959,6 +5077,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "OFF: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn8_off_minute_plus
@@ -4984,6 +5103,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "OFF: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
         - button:
             id: btn8_off_ampm
@@ -5002,7 +5122,9 @@ lvgl:
               then:
                 - lambda: |-
                     auto cur = id(plug8_off_ampm).state;
-                    id(plug8_off_ampm).publish_state(cur == "AM" ? "PM" : "AM");
+                    std::string new_val = cur == "AM" ? "PM" : "AM";
+                    id(plug8_off_ampm_persist) = new_val;
+                    id(plug8_off_ampm).publish_state(new_val);
                 - lvgl.label.update:
                     id: lbl8_off_ampm
                     text: !lambda |-
@@ -5016,6 +5138,7 @@ lvgl:
                       char buf[24];
                       sprintf(buf, "OFF: %02d:%02d %s", h, m, ampm.c_str());
                       return std::string(buf);
+                - script.execute: save_timer_settings
 
 
     # PLUG INFO PAGE
