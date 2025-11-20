@@ -229,41 +229,128 @@ switch:
     name: "Plug 1 Schedule Enabled"
     optimistic: true
     entity_category: "config"
+    on_turn_on:
+      - lambda: |-
+          id(plug1_schedule_persist) = true;
+          lv_label_set_text(id(lbl_schedule1_state), "Timer: ON");
+          lv_obj_set_style_bg_color(id(btn_plug1_timer), lv_color_hex(0x228B22), LV_PART_MAIN);
+    on_turn_off:
+      - lambda: |-
+          id(plug1_schedule_persist) = false;
+          lv_label_set_text(id(lbl_schedule1_state), "Timer: OFF");
+          lv_obj_set_style_bg_color(id(btn_plug1_timer), lv_color_hex(0x444444), LV_PART_MAIN);
+
   - platform: template
     id: plug2_schedule_enabled
     name: "Plug 2 Schedule Enabled"
     optimistic: true
     entity_category: "config"
+    on_turn_on:
+      - lambda: |-
+          id(plug2_schedule_persist) = true;
+          lv_label_set_text(id(lbl_schedule2_state), "Timer: ON");
+          lv_obj_set_style_bg_color(id(btn_plug2_timer), lv_color_hex(0x228B22), LV_PART_MAIN);
+    on_turn_off:
+      - lambda: |-
+          id(plug2_schedule_persist) = false;
+          lv_label_set_text(id(lbl_schedule2_state), "Timer: OFF");
+          lv_obj_set_style_bg_color(id(btn_plug2_timer), lv_color_hex(0x444444), LV_PART_MAIN);
+
   - platform: template
     id: plug3_schedule_enabled
     name: "Plug 3 Schedule Enabled"
     optimistic: true
     entity_category: "config"
+    on_turn_on:
+      - lambda: |-
+          id(plug3_schedule_persist) = true;
+          lv_label_set_text(id(lbl_schedule3_state), "Timer: ON");
+          lv_obj_set_style_bg_color(id(btn_plug3_timer), lv_color_hex(0x228B22), LV_PART_MAIN);
+    on_turn_off:
+      - lambda: |-
+          id(plug3_schedule_persist) = false;
+          lv_label_set_text(id(lbl_schedule3_state), "Timer: OFF");
+          lv_obj_set_style_bg_color(id(btn_plug3_timer), lv_color_hex(0x444444), LV_PART_MAIN);
+
   - platform: template
     id: plug4_schedule_enabled
     name: "Plug 4 Schedule Enabled"
     optimistic: true
     entity_category: "config"
+    on_turn_on:
+      - lambda: |-
+          id(plug4_schedule_persist) = true;
+          lv_label_set_text(id(lbl_schedule4_state), "Timer: ON");
+          lv_obj_set_style_bg_color(id(btn_plug4_timer), lv_color_hex(0x228B22), LV_PART_MAIN);
+    on_turn_off:
+      - lambda: |-
+          id(plug4_schedule_persist) = false;
+          lv_label_set_text(id(lbl_schedule4_state), "Timer: OFF");
+          lv_obj_set_style_bg_color(id(btn_plug4_timer), lv_color_hex(0x444444), LV_PART_MAIN);
+
   - platform: template
     id: plug5_schedule_enabled
     name: "Plug 5 Schedule Enabled"
     optimistic: true
     entity_category: "config"
+    on_turn_on:
+      - lambda: |-
+          id(plug5_schedule_persist) = true;
+          lv_label_set_text(id(lbl_schedule5_state), "Timer: ON");
+          lv_obj_set_style_bg_color(id(btn_plug5_timer), lv_color_hex(0x228B22), LV_PART_MAIN);
+    on_turn_off:
+      - lambda: |-
+          id(plug5_schedule_persist) = false;
+          lv_label_set_text(id(lbl_schedule5_state), "Timer: OFF");
+          lv_obj_set_style_bg_color(id(btn_plug5_timer), lv_color_hex(0x444444), LV_PART_MAIN);
+
   - platform: template
     id: plug6_schedule_enabled
     name: "Plug 6 Schedule Enabled"
     optimistic: true
     entity_category: "config"
+    on_turn_on:
+      - lambda: |-
+          id(plug6_schedule_persist) = true;
+          lv_label_set_text(id(lbl_schedule6_state), "Timer: ON");
+          lv_obj_set_style_bg_color(id(btn_plug6_timer), lv_color_hex(0x228B22), LV_PART_MAIN);
+    on_turn_off:
+      - lambda: |-
+          id(plug6_schedule_persist) = false;
+          lv_label_set_text(id(lbl_schedule6_state), "Timer: OFF");
+          lv_obj_set_style_bg_color(id(btn_plug6_timer), lv_color_hex(0x444444), LV_PART_MAIN);
+
   - platform: template
     id: plug7_schedule_enabled
     name: "Plug 7 Schedule Enabled"
     optimistic: true
     entity_category: "config"
+    on_turn_on:
+      - lambda: |-
+          id(plug7_schedule_persist) = true;
+          lv_label_set_text(id(lbl_schedule7_state), "Timer: ON");
+          lv_obj_set_style_bg_color(id(btn_plug7_timer), lv_color_hex(0x228B22), LV_PART_MAIN);
+    on_turn_off:
+      - lambda: |-
+          id(plug7_schedule_persist) = false;
+          lv_label_set_text(id(lbl_schedule7_state), "Timer: OFF");
+          lv_obj_set_style_bg_color(id(btn_plug7_timer), lv_color_hex(0x444444), LV_PART_MAIN);
+
   - platform: template
     id: plug8_schedule_enabled
     name: "Plug 8 Schedule Enabled"
     optimistic: true
     entity_category: "config"
+    on_turn_on:
+      - lambda: |-
+          id(plug8_schedule_persist) = true;
+          lv_label_set_text(id(lbl_schedule8_state), "Timer: ON");
+          lv_obj_set_style_bg_color(id(btn_plug8_timer), lv_color_hex(0x228B22), LV_PART_MAIN);
+    on_turn_off:
+      - lambda: |-
+          id(plug8_schedule_persist) = false;
+          lv_label_set_text(id(lbl_schedule8_state), "Timer: OFF");
+          lv_obj_set_style_bg_color(id(btn_plug8_timer), lv_color_hex(0x444444), LV_PART_MAIN);
 
 script:
   - id: register_activity
@@ -1087,15 +1174,8 @@ lvgl:
       - lvgl.page.show:
           id: main_page
       - script.execute: register_activity
-      - script.execute: plug1_update_state
-      - script.execute: plug2_update_state
-      - script.execute: plug3_update_state
-      - script.execute: plug4_update_state
-      - script.execute: plug5_update_state
-      - script.execute: plug6_update_state
-      - script.execute: plug7_update_state
-      - script.execute: plug8_update_state
       - lambda: |-
+          // Set initial clock display ONLY - NO HTTP REQUESTS
           auto now = id(sntp_time).now();
           if (!now.is_valid()) return;
           char buf[16];
@@ -1113,7 +1193,195 @@ lvgl:
           lv_label_set_text(id(lbl_timer7_clock), buf);
           lv_label_set_text(id(lbl_timer8_clock), buf);
 
-                    lv_label_set_text(id(lbl_plug8_text), "PLUG 8");
+          // Restore persisted timer settings for Plug 1
+          bool e1 = id(plug1_schedule_persist);
+          id(plug1_schedule_enabled).publish_state(e1);
+          id(plug1_on_hour).publish_state((int)id(plug1_on_hour_persist));
+          id(plug1_on_minute).publish_state((int)id(plug1_on_minute_persist));
+          id(plug1_off_hour).publish_state((int)id(plug1_off_hour_persist));
+          id(plug1_off_minute).publish_state((int)id(plug1_off_minute_persist));
+          id(plug1_on_ampm).publish_state(id(plug1_on_ampm_persist));
+          id(plug1_off_ampm).publish_state(id(plug1_off_ampm_persist));
+          lv_label_set_text(id(lbl_schedule1_state), e1 ? "Timer: ON" : "Timer: OFF");
+          lv_obj_set_style_bg_color(id(btn_plug1_timer), e1 ? lv_color_hex(0x228B22) : lv_color_hex(0x444444), LV_PART_MAIN);
+
+          // Update Plug 1 timer page time labels
+          char on_buf1[24], off_buf1[24];
+          sprintf(on_buf1, "ON: %02d:%02d %s", (int)id(plug1_on_hour_persist), (int)id(plug1_on_minute_persist), id(plug1_on_ampm_persist).c_str());
+          sprintf(off_buf1, "OFF: %02d:%02d %s", (int)id(plug1_off_hour_persist), (int)id(plug1_off_minute_persist), id(plug1_off_ampm_persist).c_str());
+          lv_label_set_text(id(lbl1_on_time), on_buf1);
+          lv_label_set_text(id(lbl1_off_time), off_buf1);
+          lv_label_set_text(id(lbl1_on_ampm), id(plug1_on_ampm_persist).c_str());
+          lv_label_set_text(id(lbl1_off_ampm), id(plug1_off_ampm_persist).c_str());
+
+          // Restore persisted timer settings for Plug 2
+          bool e2 = id(plug2_schedule_persist);
+          id(plug2_schedule_enabled).publish_state(e2);
+          id(plug2_on_hour).publish_state((int)id(plug2_on_hour_persist));
+          id(plug2_on_minute).publish_state((int)id(plug2_on_minute_persist));
+          id(plug2_off_hour).publish_state((int)id(plug2_off_hour_persist));
+          id(plug2_off_minute).publish_state((int)id(plug2_off_minute_persist));
+          id(plug2_on_ampm).publish_state(id(plug2_on_ampm_persist));
+          id(plug2_off_ampm).publish_state(id(plug2_off_ampm_persist));
+          lv_label_set_text(id(lbl_schedule2_state), e2 ? "Timer: ON" : "Timer: OFF");
+          lv_obj_set_style_bg_color(id(btn_plug2_timer), e2 ? lv_color_hex(0x228B22) : lv_color_hex(0x444444), LV_PART_MAIN);
+
+          // Update Plug 2 timer page time labels
+          char on_buf2[24], off_buf2[24];
+          sprintf(on_buf2, "ON: %02d:%02d %s", (int)id(plug2_on_hour_persist), (int)id(plug2_on_minute_persist), id(plug2_on_ampm_persist).c_str());
+          sprintf(off_buf2, "OFF: %02d:%02d %s", (int)id(plug2_off_hour_persist), (int)id(plug2_off_minute_persist), id(plug2_off_ampm_persist).c_str());
+          lv_label_set_text(id(lbl2_on_time), on_buf2);
+          lv_label_set_text(id(lbl2_off_time), off_buf2);
+          lv_label_set_text(id(lbl2_on_ampm), id(plug2_on_ampm_persist).c_str());
+          lv_label_set_text(id(lbl2_off_ampm), id(plug2_off_ampm_persist).c_str());
+
+          // Restore persisted timer settings for Plug 3
+          bool e3 = id(plug3_schedule_persist);
+          id(plug3_schedule_enabled).publish_state(e3);
+          id(plug3_on_hour).publish_state((int)id(plug3_on_hour_persist));
+          id(plug3_on_minute).publish_state((int)id(plug3_on_minute_persist));
+          id(plug3_off_hour).publish_state((int)id(plug3_off_hour_persist));
+          id(plug3_off_minute).publish_state((int)id(plug3_off_minute_persist));
+          id(plug3_on_ampm).publish_state(id(plug3_on_ampm_persist));
+          id(plug3_off_ampm).publish_state(id(plug3_off_ampm_persist));
+          lv_label_set_text(id(lbl_schedule3_state), e3 ? "Timer: ON" : "Timer: OFF");
+          lv_obj_set_style_bg_color(id(btn_plug3_timer), e3 ? lv_color_hex(0x228B22) : lv_color_hex(0x444444), LV_PART_MAIN);
+
+          // Update Plug 3 timer page time labels
+          char on_buf3[24], off_buf3[24];
+          sprintf(on_buf3, "ON: %02d:%02d %s", (int)id(plug3_on_hour_persist), (int)id(plug3_on_minute_persist), id(plug3_on_ampm_persist).c_str());
+          sprintf(off_buf3, "OFF: %02d:%02d %s", (int)id(plug3_off_hour_persist), (int)id(plug3_off_minute_persist), id(plug3_off_ampm_persist).c_str());
+          lv_label_set_text(id(lbl3_on_time), on_buf3);
+          lv_label_set_text(id(lbl3_off_time), off_buf3);
+          lv_label_set_text(id(lbl3_on_ampm), id(plug3_on_ampm_persist).c_str());
+          lv_label_set_text(id(lbl3_off_ampm), id(plug3_off_ampm_persist).c_str());
+
+          // Restore persisted timer settings for Plug 4
+          bool e4 = id(plug4_schedule_persist);
+          id(plug4_schedule_enabled).publish_state(e4);
+          id(plug4_on_hour).publish_state((int)id(plug4_on_hour_persist));
+          id(plug4_on_minute).publish_state((int)id(plug4_on_minute_persist));
+          id(plug4_off_hour).publish_state((int)id(plug4_off_hour_persist));
+          id(plug4_off_minute).publish_state((int)id(plug4_off_minute_persist));
+          id(plug4_on_ampm).publish_state(id(plug4_on_ampm_persist));
+          id(plug4_off_ampm).publish_state(id(plug4_off_ampm_persist));
+          lv_label_set_text(id(lbl_schedule4_state), e4 ? "Timer: ON" : "Timer: OFF");
+          lv_obj_set_style_bg_color(id(btn_plug4_timer), e4 ? lv_color_hex(0x228B22) : lv_color_hex(0x444444), LV_PART_MAIN);
+
+          // Update Plug 4 timer page time labels
+          char on_buf4[24], off_buf4[24];
+          sprintf(on_buf4, "ON: %02d:%02d %s", (int)id(plug4_on_hour_persist), (int)id(plug4_on_minute_persist), id(plug4_on_ampm_persist).c_str());
+          sprintf(off_buf4, "OFF: %02d:%02d %s", (int)id(plug4_off_hour_persist), (int)id(plug4_off_minute_persist), id(plug4_off_ampm_persist).c_str());
+          lv_label_set_text(id(lbl4_on_time), on_buf4);
+          lv_label_set_text(id(lbl4_off_time), off_buf4);
+          lv_label_set_text(id(lbl4_on_ampm), id(plug4_on_ampm_persist).c_str());
+          lv_label_set_text(id(lbl4_off_ampm), id(plug4_off_ampm_persist).c_str());
+
+          // Restore persisted timer settings for Plug 5
+          bool e5 = id(plug5_schedule_persist);
+          id(plug5_schedule_enabled).publish_state(e5);
+          id(plug5_on_hour).publish_state((int)id(plug5_on_hour_persist));
+          id(plug5_on_minute).publish_state((int)id(plug5_on_minute_persist));
+          id(plug5_off_hour).publish_state((int)id(plug5_off_hour_persist));
+          id(plug5_off_minute).publish_state((int)id(plug5_off_minute_persist));
+          id(plug5_on_ampm).publish_state(id(plug5_on_ampm_persist));
+          id(plug5_off_ampm).publish_state(id(plug5_off_ampm_persist));
+          lv_label_set_text(id(lbl_schedule5_state), e5 ? "Timer: ON" : "Timer: OFF");
+          lv_obj_set_style_bg_color(id(btn_plug5_timer), e5 ? lv_color_hex(0x228B22) : lv_color_hex(0x444444), LV_PART_MAIN);
+
+          // Update Plug 5 timer page time labels
+          char on_buf5[24], off_buf5[24];
+          sprintf(on_buf5, "ON: %02d:%02d %s", (int)id(plug5_on_hour_persist), (int)id(plug5_on_minute_persist), id(plug5_on_ampm_persist).c_str());
+          sprintf(off_buf5, "OFF: %02d:%02d %s", (int)id(plug5_off_hour_persist), (int)id(plug5_off_minute_persist), id(plug5_off_ampm_persist).c_str());
+          lv_label_set_text(id(lbl5_on_time), on_buf5);
+          lv_label_set_text(id(lbl5_off_time), off_buf5);
+          lv_label_set_text(id(lbl5_on_ampm), id(plug5_on_ampm_persist).c_str());
+          lv_label_set_text(id(lbl5_off_ampm), id(plug5_off_ampm_persist).c_str());
+
+          // Restore persisted timer settings for Plug 6
+          bool e6 = id(plug6_schedule_persist);
+          id(plug6_schedule_enabled).publish_state(e6);
+          id(plug6_on_hour).publish_state((int)id(plug6_on_hour_persist));
+          id(plug6_on_minute).publish_state((int)id(plug6_on_minute_persist));
+          id(plug6_off_hour).publish_state((int)id(plug6_off_hour_persist));
+          id(plug6_off_minute).publish_state((int)id(plug6_off_minute_persist));
+          id(plug6_on_ampm).publish_state(id(plug6_on_ampm_persist));
+          id(plug6_off_ampm).publish_state(id(plug6_off_ampm_persist));
+          lv_label_set_text(id(lbl_schedule6_state), e6 ? "Timer: ON" : "Timer: OFF");
+          lv_obj_set_style_bg_color(id(btn_plug6_timer), e6 ? lv_color_hex(0x228B22) : lv_color_hex(0x444444), LV_PART_MAIN);
+
+          // Update Plug 6 timer page time labels
+          char on_buf6[24], off_buf6[24];
+          sprintf(on_buf6, "ON: %02d:%02d %s", (int)id(plug6_on_hour_persist), (int)id(plug6_on_minute_persist), id(plug6_on_ampm_persist).c_str());
+          sprintf(off_buf6, "OFF: %02d:%02d %s", (int)id(plug6_off_hour_persist), (int)id(plug6_off_minute_persist), id(plug6_off_ampm_persist).c_str());
+          lv_label_set_text(id(lbl6_on_time), on_buf6);
+          lv_label_set_text(id(lbl6_off_time), off_buf6);
+          lv_label_set_text(id(lbl6_on_ampm), id(plug6_on_ampm_persist).c_str());
+          lv_label_set_text(id(lbl6_off_ampm), id(plug6_off_ampm_persist).c_str());
+
+          // Restore persisted timer settings for Plug 7
+          bool e7 = id(plug7_schedule_persist);
+          id(plug7_schedule_enabled).publish_state(e7);
+          id(plug7_on_hour).publish_state((int)id(plug7_on_hour_persist));
+          id(plug7_on_minute).publish_state((int)id(plug7_on_minute_persist));
+          id(plug7_off_hour).publish_state((int)id(plug7_off_hour_persist));
+          id(plug7_off_minute).publish_state((int)id(plug7_off_minute_persist));
+          id(plug7_on_ampm).publish_state(id(plug7_on_ampm_persist));
+          id(plug7_off_ampm).publish_state(id(plug7_off_ampm_persist));
+          lv_label_set_text(id(lbl_schedule7_state), e7 ? "Timer: ON" : "Timer: OFF");
+          lv_obj_set_style_bg_color(id(btn_plug7_timer), e7 ? lv_color_hex(0x228B22) : lv_color_hex(0x444444), LV_PART_MAIN);
+
+          // Update Plug 7 timer page time labels
+          char on_buf7[24], off_buf7[24];
+          sprintf(on_buf7, "ON: %02d:%02d %s", (int)id(plug7_on_hour_persist), (int)id(plug7_on_minute_persist), id(plug7_on_ampm_persist).c_str());
+          sprintf(off_buf7, "OFF: %02d:%02d %s", (int)id(plug7_off_hour_persist), (int)id(plug7_off_minute_persist), id(plug7_off_ampm_persist).c_str());
+          lv_label_set_text(id(lbl7_on_time), on_buf7);
+          lv_label_set_text(id(lbl7_off_time), off_buf7);
+          lv_label_set_text(id(lbl7_on_ampm), id(plug7_on_ampm_persist).c_str());
+          lv_label_set_text(id(lbl7_off_ampm), id(plug7_off_ampm_persist).c_str());
+
+          // Restore persisted timer settings for Plug 8
+          bool e8 = id(plug8_schedule_persist);
+          id(plug8_schedule_enabled).publish_state(e8);
+          id(plug8_on_hour).publish_state((int)id(plug8_on_hour_persist));
+          id(plug8_on_minute).publish_state((int)id(plug8_on_minute_persist));
+          id(plug8_off_hour).publish_state((int)id(plug8_off_hour_persist));
+          id(plug8_off_minute).publish_state((int)id(plug8_off_minute_persist));
+          id(plug8_on_ampm).publish_state(id(plug8_on_ampm_persist));
+          id(plug8_off_ampm).publish_state(id(plug8_off_ampm_persist));
+          lv_label_set_text(id(lbl_schedule8_state), e8 ? "Timer: ON" : "Timer: OFF");
+          lv_obj_set_style_bg_color(id(btn_plug8_timer), e8 ? lv_color_hex(0x228B22) : lv_color_hex(0x444444), LV_PART_MAIN);
+
+          // Update Plug 8 timer page time labels
+          char on_buf8[24], off_buf8[24];
+          sprintf(on_buf8, "ON: %02d:%02d %s", (int)id(plug8_on_hour_persist), (int)id(plug8_on_minute_persist), id(plug8_on_ampm_persist).c_str());
+          sprintf(off_buf8, "OFF: %02d:%02d %s", (int)id(plug8_off_hour_persist), (int)id(plug8_off_minute_persist), id(plug8_off_ampm_persist).c_str());
+          lv_label_set_text(id(lbl8_on_time), on_buf8);
+          lv_label_set_text(id(lbl8_off_time), off_buf8);
+          lv_label_set_text(id(lbl8_on_ampm), id(plug8_on_ampm_persist).c_str());
+          lv_label_set_text(id(lbl8_off_ampm), id(plug8_off_ampm_persist).c_str());
+
+          // Apply modern styling to all buttons (rounded corners + shadows)
+          lv_obj_t* buttons[] = {
+            id(btn_plug1), id(btn_plug1_timer),
+            id(btn_plug2), id(btn_plug2_timer),
+            id(btn_plug3), id(btn_plug3_timer),
+            id(btn_plug4), id(btn_plug4_timer),
+            id(btn_plug5), id(btn_plug5_timer),
+            id(btn_plug6), id(btn_plug6_timer),
+            id(btn_plug7), id(btn_plug7_timer),
+            id(btn_plug8), id(btn_plug8_timer),
+            id(btn_bl_auto), id(btn_bl_on)
+          };
+          for (auto btn : buttons) {
+            lv_obj_set_style_radius(btn, 15, LV_PART_MAIN);
+            lv_obj_set_style_shadow_width(btn, 8, LV_PART_MAIN);
+            lv_obj_set_style_shadow_color(btn, lv_color_hex(0x000000), LV_PART_MAIN);
+            lv_obj_set_style_shadow_ofs_y(btn, 4, LV_PART_MAIN);
+            lv_obj_set_style_shadow_ofs_x(btn, 0, LV_PART_MAIN);
+            lv_obj_set_style_border_width(btn, 0, LV_PART_MAIN);
+          }
+      - script.execute: startup_check_plugs
   pages:
     # MAIN PAGE
     - id: main_page
