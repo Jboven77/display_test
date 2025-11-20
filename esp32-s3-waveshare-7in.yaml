@@ -96,7 +96,7 @@ mqtt:
 
 http_request:
   id: http_client
-  timeout: 500ms
+  timeout: 300ms
 
 i2c:
   sda: GPIO08
@@ -139,6 +139,24 @@ globals:
     initial_value: "100"
 
   - id: plug_check_counter
+    type: int
+    restore_value: no
+    initial_value: "0"
+
+  # Failure tracking for smart skipping of problematic plugs
+  - id: plug1_failure_count
+    type: int
+    restore_value: no
+    initial_value: "0"
+  - id: plug2_failure_count
+    type: int
+    restore_value: no
+    initial_value: "0"
+  - id: plug3_failure_count
+    type: int
+    restore_value: no
+    initial_value: "0"
+  - id: plug4_failure_count
     type: int
     restore_value: no
     initial_value: "0"
@@ -847,11 +865,13 @@ script:
                   id(plug1_ui_state) = on;
                   auto col = on ? lv_color_hex(0x00FF00) : lv_color_hex(0xFF0000);
                   lv_obj_set_style_bg_color(id(btn_plug1), col, LV_PART_MAIN);
+                  id(plug1_failure_count) = 0;  // Reset failure counter on success
           on_error:
             then:
               - lambda: |-
                   id(plug1_ui_state) = false;
                   lv_obj_set_style_bg_color(id(btn_plug1), lv_color_hex(0xFF0000), LV_PART_MAIN);
+                  id(plug1_failure_count)++;  // Increment failure counter
 
   - id: plug2_update_state
     then:
@@ -866,11 +886,13 @@ script:
                   id(plug2_ui_state) = on;
                   auto col = on ? lv_color_hex(0x00FF00) : lv_color_hex(0xFF0000);
                   lv_obj_set_style_bg_color(id(btn_plug2), col, LV_PART_MAIN);
+                  id(plug2_failure_count) = 0;  // Reset failure counter on success
           on_error:
             then:
               - lambda: |-
                   id(plug2_ui_state) = false;
                   lv_obj_set_style_bg_color(id(btn_plug2), lv_color_hex(0xFF0000), LV_PART_MAIN);
+                  id(plug2_failure_count)++;  // Increment failure counter
 
   - id: plug3_update_state
     then:
@@ -885,11 +907,13 @@ script:
                   id(plug3_ui_state) = on;
                   auto col = on ? lv_color_hex(0x00FF00) : lv_color_hex(0xFF0000);
                   lv_obj_set_style_bg_color(id(btn_plug3), col, LV_PART_MAIN);
+                  id(plug3_failure_count) = 0;  // Reset failure counter on success
           on_error:
             then:
               - lambda: |-
                   id(plug3_ui_state) = false;
                   lv_obj_set_style_bg_color(id(btn_plug3), lv_color_hex(0xFF0000), LV_PART_MAIN);
+                  id(plug3_failure_count)++;  // Increment failure counter
 
   - id: plug4_update_state
     then:
@@ -904,11 +928,13 @@ script:
                   id(plug4_ui_state) = on;
                   auto col = on ? lv_color_hex(0x00FF00) : lv_color_hex(0xFF0000);
                   lv_obj_set_style_bg_color(id(btn_plug4), col, LV_PART_MAIN);
+                  id(plug4_failure_count) = 0;  // Reset failure counter on success
           on_error:
             then:
               - lambda: |-
                   id(plug4_ui_state) = false;
                   lv_obj_set_style_bg_color(id(btn_plug4), lv_color_hex(0xFF0000), LV_PART_MAIN);
+                  id(plug4_failure_count)++;  // Increment failure counter
 
   - id: plug5_update_state
     then:
@@ -4911,7 +4937,8 @@ interval:
     then:
       - script.execute: bl_auto_off_check
 
-  # Rotating state check - checks ONE plug per cycle to avoid blocking UI
+  # Rotating state check with smart failure tracking
+  # Only checks plugs with <3 consecutive failures to prevent lockups
   # Cycles through plugs 1-4: 0=plug1, 1=plug2, 2=plug3, 3=plug4
   - interval: 10s
     then:
@@ -4921,13 +4948,28 @@ interval:
           then:
             - lambda: |-
                 int plug = id(plug_check_counter);
-                ESP_LOGD("STATE", "Checking plug %d state", plug + 1);
 
-                // Check one plug based on counter
-                if (plug == 0) id(plug1_update_state).execute();
-                else if (plug == 1) id(plug2_update_state).execute();
-                else if (plug == 2) id(plug3_update_state).execute();
-                else if (plug == 3) id(plug4_update_state).execute();
+                // Check failure count and skip if too many failures
+                bool should_check = false;
+                if (plug == 0 && id(plug1_failure_count) < 3) should_check = true;
+                else if (plug == 1 && id(plug2_failure_count) < 3) should_check = true;
+                else if (plug == 2 && id(plug3_failure_count) < 3) should_check = true;
+                else if (plug == 3 && id(plug4_failure_count) < 3) should_check = true;
+
+                if (should_check) {
+                  ESP_LOGD("STATE", "Checking plug %d state", plug + 1);
+                  // Check one plug based on counter
+                  if (plug == 0) id(plug1_update_state).execute();
+                  else if (plug == 1) id(plug2_update_state).execute();
+                  else if (plug == 2) id(plug3_update_state).execute();
+                  else if (plug == 3) id(plug4_update_state).execute();
+                } else {
+                  ESP_LOGD("STATE", "Skipping plug %d (too many failures: %d)", plug + 1,
+                    plug == 0 ? id(plug1_failure_count) :
+                    plug == 1 ? id(plug2_failure_count) :
+                    plug == 2 ? id(plug3_failure_count) :
+                    id(plug4_failure_count));
+                }
 
                 // Increment counter and wrap around
                 id(plug_check_counter) = (plug + 1) % 4;
@@ -4952,6 +4994,16 @@ interval:
           lv_label_set_text(id(lbl_timer6_clock), buf);
           lv_label_set_text(id(lbl_timer7_clock), buf);
           lv_label_set_text(id(lbl_timer8_clock), buf);
+
+  # Reset failure counters every 5 minutes to retry previously failed plugs
+  - interval: 5min
+    then:
+      - lambda: |-
+          ESP_LOGD("STATE", "Resetting failure counters (retry failed plugs)");
+          id(plug1_failure_count) = 0;
+          id(plug2_failure_count) = 0;
+          id(plug3_failure_count) = 0;
+          id(plug4_failure_count) = 0;
 
   # Schedule logic for plug 1
   - interval: 1min
