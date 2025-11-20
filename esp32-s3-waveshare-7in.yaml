@@ -19,6 +19,18 @@ substitutions:
   plug7_name: "PLUG 7"
   plug8_name: "PLUG 8"
 
+  # PLUG ENABLE/DISABLE - Set to "ON" to enable state checking, "OFF" to disable
+  # Disabled plugs will still show on screen but won't be checked for state updates
+  # Use this to prevent timeouts from unplugged/offline devices
+  plug1_enabled: "ON"
+  plug2_enabled: "ON"
+  plug3_enabled: "ON"
+  plug4_enabled: "ON"
+  plug5_enabled: "OFF"   # Not connected - disable to prevent timeouts
+  plug6_enabled: "OFF"   # Not connected - disable to prevent timeouts
+  plug7_enabled: "OFF"   # Not connected - disable to prevent timeouts
+  plug8_enabled: "OFF"   # Not connected - disable to prevent timeouts
+
 esphome:
   name: waveshare-esp32-s3-7in
   friendly_name: Waveshare ESP32-S3 7in
@@ -81,18 +93,6 @@ api:
 ota:
   - platform: esphome
     password: "48170f28ed94e6fe392d67906b01ff74"
-
-mqtt:
-  broker: 192.168.68.70
-  port: 1883
-  username: ""
-  password: ""
-  discovery: true
-  discovery_retain: false
-  log_topic: waveshare-esp32-s3-7in/debug
-  topic_prefix: waveshare-esp32-s3-7in
-  id: mqtt_client
-  reboot_timeout: 0s
 
 http_request:
   id: http_client
@@ -165,6 +165,40 @@ globals:
     type: int
     restore_value: no
     initial_value: "0"
+
+  # Plug enable/disable flags (from substitutions at top of file)
+  - id: plug1_enabled
+    type: bool
+    restore_value: no
+    initial_value: '${plug1_enabled} == "ON"'
+  - id: plug2_enabled
+    type: bool
+    restore_value: no
+    initial_value: '${plug2_enabled} == "ON"'
+  - id: plug3_enabled
+    type: bool
+    restore_value: no
+    initial_value: '${plug3_enabled} == "ON"'
+  - id: plug4_enabled
+    type: bool
+    restore_value: no
+    initial_value: '${plug4_enabled} == "ON"'
+  - id: plug5_enabled
+    type: bool
+    restore_value: no
+    initial_value: '${plug5_enabled} == "ON"'
+  - id: plug6_enabled
+    type: bool
+    restore_value: no
+    initial_value: '${plug6_enabled} == "ON"'
+  - id: plug7_enabled
+    type: bool
+    restore_value: no
+    initial_value: '${plug7_enabled} == "ON"'
+  - id: plug8_enabled
+    type: bool
+    restore_value: no
+    initial_value: '${plug8_enabled} == "ON"'
 
   - id: plug1_ui_state
     type: bool
@@ -707,15 +741,17 @@ script:
   - id: startup_check_plugs
     then:
       - delay: 3s  # Wait for WiFi to be stable
-      - logger.log: "Startup: checking all plug states"
-      - script.execute: plug1_update_state
-      - delay: 1s
-      - script.execute: plug2_update_state
-      - delay: 1s
-      - script.execute: plug3_update_state
-      - delay: 1s
-      - script.execute: plug4_update_state
-      - logger.log: "Startup: all plug states checked"
+      - logger.log: "Startup: checking enabled plug states"
+      - lambda: |-
+          if (id(plug1_enabled)) { id(plug1_update_state).execute(); delay(1000); }
+          if (id(plug2_enabled)) { id(plug2_update_state).execute(); delay(1000); }
+          if (id(plug3_enabled)) { id(plug3_update_state).execute(); delay(1000); }
+          if (id(plug4_enabled)) { id(plug4_update_state).execute(); delay(1000); }
+          if (id(plug5_enabled)) { id(plug5_update_state).execute(); delay(1000); }
+          if (id(plug6_enabled)) { id(plug6_update_state).execute(); delay(1000); }
+          if (id(plug7_enabled)) { id(plug7_update_state).execute(); delay(1000); }
+          if (id(plug8_enabled)) { id(plug8_update_state).execute(); delay(1000); }
+          ESP_LOGI("Startup", "All enabled plug states checked");
 
   - id: plug1_turn_on
     then:
@@ -4974,8 +5010,8 @@ interval:
       - script.execute: bl_auto_off_check
 
   # Rotating state check with smart failure tracking
-  # Only checks plugs with <3 consecutive failures to prevent lockups
-  # Cycles through plugs 1-4: 0=plug1, 1=plug2, 2=plug3, 3=plug4
+  # Only checks enabled plugs with <3 consecutive failures to prevent lockups
+  # Cycles through plugs 1-8
   - interval: 10s
     then:
       - if:
@@ -4985,30 +5021,40 @@ interval:
             - lambda: |-
                 int plug = id(plug_check_counter);
 
-                // Check failure count and skip if too many failures
+                // Check if plug is enabled and hasn't failed too many times
+                bool is_enabled = false;
                 bool should_check = false;
-                if (plug == 0 && id(plug1_failure_count) < 3) should_check = true;
-                else if (plug == 1 && id(plug2_failure_count) < 3) should_check = true;
-                else if (plug == 2 && id(plug3_failure_count) < 3) should_check = true;
-                else if (plug == 3 && id(plug4_failure_count) < 3) should_check = true;
+                int failure_count = 0;
+
+                if (plug == 0) { is_enabled = id(plug1_enabled); failure_count = id(plug1_failure_count); }
+                else if (plug == 1) { is_enabled = id(plug2_enabled); failure_count = id(plug2_failure_count); }
+                else if (plug == 2) { is_enabled = id(plug3_enabled); failure_count = id(plug3_failure_count); }
+                else if (plug == 3) { is_enabled = id(plug4_enabled); failure_count = id(plug4_failure_count); }
+                else if (plug == 4) { is_enabled = id(plug5_enabled); failure_count = 0; }
+                else if (plug == 5) { is_enabled = id(plug6_enabled); failure_count = 0; }
+                else if (plug == 6) { is_enabled = id(plug7_enabled); failure_count = 0; }
+                else if (plug == 7) { is_enabled = id(plug8_enabled); failure_count = 0; }
+
+                should_check = is_enabled && (failure_count < 3);
 
                 if (should_check) {
                   ESP_LOGD("STATE", "Checking plug %d state", plug + 1);
-                  // Check one plug based on counter
                   if (plug == 0) id(plug1_update_state).execute();
                   else if (plug == 1) id(plug2_update_state).execute();
                   else if (plug == 2) id(plug3_update_state).execute();
                   else if (plug == 3) id(plug4_update_state).execute();
+                  else if (plug == 4) id(plug5_update_state).execute();
+                  else if (plug == 5) id(plug6_update_state).execute();
+                  else if (plug == 6) id(plug7_update_state).execute();
+                  else if (plug == 7) id(plug8_update_state).execute();
+                } else if (!is_enabled) {
+                  ESP_LOGD("STATE", "Skipping plug %d (disabled)", plug + 1);
                 } else {
-                  ESP_LOGD("STATE", "Skipping plug %d (too many failures: %d)", plug + 1,
-                    plug == 0 ? id(plug1_failure_count) :
-                    plug == 1 ? id(plug2_failure_count) :
-                    plug == 2 ? id(plug3_failure_count) :
-                    id(plug4_failure_count));
+                  ESP_LOGD("STATE", "Skipping plug %d (too many failures: %d)", plug + 1, failure_count);
                 }
 
-                // Increment counter and wrap around
-                id(plug_check_counter) = (plug + 1) % 4;
+                // Increment counter and wrap around 0-7
+                id(plug_check_counter) = (plug + 1) % 8;
 
   # Clock update
   - interval: 10s
