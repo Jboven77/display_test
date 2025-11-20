@@ -5131,8 +5131,25 @@ interval:
           int off_h24 = (off_h12 % 12) + (off_pm ? 12 : 0);
           int off_minutes = off_h24 * 60 + off_m;
 
-          bool should_on = (cur_minutes >= on_minutes) && (cur_minutes < off_minutes);
+          // Handle schedules that cross midnight
+          bool should_on;
+          if (on_minutes < off_minutes) {
+            // Normal case: 8 AM to 6 PM
+            should_on = (cur_minutes >= on_minutes) && (cur_minutes < off_minutes);
+          } else {
+            // Crosses midnight: 6 PM to 8 AM
+            should_on = (cur_minutes >= on_minutes) || (cur_minutes < off_minutes);
+          }
+
           static bool last_on1 = false;
+          static bool first_run1 = true;
+
+          // On first run, sync with actual plug state
+          if (first_run1) {
+            first_run1 = false;
+            last_on1 = id(plug1_ui_state);
+          }
+
           if (should_on != last_on1) {
             last_on1 = should_on;
             if (should_on) id(plug1_turn_on).execute();
@@ -5163,8 +5180,20 @@ interval:
           int off_h24 = (off_h12 % 12) + (off_pm ? 12 : 0);
           int off_minutes = off_h24 * 60 + off_m;
 
-          bool should_on = (cur_minutes >= on_minutes) && (cur_minutes < off_minutes);
+          bool should_on;
+          if (on_minutes < off_minutes) {
+            should_on = (cur_minutes >= on_minutes) && (cur_minutes < off_minutes);
+          } else {
+            should_on = (cur_minutes >= on_minutes) || (cur_minutes < off_minutes);
+          }
+
           static bool last_on2 = false;
+          static bool first_run2 = true;
+          if (first_run2) {
+            first_run2 = false;
+            last_on2 = id(plug2_ui_state);
+          }
+
           if (should_on != last_on2) {
             last_on2 = should_on;
             if (should_on) id(plug2_turn_on).execute();
@@ -5194,8 +5223,20 @@ interval:
           int off_h24 = (off_h12 % 12) + (off_pm ? 12 : 0);
           int off_minutes = off_h24 * 60 + off_m;
 
-          bool should_on = (cur_minutes >= on_minutes) && (cur_minutes < off_minutes);
+          bool should_on;
+          if (on_minutes < off_minutes) {
+            should_on = (cur_minutes >= on_minutes) && (cur_minutes < off_minutes);
+          } else {
+            should_on = (cur_minutes >= on_minutes) || (cur_minutes < off_minutes);
+          }
+
           static bool last_on3 = false;
+          static bool first_run3 = true;
+          if (first_run3) {
+            first_run3 = false;
+            last_on3 = id(plug3_ui_state);
+          }
+
           if (should_on != last_on3) {
             last_on3 = should_on;
             if (should_on) id(plug3_turn_on).execute();
@@ -5225,8 +5266,20 @@ interval:
           int off_h24 = (off_h12 % 12) + (off_pm ? 12 : 0);
           int off_minutes = off_h24 * 60 + off_m;
 
-          bool should_on = (cur_minutes >= on_minutes) && (cur_minutes < off_minutes);
+          bool should_on;
+          if (on_minutes < off_minutes) {
+            should_on = (cur_minutes >= on_minutes) && (cur_minutes < off_minutes);
+          } else {
+            should_on = (cur_minutes >= on_minutes) || (cur_minutes < off_minutes);
+          }
+
           static bool last_on4 = false;
+          static bool first_run4 = true;
+          if (first_run4) {
+            first_run4 = false;
+            last_on4 = id(plug4_ui_state);
+          }
+
           if (should_on != last_on4) {
             last_on4 = should_on;
             if (should_on) id(plug4_turn_on).execute();
@@ -5256,8 +5309,20 @@ interval:
           int off_h24 = (off_h12 % 12) + (off_pm ? 12 : 0);
           int off_minutes = off_h24 * 60 + off_m;
 
-          bool should_on = (cur_minutes >= on_minutes) && (cur_minutes < off_minutes);
+          bool should_on;
+          if (on_minutes < off_minutes) {
+            should_on = (cur_minutes >= on_minutes) && (cur_minutes < off_minutes);
+          } else {
+            should_on = (cur_minutes >= on_minutes) || (cur_minutes < off_minutes);
+          }
+
           static bool last_on5 = false;
+          static bool first_run5 = true;
+          if (first_run5) {
+            first_run5 = false;
+            last_on5 = id(plug5_ui_state);
+          }
+
           if (should_on != last_on5) {
             last_on5 = should_on;
             if (should_on) id(plug5_turn_on).execute();
@@ -5287,8 +5352,20 @@ interval:
           int off_h24 = (off_h12 % 12) + (off_pm ? 12 : 0);
           int off_minutes = off_h24 * 60 + off_m;
 
-          bool should_on = (cur_minutes >= on_minutes) && (cur_minutes < off_minutes);
+          bool should_on;
+          if (on_minutes < off_minutes) {
+            should_on = (cur_minutes >= on_minutes) && (cur_minutes < off_minutes);
+          } else {
+            should_on = (cur_minutes >= on_minutes) || (cur_minutes < off_minutes);
+          }
+
           static bool last_on6 = false;
+          static bool first_run6 = true;
+          if (first_run6) {
+            first_run6 = false;
+            last_on6 = id(plug6_ui_state);
+          }
+
           if (should_on != last_on6) {
             last_on6 = should_on;
             if (should_on) id(plug6_turn_on).execute();
@@ -5318,8 +5395,20 @@ interval:
           int off_h24 = (off_h12 % 12) + (off_pm ? 12 : 0);
           int off_minutes = off_h24 * 60 + off_m;
 
-          bool should_on = (cur_minutes >= on_minutes) && (cur_minutes < off_minutes);
+          bool should_on;
+          if (on_minutes < off_minutes) {
+            should_on = (cur_minutes >= on_minutes) && (cur_minutes < off_minutes);
+          } else {
+            should_on = (cur_minutes >= on_minutes) || (cur_minutes < off_minutes);
+          }
+
           static bool last_on7 = false;
+          static bool first_run7 = true;
+          if (first_run7) {
+            first_run7 = false;
+            last_on7 = id(plug7_ui_state);
+          }
+
           if (should_on != last_on7) {
             last_on7 = should_on;
             if (should_on) id(plug7_turn_on).execute();
@@ -5349,8 +5438,20 @@ interval:
           int off_h24 = (off_h12 % 12) + (off_pm ? 12 : 0);
           int off_minutes = off_h24 * 60 + off_m;
 
-          bool should_on = (cur_minutes >= on_minutes) && (cur_minutes < off_minutes);
+          bool should_on;
+          if (on_minutes < off_minutes) {
+            should_on = (cur_minutes >= on_minutes) && (cur_minutes < off_minutes);
+          } else {
+            should_on = (cur_minutes >= on_minutes) || (cur_minutes < off_minutes);
+          }
+
           static bool last_on8 = false;
+          static bool first_run8 = true;
+          if (first_run8) {
+            first_run8 = false;
+            last_on8 = id(plug8_ui_state);
+          }
+
           if (should_on != last_on8) {
             last_on8 = should_on;
             if (should_on) id(plug8_turn_on).execute();
