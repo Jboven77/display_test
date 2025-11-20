@@ -1,12 +1,35 @@
 substitutions:
-  plug1_ip: "192.168.68.76"
+  # PLUG IP ADDRESSES - Change these to match your plugs
+  plug1_ip: "192.168.68.79"
   plug2_ip: "192.168.68.77"
-  plug3_ip: "192.168.68.75"
-  plug4_ip: "192.168.68.79"
+  plug3_ip: "192.168.68.76"
+  plug4_ip: "192.168.68.75"
   plug5_ip: "192.168.68.203"
   plug6_ip: "192.168.68.204"
   plug7_ip: "192.168.68.205"
   plug8_ip: "192.168.68.206"
+
+  # PLUG BUTTON NAMES - Change these to customize button labels (max 12 characters)
+  plug1_name: "PLUG 1"
+  plug2_name: "PLUG 2"
+  plug3_name: "PLUG 3"
+  plug4_name: "PLUG 4"
+  plug5_name: "PLUG 5"
+  plug6_name: "PLUG 6"
+  plug7_name: "PLUG 7"
+  plug8_name: "PLUG 8"
+
+  # PLUG ENABLE/DISABLE - Set to "true" to enable state checking, "false" to disable
+  # Disabled plugs will still show on screen but won't be checked for state updates
+  # Use this to prevent timeouts from unplugged/offline devices
+  plug1_enabled: "true"
+  plug2_enabled: "true"
+  plug3_enabled: "true"
+  plug4_enabled: "true"
+  plug5_enabled: "false"   # Not connected - disable to prevent timeouts
+  plug6_enabled: "false"   # Not connected - disable to prevent timeouts
+  plug7_enabled: "false"   # Not connected - disable to prevent timeouts
+  plug8_enabled: "false"   # Not connected - disable to prevent timeouts
 
 esphome:
   name: waveshare-esp32-s3-7in
@@ -1411,7 +1434,7 @@ lvgl:
             width: 230
             height: 60
             bg_color: 0xFF0000
-            widgets: [{ label: { text: "PLUG 1", align: center, text_font: font_small }}]
+            widgets: [{ label: { text: !lambda return id(plug1_name).c_str();, align: center, text_font: font_small }}]
             on_click:
               then:
                 - script.execute: register_activity
@@ -1454,7 +1477,7 @@ lvgl:
             width: 230
             height: 60
             bg_color: 0xFF0000
-            widgets: [{ label: { text: "PLUG 5", align: center, text_font: font_small }}]
+            widgets: [{ label: { text: !lambda return id(plug5_name).c_str();, align: center, text_font: font_small }}]
             on_click:
               then:
                 - script.execute: register_activity
@@ -1498,7 +1521,7 @@ lvgl:
             width: 230
             height: 60
             bg_color: 0xFF0000
-            widgets: [{ label: { text: "PLUG 2", align: center, text_font: font_small }}]
+            widgets: [{ label: { text: !lambda return id(plug2_name).c_str();, align: center, text_font: font_small }}]
             on_click:
               then:
                 - script.execute: register_activity
@@ -1541,7 +1564,7 @@ lvgl:
             width: 230
             height: 60
             bg_color: 0xFF0000
-            widgets: [{ label: { text: "PLUG 6", align: center, text_font: font_small }}]
+            widgets: [{ label: { text: !lambda return id(plug6_name).c_str();, align: center, text_font: font_small }}]
             on_click:
               then:
                 - script.execute: register_activity
@@ -1585,7 +1608,7 @@ lvgl:
             width: 230
             height: 60
             bg_color: 0xFF0000
-            widgets: [{ label: { text: "PLUG 3", align: center, text_font: font_small }}]
+            widgets: [{ label: { text: !lambda return id(plug3_name).c_str();, align: center, text_font: font_small }}]
             on_click:
               then:
                 - script.execute: register_activity
@@ -1628,7 +1651,7 @@ lvgl:
             width: 230
             height: 60
             bg_color: 0xFF0000
-            widgets: [{ label: { text: "PLUG 7", align: center, text_font: font_small }}]
+            widgets: [{ label: { text: !lambda return id(plug7_name).c_str();, align: center, text_font: font_small }}]
             on_click:
               then:
                 - script.execute: register_activity
@@ -1672,7 +1695,7 @@ lvgl:
             width: 230
             height: 60
             bg_color: 0xFF0000
-            widgets: [{ label: { text: "PLUG 4", align: center, text_font: font_small }}]
+            widgets: [{ label: { text: !lambda return id(plug4_name).c_str();, align: center, text_font: font_small }}]
             on_click:
               then:
                 - script.execute: register_activity
@@ -1715,12 +1738,7 @@ lvgl:
             width: 230
             height: 60
             bg_color: 0xFF0000
-            widgets:
-              - label:
-                  id: lbl_plug8_text     # text label for Plug 8 button
-                  text: "PLUG 8"         # initial, overridden in on_ready
-                  align: center
-                  text_font: font_small
+            widgets: [{ label: { text: !lambda return id(plug8_name).c_str();, align: center, text_font: font_small }}]
             on_click:
               then:
                 - script.execute: register_activity
