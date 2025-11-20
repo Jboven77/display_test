@@ -395,6 +395,28 @@ script:
             }
           }
 
+  - id: startup_check_plugs
+    then:
+      - delay: 3s  # Wait for WiFi to be stable
+      - logger.log: "Startup: checking enabled plug states"
+      - lambda: |-
+          if (id(plug1_enabled)) { id(plug1_update_state).execute(); delay(1000); }
+          if (id(plug2_enabled)) { id(plug2_update_state).execute(); delay(1000); }
+          if (id(plug3_enabled)) { id(plug3_update_state).execute(); delay(1000); }
+          if (id(plug4_enabled)) { id(plug4_update_state).execute(); delay(1000); }
+          if (id(plug5_enabled)) { id(plug5_update_state).execute(); delay(1000); }
+          if (id(plug6_enabled)) { id(plug6_update_state).execute(); delay(1000); }
+          if (id(plug7_enabled)) { id(plug7_update_state).execute(); delay(1000); }
+          if (id(plug8_enabled)) { id(plug8_update_state).execute(); delay(1000); }
+          ESP_LOGI("Startup", "All enabled plug states checked");
+
+  - id: save_timer_settings
+    then:
+      - delay: 100ms  # Small delay to ensure all changes are applied
+      - lambda: |-
+          global_preferences->sync();
+          ESP_LOGI("Persist", "Timer settings saved to flash");
+
   # per-plug schedule helpers (turn_on/off + update_state)
   - id: plug1_turn_on
     then:
@@ -703,6 +725,9 @@ number:
     optimistic: true
     initial_value: 8
     entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug1_on_hour_persist) = (int)x;
   - platform: template
     id: plug1_on_minute
     name: "Plug 1 On Minute"
@@ -712,6 +737,9 @@ number:
     optimistic: true
     initial_value: 0
     entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug1_on_minute_persist) = (int)x;
   - platform: template
     id: plug1_off_hour
     name: "Plug 1 Off Hour"
@@ -721,6 +749,9 @@ number:
     optimistic: true
     initial_value: 6
     entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug1_off_hour_persist) = (int)x;
   - platform: template
     id: plug1_off_minute
     name: "Plug 1 Off Minute"
@@ -730,6 +761,10 @@ number:
     optimistic: true
     initial_value: 0
     entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug1_off_minute_persist) = (int)x;
+
 
   # Plug 2
   - platform: template
@@ -741,6 +776,9 @@ number:
     optimistic: true
     initial_value: 8
     entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug2_on_hour_persist) = (int)x;
   - platform: template
     id: plug2_on_minute
     name: "Plug 2 On Minute"
@@ -750,6 +788,9 @@ number:
     optimistic: true
     initial_value: 0
     entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug2_on_minute_persist) = (int)x;
   - platform: template
     id: plug2_off_hour
     name: "Plug 2 Off Hour"
@@ -759,6 +800,9 @@ number:
     optimistic: true
     initial_value: 6
     entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug2_off_hour_persist) = (int)x;
   - platform: template
     id: plug2_off_minute
     name: "Plug 2 Off Minute"
@@ -768,6 +812,9 @@ number:
     optimistic: true
     initial_value: 0
     entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug2_off_minute_persist) = (int)x;
 
   # Plug 3
   - platform: template
@@ -779,6 +826,9 @@ number:
     optimistic: true
     initial_value: 8
     entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug3_on_hour_persist) = (int)x;
   - platform: template
     id: plug3_on_minute
     name: "Plug 3 On Minute"
@@ -788,6 +838,9 @@ number:
     optimistic: true
     initial_value: 0
     entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug3_on_minute_persist) = (int)x;
   - platform: template
     id: plug3_off_hour
     name: "Plug 3 Off Hour"
@@ -797,6 +850,9 @@ number:
     optimistic: true
     initial_value: 6
     entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug3_off_hour_persist) = (int)x;
   - platform: template
     id: plug3_off_minute
     name: "Plug 3 Off Minute"
@@ -806,6 +862,9 @@ number:
     optimistic: true
     initial_value: 0
     entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug3_off_minute_persist) = (int)x;
 
   # Plug 4
   - platform: template
@@ -817,6 +876,9 @@ number:
     optimistic: true
     initial_value: 8
     entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug4_on_hour_persist) = (int)x;
   - platform: template
     id: plug4_on_minute
     name: "Plug 4 On Minute"
@@ -826,6 +888,9 @@ number:
     optimistic: true
     initial_value: 0
     entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug4_on_minute_persist) = (int)x;
   - platform: template
     id: plug4_off_hour
     name: "Plug 4 Off Hour"
@@ -835,6 +900,9 @@ number:
     optimistic: true
     initial_value: 6
     entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug4_off_hour_persist) = (int)x;
   - platform: template
     id: plug4_off_minute
     name: "Plug 4 Off Minute"
@@ -844,6 +912,9 @@ number:
     optimistic: true
     initial_value: 0
     entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug4_off_minute_persist) = (int)x;
 
   # Plug 5
   - platform: template
@@ -855,6 +926,9 @@ number:
     optimistic: true
     initial_value: 8
     entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug5_on_hour_persist) = (int)x;
   - platform: template
     id: plug5_on_minute
     name: "Plug 5 On Minute"
@@ -864,6 +938,9 @@ number:
     optimistic: true
     initial_value: 0
     entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug5_on_minute_persist) = (int)x;
   - platform: template
     id: plug5_off_hour
     name: "Plug 5 Off Hour"
@@ -873,6 +950,9 @@ number:
     optimistic: true
     initial_value: 6
     entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug5_off_hour_persist) = (int)x;
   - platform: template
     id: plug5_off_minute
     name: "Plug 5 Off Minute"
@@ -882,6 +962,9 @@ number:
     optimistic: true
     initial_value: 0
     entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug5_off_minute_persist) = (int)x;
 
   # Plug 6
   - platform: template
@@ -893,6 +976,9 @@ number:
     optimistic: true
     initial_value: 8
     entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug6_on_hour_persist) = (int)x;
   - platform: template
     id: plug6_on_minute
     name: "Plug 6 On Minute"
@@ -902,6 +988,9 @@ number:
     optimistic: true
     initial_value: 0
     entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug6_on_minute_persist) = (int)x;
   - platform: template
     id: plug6_off_hour
     name: "Plug 6 Off Hour"
@@ -911,6 +1000,9 @@ number:
     optimistic: true
     initial_value: 6
     entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug6_off_hour_persist) = (int)x;
   - platform: template
     id: plug6_off_minute
     name: "Plug 6 Off Minute"
@@ -920,6 +1012,9 @@ number:
     optimistic: true
     initial_value: 0
     entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug6_off_minute_persist) = (int)x;
 
   # Plug 7
   - platform: template
@@ -931,6 +1026,9 @@ number:
     optimistic: true
     initial_value: 8
     entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug7_on_hour_persist) = (int)x;
   - platform: template
     id: plug7_on_minute
     name: "Plug 7 On Minute"
@@ -940,6 +1038,9 @@ number:
     optimistic: true
     initial_value: 0
     entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug7_on_minute_persist) = (int)x;
   - platform: template
     id: plug7_off_hour
     name: "Plug 7 Off Hour"
@@ -949,6 +1050,9 @@ number:
     optimistic: true
     initial_value: 6
     entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug7_off_hour_persist) = (int)x;
   - platform: template
     id: plug7_off_minute
     name: "Plug 7 Off Minute"
@@ -958,6 +1062,9 @@ number:
     optimistic: true
     initial_value: 0
     entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug7_off_minute_persist) = (int)x;
 
   # Plug 8
   - platform: template
@@ -969,6 +1076,9 @@ number:
     optimistic: true
     initial_value: 8
     entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug8_on_hour_persist) = (int)x;
   - platform: template
     id: plug8_on_minute
     name: "Plug 8 On Minute"
@@ -978,6 +1088,9 @@ number:
     optimistic: true
     initial_value: 0
     entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug8_on_minute_persist) = (int)x;
   - platform: template
     id: plug8_off_hour
     name: "Plug 8 Off Hour"
@@ -987,6 +1100,9 @@ number:
     optimistic: true
     initial_value: 6
     entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug8_off_hour_persist) = (int)x;
   - platform: template
     id: plug8_off_minute
     name: "Plug 8 Off Minute"
@@ -996,6 +1112,9 @@ number:
     optimistic: true
     initial_value: 0
     entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug8_off_minute_persist) = (int)x;
 
 select:
   # Plug 1
@@ -1006,6 +1125,9 @@ select:
     options: ["AM", "PM"]
     initial_option: "AM"
     entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug1_on_ampm_persist) = x;
   - platform: template
     id: plug1_off_ampm
     name: "Plug 1 Off AM/PM"
@@ -1013,6 +1135,9 @@ select:
     options: ["AM", "PM"]
     initial_option: "PM"
     entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug1_off_ampm_persist) = x;
 
   # Plug 2
   - platform: template
@@ -1022,6 +1147,9 @@ select:
     options: ["AM", "PM"]
     initial_option: "AM"
     entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug2_on_ampm_persist) = x;
   - platform: template
     id: plug2_off_ampm
     name: "Plug 2 Off AM/PM"
@@ -1029,6 +1157,9 @@ select:
     options: ["AM", "PM"]
     initial_option: "PM"
     entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug2_off_ampm_persist) = x;
 
   # Plug 3
   - platform: template
@@ -1038,6 +1169,9 @@ select:
     options: ["AM", "PM"]
     initial_option: "AM"
     entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug3_on_ampm_persist) = x;
   - platform: template
     id: plug3_off_ampm
     name: "Plug 3 Off AM/PM"
@@ -1045,6 +1179,9 @@ select:
     options: ["AM", "PM"]
     initial_option: "PM"
     entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug3_off_ampm_persist) = x;
 
   # Plug 4
   - platform: template
@@ -1054,6 +1191,9 @@ select:
     options: ["AM", "PM"]
     initial_option: "AM"
     entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug4_on_ampm_persist) = x;
   - platform: template
     id: plug4_off_ampm
     name: "Plug 4 Off AM/PM"
@@ -1061,6 +1201,9 @@ select:
     options: ["AM", "PM"]
     initial_option: "PM"
     entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug4_off_ampm_persist) = x;
 
   # Plug 5
   - platform: template
@@ -1070,6 +1213,9 @@ select:
     options: ["AM", "PM"]
     initial_option: "AM"
     entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug5_on_ampm_persist) = x;
   - platform: template
     id: plug5_off_ampm
     name: "Plug 5 Off AM/PM"
@@ -1077,6 +1223,9 @@ select:
     options: ["AM", "PM"]
     initial_option: "PM"
     entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug5_off_ampm_persist) = x;
 
   # Plug 6
   - platform: template
@@ -1086,6 +1235,9 @@ select:
     options: ["AM", "PM"]
     initial_option: "AM"
     entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug6_on_ampm_persist) = x;
   - platform: template
     id: plug6_off_ampm
     name: "Plug 6 Off AM/PM"
@@ -1093,6 +1245,9 @@ select:
     options: ["AM", "PM"]
     initial_option: "PM"
     entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug6_off_ampm_persist) = x;
 
   # Plug 7
   - platform: template
@@ -1102,6 +1257,9 @@ select:
     options: ["AM", "PM"]
     initial_option: "AM"
     entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug7_on_ampm_persist) = x;
   - platform: template
     id: plug7_off_ampm
     name: "Plug 7 Off AM/PM"
@@ -1109,6 +1267,9 @@ select:
     options: ["AM", "PM"]
     initial_option: "PM"
     entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug7_off_ampm_persist) = x;
 
   # Plug 8
   - platform: template
@@ -1118,6 +1279,9 @@ select:
     options: ["AM", "PM"]
     initial_option: "AM"
     entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug8_on_ampm_persist) = x;
   - platform: template
     id: plug8_off_ampm
     name: "Plug 8 Off AM/PM"
@@ -1125,6 +1289,9 @@ select:
     options: ["AM", "PM"]
     initial_option: "PM"
     entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug8_off_ampm_persist) = x;
 
 display:
   - platform: rpi_dpi_rgb
