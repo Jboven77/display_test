@@ -699,6 +699,19 @@ script:
             }
           }
 
+  - id: startup_check_plugs
+    then:
+      - delay: 3s  # Wait for WiFi to be stable
+      - logger.log: "Startup: checking all plug states"
+      - script.execute: plug1_update_state
+      - delay: 1s
+      - script.execute: plug2_update_state
+      - delay: 1s
+      - script.execute: plug3_update_state
+      - delay: 1s
+      - script.execute: plug4_update_state
+      - logger.log: "Startup: all plug states checked"
+
   - id: plug1_turn_on
     then:
       - logger.log: "Schedule: turning Plug 1 ON"
@@ -1844,6 +1857,8 @@ lvgl:
           id(plug8_off_ampm).publish_state(id(plug8_off_ampm_persist));
           lv_label_set_text(id(lbl_schedule8_state), e8 ? "Timer: ON" : "Timer: OFF");
           lv_obj_set_style_bg_color(id(btn_plug8_timer), e8 ? lv_color_hex(0x228B22) : lv_color_hex(0x444444), LV_PART_MAIN);
+      - script.execute: startup_check_plugs
+
   pages:
     - id: main_page
       widgets:
