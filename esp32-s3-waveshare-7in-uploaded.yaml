@@ -1,0 +1,1727 @@
+substitutions:
+  # PLUG IP ADDRESSES - Change these to match your plugs
+  plug1_ip: "192.168.68.79"
+  plug2_ip: "192.168.68.77"
+  plug3_ip: "192.168.68.76"
+  plug4_ip: "192.168.68.75"
+  plug5_ip: "192.168.68.203"
+  plug6_ip: "192.168.68.204"
+  plug7_ip: "192.168.68.205"
+  plug8_ip: "192.168.68.206"
+
+  # PLUG BUTTON NAMES - Change these to customize button labels (max 12 characters)
+  plug1_name: "PLUG 1"
+  plug2_name: "PLUG 2"
+  plug3_name: "PLUG 3"
+  plug4_name: "PLUG 4"
+  plug5_name: "PLUG 5"
+  plug6_name: "PLUG 6"
+  plug7_name: "PLUG 7"
+  plug8_name: "PLUG 8"
+
+  # PLUG ENABLE/DISABLE - Set to "true" to enable state checking, "false" to disable
+  # Disabled plugs will still show on screen but won't be checked for state updates
+  # Use this to prevent timeouts from unplugged/offline devices
+  plug1_enabled: "true"
+  plug2_enabled: "true"
+  plug3_enabled: "true"
+  plug4_enabled: "true"
+  plug5_enabled: "false"   # Not connected - disable to prevent timeouts
+  plug6_enabled: "false"   # Not connected - disable to prevent timeouts
+  plug7_enabled: "false"   # Not connected - disable to prevent timeouts
+  plug8_enabled: "false"   # Not connected - disable to prevent timeouts
+
+esphome:
+  name: waveshare-esp32-s3-7in
+  friendly_name: Waveshare ESP32-S3 7in
+  min_version: "2025.4.2"
+  platformio_options:
+    build_flags: "-DBOARD_HAS_PSRAM"
+    board_build.arduino.memory_type: qio_opi
+    board_build.flash_mode: dio
+    board_upload.maximum_ram_size: 524288
+
+psram:
+  mode: octal
+  speed: 120MHz
+
+esp32:
+  board: esp32-s3-devkitc-1
+  variant: ESP32S3
+  flash_size: 8MB
+  cpu_frequency: 240MHz
+  framework:
+    type: esp-idf
+    advanced:
+      enable_idf_experimental_features: true
+    sdkconfig_options:
+      COMPILER_OPTIMIZATION_SIZE: y
+      CONFIG_ESP32S3_DATA_CACHE_64KB: "y"
+      CONFIG_ESPTOOLPY_FLASHSIZE_8MB: "y"
+      CONFIG_FREERTOS_HZ: "1000"
+      CONFIG_ESP_DEFAULT_CPU_FREQ_MHZ_240: y
+      CONFIG_ESPTOOLPY_FLASHMODE_QIO: y
+      CONFIG_ESPTOOLPY_FLASHFREQ_120M: y
+      CONFIG_SPIRAM_MODE_OCT: y
+      CONFIG_IDF_EXPERIMENTAL_FEATURES: y
+      CONFIG_SPIRAM_SPEED_120M: y
+      CONFIG_SPIRAM_FETCH_INSTRUCTIONS: y
+      CONFIG_SPIRAM_RODATA: y
+      CONFIG_ESP32S3_DATA_CACHE_LINE_64B: y
+      CONFIG_COMPILER_OPTIMIZATION_PERF: y
+      # Performance optimizations
+      CONFIG_FREERTOS_UNICORE: n
+      CONFIG_ESP_TASK_WDT_TIMEOUT_S: "10"
+      CONFIG_ESP_TASK_WDT_CHECK_IDLE_TASK_CPU0: n
+      CONFIG_ESP_TASK_WDT_CHECK_IDLE_TASK_CPU1: n
+      CONFIG_LWIP_TCP_MSS: "1436"
+      CONFIG_LWIP_TCP_WND: "5744"
+      CONFIG_LWIP_TCP_SND_BUF: "5744"
+      CONFIG_LWIP_TCPIP_RECVMBOX_SIZE: "32"
+      CONFIG_LWIP_UDP_RECVMBOX_SIZE: "16"
+
+logger:
+  level: ERROR  # Reduced from WARN for better performance
+
+preferences:
+  flash_write_interval: 1s  # Save to flash every 1 second (default is 60s)
+
+wifi:
+  ssid: "JEREMY"
+  password: "605506Jdb"
+  power_save_mode: NONE
+  reboot_timeout: 0s
+
+  ap:
+    ssid: "WaveshareS3-7in Fallback"
+    password: "12345678"
+
+captive_portal:
+
+api:
+  reboot_timeout: 0s
+  encryption:
+    key: "+6lkh+FkWq3HVFh6+NukfmN188wGMQap7sw2RK1p9Gg="
+
+ota:
+  - platform: esphome
+    password: "48170f28ed94e6fe392d67906b01ff74"
+
+http_request:
+  id: http_client
+  timeout: 300ms
+
+i2c:
+  sda: GPIO08
+  scl: GPIO09
+  scan: true
+  id: bus_a
+
+ch422g:
+  - id: ch422g_hub
+
+output:
+  - platform: ledc
+    id: lcdbacklight_output
+    pin: GPIO16
+    frequency: 1000 Hz
+
+light:
+  - platform: monochromatic
+    id: lcdbacklight
+    name: LCD Backlight
+    output: lcdbacklight_output
+    icon: mdi:wall-sconce-flat-outline
+    disabled_by_default: true
+    restore_mode: ALWAYS_ON
+
+globals:
+  - id: last_activity
+    type: uint32_t
+    restore_value: no
+    initial_value: "0"
+
+  - id: bl_mode
+    type: int
+    restore_value: yes
+    initial_value: "0"
+
+  - id: bl_level
+    type: int
+    restore_value: yes
+    initial_value: "100"
+
+  - id: plug_check_counter
+    type: int
+    restore_value: no
+    initial_value: "0"
+
+  - id: bg_animation_step
+    type: int
+    restore_value: no
+    initial_value: "0"
+
+  # Failure tracking for smart skipping of problematic plugs
+  - id: plug1_failure_count
+    type: int
+    restore_value: no
+    initial_value: "0"
+  - id: plug2_failure_count
+    type: int
+    restore_value: no
+    initial_value: "0"
+  - id: plug3_failure_count
+    type: int
+    restore_value: no
+    initial_value: "0"
+  - id: plug4_failure_count
+    type: int
+    restore_value: no
+    initial_value: "0"
+
+  # Plug enable/disable flags (from substitutions at top of file)
+  - id: plug1_enabled
+    type: bool
+    restore_value: no
+    initial_value: '${plug1_enabled}'
+  - id: plug2_enabled
+    type: bool
+    restore_value: no
+    initial_value: '${plug2_enabled}'
+  - id: plug3_enabled
+    type: bool
+    restore_value: no
+    initial_value: '${plug3_enabled}'
+  - id: plug4_enabled
+    type: bool
+    restore_value: no
+    initial_value: '${plug4_enabled}'
+  - id: plug5_enabled
+    type: bool
+    restore_value: no
+    initial_value: '${plug5_enabled}'
+  - id: plug6_enabled
+    type: bool
+    restore_value: no
+    initial_value: '${plug6_enabled}'
+  - id: plug7_enabled
+    type: bool
+    restore_value: no
+    initial_value: '${plug7_enabled}'
+  - id: plug8_enabled
+    type: bool
+    restore_value: no
+    initial_value: '${plug8_enabled}'
+
+  - id: plug1_ui_state
+    type: bool
+    restore_value: no
+    initial_value: "false"
+  - id: plug2_ui_state
+    type: bool
+    restore_value: no
+    initial_value: "false"
+  - id: plug3_ui_state
+    type: bool
+    restore_value: no
+    initial_value: "false"
+  - id: plug4_ui_state
+    type: bool
+    restore_value: no
+    initial_value: "false"
+  - id: plug5_ui_state
+    type: bool
+    restore_value: no
+    initial_value: "false"
+  - id: plug6_ui_state
+    type: bool
+    restore_value: no
+    initial_value: "false"
+  - id: plug7_ui_state
+    type: bool
+    restore_value: no
+    initial_value: "false"
+  - id: plug8_ui_state
+    type: bool
+    restore_value: no
+    initial_value: "false"
+
+  # Plug IP addresses (configured in substitutions at top of file)
+  - id: plug1_ip_str
+    type: std::string
+    restore_value: yes
+    max_restore_data_length: 20
+    initial_value: '"${plug1_ip}"'
+  - id: plug2_ip_str
+    type: std::string
+    restore_value: yes
+    max_restore_data_length: 20
+    initial_value: '"${plug2_ip}"'
+  - id: plug3_ip_str
+    type: std::string
+    restore_value: yes
+    max_restore_data_length: 20
+    initial_value: '"${plug3_ip}"'
+  - id: plug4_ip_str
+    type: std::string
+    restore_value: yes
+    max_restore_data_length: 20
+    initial_value: '"${plug4_ip}"'
+  - id: plug5_ip_str
+    type: std::string
+    restore_value: yes
+    max_restore_data_length: 20
+    initial_value: '"${plug5_ip}"'
+  - id: plug6_ip_str
+    type: std::string
+    restore_value: yes
+    max_restore_data_length: 20
+    initial_value: '"${plug6_ip}"'
+  - id: plug7_ip_str
+    type: std::string
+    restore_value: yes
+    max_restore_data_length: 20
+    initial_value: '"${plug7_ip}"'
+  - id: plug8_ip_str
+    type: std::string
+    restore_value: yes
+    max_restore_data_length: 20
+    initial_value: '"${plug8_ip}"'
+
+  # Plug button names (configured in substitutions at top of file)
+  - id: plug1_name
+    type: std::string
+    restore_value: yes
+    max_restore_data_length: 30
+    initial_value: '"${plug1_name}"'
+  - id: plug2_name
+    type: std::string
+    restore_value: yes
+    max_restore_data_length: 30
+    initial_value: '"${plug2_name}"'
+  - id: plug3_name
+    type: std::string
+    restore_value: yes
+    max_restore_data_length: 30
+    initial_value: '"${plug3_name}"'
+  - id: plug4_name
+    type: std::string
+    restore_value: yes
+    max_restore_data_length: 30
+    initial_value: '"${plug4_name}"'
+  - id: plug5_name
+    type: std::string
+    restore_value: yes
+    max_restore_data_length: 30
+    initial_value: '"${plug5_name}"'
+  - id: plug6_name
+    type: std::string
+    restore_value: yes
+    max_restore_data_length: 30
+    initial_value: '"${plug6_name}"'
+  - id: plug7_name
+    type: std::string
+    restore_value: yes
+    max_restore_data_length: 30
+    initial_value: '"${plug7_name}"'
+  - id: plug8_name
+    type: std::string
+    restore_value: yes
+    max_restore_data_length: 30
+    initial_value: '"${plug8_name}"'
+
+
+  - id: plug1_schedule_persist
+    type: bool
+    restore_value: yes
+    initial_value: 'false'
+  - id: plug1_on_hour_persist
+    type: int
+    restore_value: yes
+    initial_value: '8'
+  - id: plug1_on_minute_persist
+    type: int
+    restore_value: yes
+    initial_value: '0'
+  - id: plug1_off_hour_persist
+    type: int
+    restore_value: yes
+    initial_value: '6'
+  - id: plug1_off_minute_persist
+    type: int
+    restore_value: yes
+    initial_value: '0'
+  - id: plug1_on_ampm_persist
+    type: std::string
+    restore_value: yes
+    max_restore_data_length: 4
+    initial_value: '"AM"'
+  - id: plug1_off_ampm_persist
+    type: std::string
+    restore_value: yes
+    max_restore_data_length: 4
+    initial_value: '"PM"'
+
+  - id: plug2_schedule_persist
+    type: bool
+    restore_value: yes
+    initial_value: 'false'
+  - id: plug2_on_hour_persist
+    type: int
+    restore_value: yes
+    initial_value: '8'
+  - id: plug2_on_minute_persist
+    type: int
+    restore_value: yes
+    initial_value: '0'
+  - id: plug2_off_hour_persist
+    type: int
+    restore_value: yes
+    initial_value: '6'
+  - id: plug2_off_minute_persist
+    type: int
+    restore_value: yes
+    initial_value: '0'
+  - id: plug2_on_ampm_persist
+    type: std::string
+    restore_value: yes
+    max_restore_data_length: 4
+    initial_value: '"AM"'
+  - id: plug2_off_ampm_persist
+    type: std::string
+    restore_value: yes
+    max_restore_data_length: 4
+    initial_value: '"PM"'
+
+  - id: plug3_schedule_persist
+    type: bool
+    restore_value: yes
+    initial_value: 'false'
+  - id: plug3_on_hour_persist
+    type: int
+    restore_value: yes
+    initial_value: '8'
+  - id: plug3_on_minute_persist
+    type: int
+    restore_value: yes
+    initial_value: '0'
+  - id: plug3_off_hour_persist
+    type: int
+    restore_value: yes
+    initial_value: '6'
+  - id: plug3_off_minute_persist
+    type: int
+    restore_value: yes
+    initial_value: '0'
+  - id: plug3_on_ampm_persist
+    type: std::string
+    restore_value: yes
+    max_restore_data_length: 4
+    initial_value: '"AM"'
+  - id: plug3_off_ampm_persist
+    type: std::string
+    restore_value: yes
+    max_restore_data_length: 4
+    initial_value: '"PM"'
+
+  - id: plug4_schedule_persist
+    type: bool
+    restore_value: yes
+    initial_value: 'false'
+  - id: plug4_on_hour_persist
+    type: int
+    restore_value: yes
+    initial_value: '8'
+  - id: plug4_on_minute_persist
+    type: int
+    restore_value: yes
+    initial_value: '0'
+  - id: plug4_off_hour_persist
+    type: int
+    restore_value: yes
+    initial_value: '6'
+  - id: plug4_off_minute_persist
+    type: int
+    restore_value: yes
+    initial_value: '0'
+  - id: plug4_on_ampm_persist
+    type: std::string
+    restore_value: yes
+    max_restore_data_length: 4
+    initial_value: '"AM"'
+  - id: plug4_off_ampm_persist
+    type: std::string
+    restore_value: yes
+    max_restore_data_length: 4
+    initial_value: '"PM"'
+
+  - id: plug5_schedule_persist
+    type: bool
+    restore_value: yes
+    initial_value: 'false'
+  - id: plug5_on_hour_persist
+    type: int
+    restore_value: yes
+    initial_value: '8'
+  - id: plug5_on_minute_persist
+    type: int
+    restore_value: yes
+    initial_value: '0'
+  - id: plug5_off_hour_persist
+    type: int
+    restore_value: yes
+    initial_value: '6'
+  - id: plug5_off_minute_persist
+    type: int
+    restore_value: yes
+    initial_value: '0'
+  - id: plug5_on_ampm_persist
+    type: std::string
+    restore_value: yes
+    max_restore_data_length: 4
+    initial_value: '"AM"'
+  - id: plug5_off_ampm_persist
+    type: std::string
+    restore_value: yes
+    max_restore_data_length: 4
+    initial_value: '"PM"'
+
+  - id: plug6_schedule_persist
+    type: bool
+    restore_value: yes
+    initial_value: 'false'
+  - id: plug6_on_hour_persist
+    type: int
+    restore_value: yes
+    initial_value: '8'
+  - id: plug6_on_minute_persist
+    type: int
+    restore_value: yes
+    initial_value: '0'
+  - id: plug6_off_hour_persist
+    type: int
+    restore_value: yes
+    initial_value: '6'
+  - id: plug6_off_minute_persist
+    type: int
+    restore_value: yes
+    initial_value: '0'
+  - id: plug6_on_ampm_persist
+    type: std::string
+    restore_value: yes
+    max_restore_data_length: 4
+    initial_value: '"AM"'
+  - id: plug6_off_ampm_persist
+    type: std::string
+    restore_value: yes
+    max_restore_data_length: 4
+    initial_value: '"PM"'
+
+  - id: plug7_schedule_persist
+    type: bool
+    restore_value: yes
+    initial_value: 'false'
+  - id: plug7_on_hour_persist
+    type: int
+    restore_value: yes
+    initial_value: '8'
+  - id: plug7_on_minute_persist
+    type: int
+    restore_value: yes
+    initial_value: '0'
+  - id: plug7_off_hour_persist
+    type: int
+    restore_value: yes
+    initial_value: '6'
+  - id: plug7_off_minute_persist
+    type: int
+    restore_value: yes
+    initial_value: '0'
+  - id: plug7_on_ampm_persist
+    type: std::string
+    restore_value: yes
+    max_restore_data_length: 4
+    initial_value: '"AM"'
+  - id: plug7_off_ampm_persist
+    type: std::string
+    restore_value: yes
+    max_restore_data_length: 4
+    initial_value: '"PM"'
+
+  - id: plug8_schedule_persist
+    type: bool
+    restore_value: yes
+    initial_value: 'false'
+  - id: plug8_on_hour_persist
+    type: int
+    restore_value: yes
+    initial_value: '8'
+  - id: plug8_on_minute_persist
+    type: int
+    restore_value: yes
+    initial_value: '0'
+  - id: plug8_off_hour_persist
+    type: int
+    restore_value: yes
+    initial_value: '6'
+  - id: plug8_off_minute_persist
+    type: int
+    restore_value: yes
+    initial_value: '0'
+  - id: plug8_on_ampm_persist
+    type: std::string
+    restore_value: yes
+    max_restore_data_length: 4
+    initial_value: '"AM"'
+  - id: plug8_off_ampm_persist
+    type: std::string
+    restore_value: yes
+    max_restore_data_length: 4
+    initial_value: '"PM"'
+
+switch:
+  - platform: gpio
+    id: lcd_backlight_sw
+    internal: true
+    pin:
+      ch422g: ch422g_hub
+      number: 2
+      mode:
+        output: true
+      inverted: false
+    restore_mode: ALWAYS_ON
+
+  - platform: template
+    id: plug1_schedule_enabled
+    name: "Plug 1 Schedule Enabled"
+    optimistic: true
+    entity_category: "config"
+    on_turn_on:
+      - lambda: |-
+          id(plug1_schedule_persist) = true;
+          lv_label_set_text(id(lbl_schedule1_state), "Timer: ON");
+          lv_obj_set_style_bg_color(id(btn_plug1_timer), lv_color_hex(0x228B22), LV_PART_MAIN);
+    on_turn_off:
+      - lambda: |-
+          id(plug1_schedule_persist) = false;
+          lv_label_set_text(id(lbl_schedule1_state), "Timer: OFF");
+          lv_obj_set_style_bg_color(id(btn_plug1_timer), lv_color_hex(0x444444), LV_PART_MAIN);
+
+  - platform: template
+    id: plug2_schedule_enabled
+    name: "Plug 2 Schedule Enabled"
+    optimistic: true
+    entity_category: "config"
+    on_turn_on:
+      - lambda: |-
+          id(plug2_schedule_persist) = true;
+          lv_label_set_text(id(lbl_schedule2_state), "Timer: ON");
+          lv_obj_set_style_bg_color(id(btn_plug2_timer), lv_color_hex(0x228B22), LV_PART_MAIN);
+    on_turn_off:
+      - lambda: |-
+          id(plug2_schedule_persist) = false;
+          lv_label_set_text(id(lbl_schedule2_state), "Timer: OFF");
+          lv_obj_set_style_bg_color(id(btn_plug2_timer), lv_color_hex(0x444444), LV_PART_MAIN);
+
+  - platform: template
+    id: plug3_schedule_enabled
+    name: "Plug 3 Schedule Enabled"
+    optimistic: true
+    entity_category: "config"
+    on_turn_on:
+      - lambda: |-
+          id(plug3_schedule_persist) = true;
+          lv_label_set_text(id(lbl_schedule3_state), "Timer: ON");
+          lv_obj_set_style_bg_color(id(btn_plug3_timer), lv_color_hex(0x228B22), LV_PART_MAIN);
+    on_turn_off:
+      - lambda: |-
+          id(plug3_schedule_persist) = false;
+          lv_label_set_text(id(lbl_schedule3_state), "Timer: OFF");
+          lv_obj_set_style_bg_color(id(btn_plug3_timer), lv_color_hex(0x444444), LV_PART_MAIN);
+
+  - platform: template
+    id: plug4_schedule_enabled
+    name: "Plug 4 Schedule Enabled"
+    optimistic: true
+    entity_category: "config"
+    on_turn_on:
+      - lambda: |-
+          id(plug4_schedule_persist) = true;
+          lv_label_set_text(id(lbl_schedule4_state), "Timer: ON");
+          lv_obj_set_style_bg_color(id(btn_plug4_timer), lv_color_hex(0x228B22), LV_PART_MAIN);
+    on_turn_off:
+      - lambda: |-
+          id(plug4_schedule_persist) = false;
+          lv_label_set_text(id(lbl_schedule4_state), "Timer: OFF");
+          lv_obj_set_style_bg_color(id(btn_plug4_timer), lv_color_hex(0x444444), LV_PART_MAIN);
+
+  - platform: template
+    id: plug5_schedule_enabled
+    name: "Plug 5 Schedule Enabled"
+    optimistic: true
+    entity_category: "config"
+    on_turn_on:
+      - lambda: |-
+          id(plug5_schedule_persist) = true;
+          lv_label_set_text(id(lbl_schedule5_state), "Timer: ON");
+          lv_obj_set_style_bg_color(id(btn_plug5_timer), lv_color_hex(0x228B22), LV_PART_MAIN);
+    on_turn_off:
+      - lambda: |-
+          id(plug5_schedule_persist) = false;
+          lv_label_set_text(id(lbl_schedule5_state), "Timer: OFF");
+          lv_obj_set_style_bg_color(id(btn_plug5_timer), lv_color_hex(0x444444), LV_PART_MAIN);
+
+  - platform: template
+    id: plug6_schedule_enabled
+    name: "Plug 6 Schedule Enabled"
+    optimistic: true
+    entity_category: "config"
+    on_turn_on:
+      - lambda: |-
+          id(plug6_schedule_persist) = true;
+          lv_label_set_text(id(lbl_schedule6_state), "Timer: ON");
+          lv_obj_set_style_bg_color(id(btn_plug6_timer), lv_color_hex(0x228B22), LV_PART_MAIN);
+    on_turn_off:
+      - lambda: |-
+          id(plug6_schedule_persist) = false;
+          lv_label_set_text(id(lbl_schedule6_state), "Timer: OFF");
+          lv_obj_set_style_bg_color(id(btn_plug6_timer), lv_color_hex(0x444444), LV_PART_MAIN);
+
+  - platform: template
+    id: plug7_schedule_enabled
+    name: "Plug 7 Schedule Enabled"
+    optimistic: true
+    entity_category: "config"
+    on_turn_on:
+      - lambda: |-
+          id(plug7_schedule_persist) = true;
+          lv_label_set_text(id(lbl_schedule7_state), "Timer: ON");
+          lv_obj_set_style_bg_color(id(btn_plug7_timer), lv_color_hex(0x228B22), LV_PART_MAIN);
+    on_turn_off:
+      - lambda: |-
+          id(plug7_schedule_persist) = false;
+          lv_label_set_text(id(lbl_schedule7_state), "Timer: OFF");
+          lv_obj_set_style_bg_color(id(btn_plug7_timer), lv_color_hex(0x444444), LV_PART_MAIN);
+
+  - platform: template
+    id: plug8_schedule_enabled
+    name: "Plug 8 Schedule Enabled"
+    optimistic: true
+    entity_category: "config"
+    on_turn_on:
+      - lambda: |-
+          id(plug8_schedule_persist) = true;
+          lv_label_set_text(id(lbl_schedule8_state), "Timer: ON");
+          lv_obj_set_style_bg_color(id(btn_plug8_timer), lv_color_hex(0x228B22), LV_PART_MAIN);
+    on_turn_off:
+      - lambda: |-
+          id(plug8_schedule_persist) = false;
+          lv_label_set_text(id(lbl_schedule8_state), "Timer: OFF");
+          lv_obj_set_style_bg_color(id(btn_plug8_timer), lv_color_hex(0x444444), LV_PART_MAIN);
+
+script:
+  - id: register_activity
+    then:
+      - lambda: |-
+          id(last_activity) = millis();
+          id(lcd_backlight_sw).turn_on();
+          if (id(bl_mode) == 0) {
+            auto call = id(lcdbacklight).turn_on();
+            float bri = id(bl_level) / 100.0f;
+            call.set_brightness(bri);
+            call.perform();
+          }
+
+  - id: bl_auto_off_check
+    then:
+      - lambda: |-
+          uint32_t now = millis();
+          if (id(last_activity) == 0) {
+            id(last_activity) = now;
+            return;
+          }
+          uint32_t timeout_ms = 5UL * 60UL * 1000UL;
+          if (id(bl_mode) == 0) {
+            if (now - id(last_activity) > timeout_ms) {
+              ESP_LOGI("backlight", "Auto-off: turning backlight OFF after 5 min inactivity");
+              auto call = id(lcdbacklight).turn_off();
+              call.perform();
+              id(lcd_backlight_sw).turn_off();
+              id(last_activity) = now;
+            }
+          }
+
+  - id: startup_check_plugs
+    then:
+      - delay: 3s  # Wait for WiFi to be stable
+      - logger.log: "Startup: checking enabled plug states"
+      - lambda: |-
+          if (id(plug1_enabled)) { id(plug1_update_state).execute(); delay(1000); }
+          if (id(plug2_enabled)) { id(plug2_update_state).execute(); delay(1000); }
+          if (id(plug3_enabled)) { id(plug3_update_state).execute(); delay(1000); }
+          if (id(plug4_enabled)) { id(plug4_update_state).execute(); delay(1000); }
+          if (id(plug5_enabled)) { id(plug5_update_state).execute(); delay(1000); }
+          if (id(plug6_enabled)) { id(plug6_update_state).execute(); delay(1000); }
+          if (id(plug7_enabled)) { id(plug7_update_state).execute(); delay(1000); }
+          if (id(plug8_enabled)) { id(plug8_update_state).execute(); delay(1000); }
+          ESP_LOGI("Startup", "All enabled plug states checked");
+
+  - id: save_timer_settings
+    then:
+      - delay: 100ms  # Small delay to ensure all changes are applied
+      - lambda: |-
+          global_preferences->sync();
+          ESP_LOGI("Persist", "Timer settings saved to flash");
+
+  - id: plug1_turn_on
+    then:
+      - logger.log: "Schedule: turning Plug 1 ON"
+      - http_request.post:
+          url: !lambda |-
+            return std::string("http://") + id(plug1_ip_str) + std::string("/switch/kauf_plug/turn_on");
+      - delay: 500ms
+      - script.execute: plug1_update_state
+
+  - id: plug1_turn_off
+    then:
+      - logger.log: "Schedule: turning Plug 1 OFF"
+      - http_request.post:
+          url: !lambda |-
+            return std::string("http://") + id(plug1_ip_str) + std::string("/switch/kauf_plug/turn_off");
+      - delay: 500ms
+      - script.execute: plug1_update_state
+
+  - id: plug2_turn_on
+    then:
+      - logger.log: "Schedule: turning Plug 2 ON"
+      - http_request.post:
+          url: !lambda |-
+            return std::string("http://") + id(plug2_ip_str) + std::string("/switch/kauf_plug/turn_on");
+      - delay: 500ms
+      - script.execute: plug2_update_state
+
+  - id: plug2_turn_off
+    then:
+      - logger.log: "Schedule: turning Plug 2 OFF"
+      - http_request.post:
+          url: !lambda |-
+            return std::string("http://") + id(plug2_ip_str) + std::string("/switch/kauf_plug/turn_off");
+      - delay: 500ms
+      - script.execute: plug2_update_state
+
+  - id: plug3_turn_on
+    then:
+      - logger.log: "Schedule: turning Plug 3 ON"
+      - http_request.post:
+          url: !lambda |-
+            return std::string("http://") + id(plug3_ip_str) + std::string("/switch/kauf_plug/turn_on");
+      - delay: 500ms
+      - script.execute: plug3_update_state
+
+  - id: plug3_turn_off
+    then:
+      - logger.log: "Schedule: turning Plug 3 OFF"
+      - http_request.post:
+          url: !lambda |-
+            return std::string("http://") + id(plug3_ip_str) + std::string("/switch/kauf_plug/turn_off");
+      - delay: 500ms
+      - script.execute: plug3_update_state
+
+  - id: plug4_turn_on
+    then:
+      - logger.log: "Schedule: turning Plug 4 ON"
+      - http_request.post:
+          url: !lambda |-
+            return std::string("http://") + id(plug4_ip_str) + std::string("/switch/kauf_plug/turn_on");
+      - delay: 500ms
+      - script.execute: plug4_update_state
+
+  - id: plug4_turn_off
+    then:
+      - logger.log: "Schedule: turning Plug 4 OFF"
+      - http_request.post:
+          url: !lambda |-
+            return std::string("http://") + id(plug4_ip_str) + std::string("/switch/kauf_plug/turn_off");
+      - delay: 500ms
+      - script.execute: plug4_update_state
+
+  - id: plug5_turn_on
+    then:
+      - logger.log: "Schedule: turning Plug 5 ON"
+      - http_request.post:
+          url: !lambda |-
+            return std::string("http://") + id(plug5_ip_str) + std::string("/switch/kauf_plug/turn_on");
+      - delay: 500ms
+      - script.execute: plug5_update_state
+
+  - id: plug5_turn_off
+    then:
+      - logger.log: "Schedule: turning Plug 5 OFF"
+      - http_request.post:
+          url: !lambda |-
+            return std::string("http://") + id(plug5_ip_str) + std::string("/switch/kauf_plug/turn_off");
+      - delay: 500ms
+      - script.execute: plug5_update_state
+
+  - id: plug6_turn_on
+    then:
+      - logger.log: "Schedule: turning Plug 6 ON"
+      - http_request.post:
+          url: !lambda |-
+            return std::string("http://") + id(plug6_ip_str) + std::string("/switch/kauf_plug/turn_on");
+      - delay: 500ms
+      - script.execute: plug6_update_state
+
+  - id: plug6_turn_off
+    then:
+      - logger.log: "Schedule: turning Plug 6 OFF"
+      - http_request.post:
+          url: !lambda |-
+            return std::string("http://") + id(plug6_ip_str) + std::string("/switch/kauf_plug/turn_off");
+      - delay: 500ms
+      - script.execute: plug6_update_state
+
+  - id: plug7_turn_on
+    then:
+      - logger.log: "Schedule: turning Plug 7 ON"
+      - http_request.post:
+          url: !lambda |-
+            return std::string("http://") + id(plug7_ip_str) + std::string("/switch/kauf_plug/turn_on");
+      - delay: 500ms
+      - script.execute: plug7_update_state
+
+  - id: plug7_turn_off
+    then:
+      - logger.log: "Schedule: turning Plug 7 OFF"
+      - http_request.post:
+          url: !lambda |-
+            return std::string("http://") + id(plug7_ip_str) + std::string("/switch/kauf_plug/turn_off");
+      - delay: 500ms
+      - script.execute: plug7_update_state
+
+  - id: toggle_plug8_device
+    then:
+      - logger.log: "Manual: toggling Plug 8"
+      - http_request.post:
+          url: !lambda |-
+            return std::string("http://") + id(plug8_ip_str) + std::string("/switch/kauf_plug/toggle");
+      - delay: 500ms
+      - script.execute: plug8_update_state
+
+  - id: plug8_turn_on
+    then:
+      - logger.log: "Schedule: turning Plug 8 ON"
+      - http_request.post:
+          url: !lambda |-
+            return std::string("http://") + id(plug8_ip_str) + std::string("/switch/kauf_plug/turn_on");
+      - delay: 500ms
+      - script.execute: plug8_update_state
+
+  - id: plug8_turn_off
+    then:
+      - logger.log: "Schedule: turning Plug 8 OFF"
+      - http_request.post:
+          url: !lambda |-
+            return std::string("http://") + id(plug8_ip_str) + std::string("/switch/kauf_plug/turn_off");
+      - delay: 500ms
+      - script.execute: plug8_update_state
+
+  - id: plug1_update_state
+    then:
+      - http_request.get:
+          url: !lambda |-
+            return std::string("http://") + id(plug1_ip_str) + std::string("/switch/kauf_plug");
+          capture_response: true
+          on_response:
+            then:
+              - lambda: |-
+                  bool on = body.find("\"state\":\"ON\"") != std::string::npos;
+                  id(plug1_ui_state) = on;
+                  auto col = on ? lv_color_hex(0x00FF00) : lv_color_hex(0xFF0000);
+                  auto text_col = on ? lv_color_hex(0x000000) : lv_color_hex(0xFFFFFF);
+                  lv_obj_set_style_bg_color(id(btn_plug1), col, LV_PART_MAIN);
+                  // Update text color - get the label child and set its color
+                  lv_obj_t* label = lv_obj_get_child(id(btn_plug1), 0);
+                  if (label) lv_obj_set_style_text_color(label, text_col, LV_PART_MAIN);
+                  id(plug1_failure_count) = 0;  // Reset failure counter on success
+          on_error:
+            then:
+              - lambda: |-
+                  id(plug1_ui_state) = false;
+                  lv_obj_set_style_bg_color(id(btn_plug1), lv_color_hex(0xFF0000), LV_PART_MAIN);
+                  lv_obj_t* label = lv_obj_get_child(id(btn_plug1), 0);
+                  if (label) lv_obj_set_style_text_color(label, lv_color_hex(0xFFFFFF), LV_PART_MAIN);
+                  id(plug1_failure_count)++;  // Increment failure counter
+
+  - id: plug2_update_state
+    then:
+      - http_request.get:
+          url: !lambda |-
+            return std::string("http://") + id(plug2_ip_str) + std::string("/switch/kauf_plug");
+          capture_response: true
+          on_response:
+            then:
+              - lambda: |-
+                  bool on = body.find("\"state\":\"ON\"") != std::string::npos;
+                  id(plug2_ui_state) = on;
+                  auto col = on ? lv_color_hex(0x00FF00) : lv_color_hex(0xFF0000);
+                  auto text_col = on ? lv_color_hex(0x000000) : lv_color_hex(0xFFFFFF);
+                  lv_obj_set_style_bg_color(id(btn_plug2), col, LV_PART_MAIN);
+                  lv_obj_t* label = lv_obj_get_child(id(btn_plug2), 0);
+                  if (label) lv_obj_set_style_text_color(label, text_col, LV_PART_MAIN);
+                  id(plug2_failure_count) = 0;  // Reset failure counter on success
+          on_error:
+            then:
+              - lambda: |-
+                  id(plug2_ui_state) = false;
+                  lv_obj_set_style_bg_color(id(btn_plug2), lv_color_hex(0xFF0000), LV_PART_MAIN);
+                  lv_obj_t* label = lv_obj_get_child(id(btn_plug2), 0);
+                  if (label) lv_obj_set_style_text_color(label, lv_color_hex(0xFFFFFF), LV_PART_MAIN);
+                  id(plug2_failure_count)++;  // Increment failure counter
+
+  - id: plug3_update_state
+    then:
+      - http_request.get:
+          url: !lambda |-
+            return std::string("http://") + id(plug3_ip_str) + std::string("/switch/kauf_plug");
+          capture_response: true
+          on_response:
+            then:
+              - lambda: |-
+                  bool on = body.find("\"state\":\"ON\"") != std::string::npos;
+                  id(plug3_ui_state) = on;
+                  auto col = on ? lv_color_hex(0x00FF00) : lv_color_hex(0xFF0000);
+                  auto text_col = on ? lv_color_hex(0x000000) : lv_color_hex(0xFFFFFF);
+                  lv_obj_set_style_bg_color(id(btn_plug3), col, LV_PART_MAIN);
+                  lv_obj_t* label = lv_obj_get_child(id(btn_plug3), 0);
+                  if (label) lv_obj_set_style_text_color(label, text_col, LV_PART_MAIN);
+                  id(plug3_failure_count) = 0;  // Reset failure counter on success
+          on_error:
+            then:
+              - lambda: |-
+                  id(plug3_ui_state) = false;
+                  lv_obj_set_style_bg_color(id(btn_plug3), lv_color_hex(0xFF0000), LV_PART_MAIN);
+                  lv_obj_t* label = lv_obj_get_child(id(btn_plug3), 0);
+                  if (label) lv_obj_set_style_text_color(label, lv_color_hex(0xFFFFFF), LV_PART_MAIN);
+                  id(plug3_failure_count)++;  // Increment failure counter
+
+  - id: plug4_update_state
+    then:
+      - http_request.get:
+          url: !lambda |-
+            return std::string("http://") + id(plug4_ip_str) + std::string("/switch/kauf_plug");
+          capture_response: true
+          on_response:
+            then:
+              - lambda: |-
+                  bool on = body.find("\"state\":\"ON\"") != std::string::npos;
+                  id(plug4_ui_state) = on;
+                  auto col = on ? lv_color_hex(0x00FF00) : lv_color_hex(0xFF0000);
+                  auto text_col = on ? lv_color_hex(0x000000) : lv_color_hex(0xFFFFFF);
+                  lv_obj_set_style_bg_color(id(btn_plug4), col, LV_PART_MAIN);
+                  lv_obj_t* label = lv_obj_get_child(id(btn_plug4), 0);
+                  if (label) lv_obj_set_style_text_color(label, text_col, LV_PART_MAIN);
+                  id(plug4_failure_count) = 0;  // Reset failure counter on success
+          on_error:
+            then:
+              - lambda: |-
+                  id(plug4_ui_state) = false;
+                  lv_obj_set_style_bg_color(id(btn_plug4), lv_color_hex(0xFF0000), LV_PART_MAIN);
+                  lv_obj_t* label = lv_obj_get_child(id(btn_plug4), 0);
+                  if (label) lv_obj_set_style_text_color(label, lv_color_hex(0xFFFFFF), LV_PART_MAIN);
+                  id(plug4_failure_count)++;  // Increment failure counter
+
+  - id: plug5_update_state
+    then:
+      - http_request.get:
+          url: !lambda |-
+            return std::string("http://") + id(plug5_ip_str) + std::string("/switch/kauf_plug");
+          capture_response: true
+          on_response:
+            then:
+              - lambda: |-
+                  bool on = body.find("\"state\":\"ON\"") != std::string::npos;
+                  id(plug5_ui_state) = on;
+                  auto col = on ? lv_color_hex(0x00FF00) : lv_color_hex(0xFF0000);
+                  lv_obj_set_style_bg_color(id(btn_plug5), col, LV_PART_MAIN);
+          on_error:
+            then:
+              - lambda: |-
+                  id(plug5_ui_state) = false;
+                  lv_obj_set_style_bg_color(id(btn_plug5), lv_color_hex(0xFF0000), LV_PART_MAIN);
+
+  - id: plug6_update_state
+    then:
+      - http_request.get:
+          url: !lambda |-
+            return std::string("http://") + id(plug6_ip_str) + std::string("/switch/kauf_plug");
+          capture_response: true
+          on_response:
+            then:
+              - lambda: |-
+                  bool on = body.find("\"state\":\"ON\"") != std::string::npos;
+                  id(plug6_ui_state) = on;
+                  auto col = on ? lv_color_hex(0x00FF00) : lv_color_hex(0xFF0000);
+                  lv_obj_set_style_bg_color(id(btn_plug6), col, LV_PART_MAIN);
+          on_error:
+            then:
+              - lambda: |-
+                  id(plug6_ui_state) = false;
+                  lv_obj_set_style_bg_color(id(btn_plug6), lv_color_hex(0xFF0000), LV_PART_MAIN);
+
+  - id: plug7_update_state
+    then:
+      - http_request.get:
+          url: !lambda |-
+            return std::string("http://") + id(plug7_ip_str) + std::string("/switch/kauf_plug");
+          capture_response: true
+          on_response:
+            then:
+              - lambda: |-
+                  bool on = body.find("\"state\":\"ON\"") != std::string::npos;
+                  id(plug7_ui_state) = on;
+                  auto col = on ? lv_color_hex(0x00FF00) : lv_color_hex(0xFF0000);
+                  lv_obj_set_style_bg_color(id(btn_plug7), col, LV_PART_MAIN);
+          on_error:
+            then:
+              - lambda: |-
+                  id(plug7_ui_state) = false;
+                  lv_obj_set_style_bg_color(id(btn_plug7), lv_color_hex(0xFF0000), LV_PART_MAIN);
+
+  - id: plug8_update_state
+    then:
+      - http_request.get:
+          url: !lambda |-
+            return std::string("http://") + id(plug8_ip_str) + std::string("/switch/kauf_plug");
+          capture_response: true
+          on_response:
+            then:
+              - lambda: |-
+                  bool on = body.find("\"state\":\"ON\"") != std::string::npos;
+                  id(plug8_ui_state) = on;
+                  auto col = on ? lv_color_hex(0x00FF00) : lv_color_hex(0xFF0000);
+                  lv_obj_set_style_bg_color(id(btn_plug8), col, LV_PART_MAIN);
+          on_error:
+            then:
+              - lambda: |-
+                  id(plug8_ui_state) = false;
+                  lv_obj_set_style_bg_color(id(btn_plug8), lv_color_hex(0xFF0000), LV_PART_MAIN);
+
+  - id: fetch_all_plug_info
+    then:
+      - http_request.get:
+          url: !lambda |-
+            return std::string("http://") + id(plug1_ip_str) + std::string("/switch/kauf_plug");
+          capture_response: true
+          on_response:
+            then:
+              - lambda: |-
+                  auto extract = [&](const std::string &k)->std::string {
+                    size_t p = body.find(k);
+                    if (p == std::string::npos) return std::string("");
+                    size_t colon = body.find(':', p);
+                    if (colon == std::string::npos) return std::string("");
+                    size_t s = colon + 1;
+                    while (s < body.size() && (body[s] == ' ' || body[s] == '"')) s++;
+                    size_t e = s;
+                    while (e < body.size() && ((body[e] >= '0' && body[e] <= '9') || body[e] == '.' || body[e] == '-')) e++;
+                    return body.substr(s, e - s);
+                  };
+                  std::string st = extract("\"state\"");
+                  std::string out = "S:" + (st.empty()? std::string("?") : st);
+                  lv_label_set_text(id(lbl_plug1_info), out.c_str());
+          on_error:
+            then:
+              - lambda: |-
+                  lv_label_set_text(id(lbl_plug1_info), "unreachable");
+      - http_request.get:
+          url: !lambda |-
+            return std::string("http://") + id(plug1_ip_str) + std::string("/sensor/kauf_plug_current");
+          capture_response: true
+          on_response:
+            then:
+              - lambda: |-
+                  std::string val = "-";
+                  size_t state_pos = body.find("\"state\":\"");
+                  if (state_pos != std::string::npos) {
+                    size_t start = state_pos + 9;
+                    size_t end = body.find("\"", start);
+                    if (end != std::string::npos) {
+                      std::string state_str = body.substr(start, end - start);
+                      size_t space_pos = state_str.find(" ");
+                      if (space_pos != std::string::npos) {
+                        val = state_str.substr(0, space_pos);
+                      }
+                    }
+                  }
+                  const char *old = lv_label_get_text(id(lbl_plug1_info));
+                  std::string out = std::string(old ? old : "") + "  I:" + val + "A";
+                  lv_label_set_text(id(lbl_plug1_info), out.c_str());
+          on_error:
+            then:
+              - lambda: |-
+                  const char *old = lv_label_get_text(id(lbl_plug1_info));
+                  std::string out = std::string(old ? old : "") + "  I:-A";
+                  lv_label_set_text(id(lbl_plug1_info), out.c_str());
+      - http_request.get:
+          url: !lambda |-
+            return std::string("http://") + id(plug1_ip_str) + std::string("/sensor/kauf_plug_voltage");
+          capture_response: true
+          on_response:
+            then:
+              - lambda: |-
+                  std::string val = "-";
+                  size_t state_pos = body.find("\"state\":\"");
+                  if (state_pos != std::string::npos) {
+                    size_t start = state_pos + 9;
+                    size_t end = body.find("\"", start);
+                    if (end != std::string::npos) {
+                      std::string state_str = body.substr(start, end - start);
+                      size_t space_pos = state_str.find(" ");
+                      if (space_pos != std::string::npos) {
+                        val = state_str.substr(0, space_pos);
+                      }
+                    }
+                  }
+                  const char *old = lv_label_get_text(id(lbl_plug1_info));
+                  std::string out = std::string(old ? old : "") + "  V:" + val + "V";
+                  lv_label_set_text(id(lbl_plug1_info), out.c_str());
+          on_error:
+            then:
+              - lambda: |-
+                  const char *old = lv_label_get_text(id(lbl_plug1_info));
+                  std::string out = std::string(old ? old : "") + "  V:-V";
+                  lv_label_set_text(id(lbl_plug1_info), out.c_str());
+      # Similar blocks for plugs 2-8 omitted for brevity - add them with same pattern
+
+  # IP update scripts - rebuild IP strings from octets
+font:
+  - file: "gfonts://Roboto"
+    id: font_xlarge
+    size: 48
+  - file: "gfonts://Roboto"
+    id: font_large
+    size: 26
+  - file: "gfonts://Roboto"
+    id: font_small
+    size: 18
+
+time:
+  - platform: sntp
+    id: sntp_time
+    timezone: America/Detroit  # Eastern Time - Michigan (Zip 49456)
+
+number:
+  - platform: template
+    id: plug1_on_hour
+    name: "Plug 1 On Hour"
+    min_value: 1
+    max_value: 12
+    step: 1
+    optimistic: true
+    entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug1_on_hour_persist) = (int)x;
+  - platform: template
+    id: plug1_on_minute
+    name: "Plug 1 On Minute"
+    min_value: 0
+    max_value: 59
+    step: 1
+    optimistic: true
+    entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug1_on_minute_persist) = (int)x;
+  - platform: template
+    id: plug1_off_hour
+    name: "Plug 1 Off Hour"
+    min_value: 1
+    max_value: 12
+    step: 1
+    optimistic: true
+    entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug1_off_hour_persist) = (int)x;
+  - platform: template
+    id: plug1_off_minute
+    name: "Plug 1 Off Minute"
+    min_value: 0
+    max_value: 59
+    step: 1
+    optimistic: true
+    entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug1_off_minute_persist) = (int)x;
+
+  # Repeat for plugs 2-8
+  - platform: template
+    id: plug2_on_hour
+    name: "Plug 2 On Hour"
+    min_value: 1
+    max_value: 12
+    step: 1
+    optimistic: true
+    entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug2_on_hour_persist) = (int)x;
+  - platform: template
+    id: plug2_on_minute
+    name: "Plug 2 On Minute"
+    min_value: 0
+    max_value: 59
+    step: 1
+    optimistic: true
+    entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug2_on_minute_persist) = (int)x;
+  - platform: template
+    id: plug2_off_hour
+    name: "Plug 2 Off Hour"
+    min_value: 1
+    max_value: 12
+    step: 1
+    optimistic: true
+    entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug2_off_hour_persist) = (int)x;
+  - platform: template
+    id: plug2_off_minute
+    name: "Plug 2 Off Minute"
+    min_value: 0
+    max_value: 59
+    step: 1
+    optimistic: true
+    entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug2_off_minute_persist) = (int)x;
+
+  - platform: template
+    id: plug3_on_hour
+    name: "Plug 3 On Hour"
+    min_value: 1
+    max_value: 12
+    step: 1
+    optimistic: true
+    entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug3_on_hour_persist) = (int)x;
+  - platform: template
+    id: plug3_on_minute
+    name: "Plug 3 On Minute"
+    min_value: 0
+    max_value: 59
+    step: 1
+    optimistic: true
+    entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug3_on_minute_persist) = (int)x;
+  - platform: template
+    id: plug3_off_hour
+    name: "Plug 3 Off Hour"
+    min_value: 1
+    max_value: 12
+    step: 1
+    optimistic: true
+    entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug3_off_hour_persist) = (int)x;
+  - platform: template
+    id: plug3_off_minute
+    name: "Plug 3 Off Minute"
+    min_value: 0
+    max_value: 59
+    step: 1
+    optimistic: true
+    entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug3_off_minute_persist) = (int)x;
+
+  - platform: template
+    id: plug4_on_hour
+    name: "Plug 4 On Hour"
+    min_value: 1
+    max_value: 12
+    step: 1
+    optimistic: true
+    entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug4_on_hour_persist) = (int)x;
+  - platform: template
+    id: plug4_on_minute
+    name: "Plug 4 On Minute"
+    min_value: 0
+    max_value: 59
+    step: 1
+    optimistic: true
+    entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug4_on_minute_persist) = (int)x;
+  - platform: template
+    id: plug4_off_hour
+    name: "Plug 4 Off Hour"
+    min_value: 1
+    max_value: 12
+    step: 1
+    optimistic: true
+    entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug4_off_hour_persist) = (int)x;
+  - platform: template
+    id: plug4_off_minute
+    name: "Plug 4 Off Minute"
+    min_value: 0
+    max_value: 59
+    step: 1
+    optimistic: true
+    entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug4_off_minute_persist) = (int)x;
+
+  - platform: template
+    id: plug5_on_hour
+    name: "Plug 5 On Hour"
+    min_value: 1
+    max_value: 12
+    step: 1
+    optimistic: true
+    entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug5_on_hour_persist) = (int)x;
+  - platform: template
+    id: plug5_on_minute
+    name: "Plug 5 On Minute"
+    min_value: 0
+    max_value: 59
+    step: 1
+    optimistic: true
+    entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug5_on_minute_persist) = (int)x;
+  - platform: template
+    id: plug5_off_hour
+    name: "Plug 5 Off Hour"
+    min_value: 1
+    max_value: 12
+    step: 1
+    optimistic: true
+    entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug5_off_hour_persist) = (int)x;
+  - platform: template
+    id: plug5_off_minute
+    name: "Plug 5 Off Minute"
+    min_value: 0
+    max_value: 59
+    step: 1
+    optimistic: true
+    entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug5_off_minute_persist) = (int)x;
+
+  - platform: template
+    id: plug6_on_hour
+    name: "Plug 6 On Hour"
+    min_value: 1
+    max_value: 12
+    step: 1
+    optimistic: true
+    entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug6_on_hour_persist) = (int)x;
+  - platform: template
+    id: plug6_on_minute
+    name: "Plug 6 On Minute"
+    min_value: 0
+    max_value: 59
+    step: 1
+    optimistic: true
+    entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug6_on_minute_persist) = (int)x;
+  - platform: template
+    id: plug6_off_hour
+    name: "Plug 6 Off Hour"
+    min_value: 1
+    max_value: 12
+    step: 1
+    optimistic: true
+    entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug6_off_hour_persist) = (int)x;
+  - platform: template
+    id: plug6_off_minute
+    name: "Plug 6 Off Minute"
+    min_value: 0
+    max_value: 59
+    step: 1
+    optimistic: true
+    entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug6_off_minute_persist) = (int)x;
+
+  - platform: template
+    id: plug7_on_hour
+    name: "Plug 7 On Hour"
+    min_value: 1
+    max_value: 12
+    step: 1
+    optimistic: true
+    entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug7_on_hour_persist) = (int)x;
+  - platform: template
+    id: plug7_on_minute
+    name: "Plug 7 On Minute"
+    min_value: 0
+    max_value: 59
+    step: 1
+    optimistic: true
+    entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug7_on_minute_persist) = (int)x;
+  - platform: template
+    id: plug7_off_hour
+    name: "Plug 7 Off Hour"
+    min_value: 1
+    max_value: 12
+    step: 1
+    optimistic: true
+    entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug7_off_hour_persist) = (int)x;
+  - platform: template
+    id: plug7_off_minute
+    name: "Plug 7 Off Minute"
+    min_value: 0
+    max_value: 59
+    step: 1
+    optimistic: true
+    entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug7_off_minute_persist) = (int)x;
+
+  - platform: template
+    id: plug8_on_hour
+    name: "Plug 8 On Hour"
+    min_value: 1
+    max_value: 12
+    step: 1
+    optimistic: true
+    entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug8_on_hour_persist) = (int)x;
+  - platform: template
+    id: plug8_on_minute
+    name: "Plug 8 On Minute"
+    min_value: 0
+    max_value: 59
+    step: 1
+    optimistic: true
+    entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug8_on_minute_persist) = (int)x;
+  - platform: template
+    id: plug8_off_hour
+    name: "Plug 8 Off Hour"
+    min_value: 1
+    max_value: 12
+    step: 1
+    optimistic: true
+    entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug8_off_hour_persist) = (int)x;
+  - platform: template
+    id: plug8_off_minute
+    name: "Plug 8 Off Minute"
+    min_value: 0
+    max_value: 59
+    step: 1
+    optimistic: true
+    entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug8_off_minute_persist) = (int)x;
+
+select:
+  - platform: template
+    id: plug1_on_ampm
+    name: "Plug 1 On AM/PM"
+    optimistic: true
+    options: ["AM", "PM"]
+    entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug1_on_ampm_persist) = x;
+  - platform: template
+    id: plug1_off_ampm
+    name: "Plug 1 Off AM/PM"
+    optimistic: true
+    options: ["AM", "PM"]
+    entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug1_off_ampm_persist) = x;
+
+  - platform: template
+    id: plug2_on_ampm
+    name: "Plug 2 On AM/PM"
+    optimistic: true
+    options: ["AM", "PM"]
+    entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug2_on_ampm_persist) = x;
+  - platform: template
+    id: plug2_off_ampm
+    name: "Plug 2 Off AM/PM"
+    optimistic: true
+    options: ["AM", "PM"]
+    entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug2_off_ampm_persist) = x;
+
+  - platform: template
+    id: plug3_on_ampm
+    name: "Plug 3 On AM/PM"
+    optimistic: true
+    options: ["AM", "PM"]
+    entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug3_on_ampm_persist) = x;
+  - platform: template
+    id: plug3_off_ampm
+    name: "Plug 3 Off AM/PM"
+    optimistic: true
+    options: ["AM", "PM"]
+    entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug3_off_ampm_persist) = x;
+
+  - platform: template
+    id: plug4_on_ampm
+    name: "Plug 4 On AM/PM"
+    optimistic: true
+    options: ["AM", "PM"]
+    entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug4_on_ampm_persist) = x;
+  - platform: template
+    id: plug4_off_ampm
+    name: "Plug 4 Off AM/PM"
+    optimistic: true
+    options: ["AM", "PM"]
+    entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug4_off_ampm_persist) = x;
+
+  - platform: template
+    id: plug5_on_ampm
+    name: "Plug 5 On AM/PM"
+    optimistic: true
+    options: ["AM", "PM"]
+    entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug5_on_ampm_persist) = x;
+  - platform: template
+    id: plug5_off_ampm
+    name: "Plug 5 Off AM/PM"
+    optimistic: true
+    options: ["AM", "PM"]
+    entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug5_off_ampm_persist) = x;
+
+  - platform: template
+    id: plug6_on_ampm
+    name: "Plug 6 On AM/PM"
+    optimistic: true
+    options: ["AM", "PM"]
+    entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug6_on_ampm_persist) = x;
+  - platform: template
+    id: plug6_off_ampm
+    name: "Plug 6 Off AM/PM"
+    optimistic: true
+    options: ["AM", "PM"]
+    entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug6_off_ampm_persist) = x;
+
+  - platform: template
+    id: plug7_on_ampm
+    name: "Plug 7 On AM/PM"
+    optimistic: true
+    options: ["AM", "PM"]
+    entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug7_on_ampm_persist) = x;
+  - platform: template
+    id: plug7_off_ampm
+    name: "Plug 7 Off AM/PM"
+    optimistic: true
+    options: ["AM", "PM"]
+    entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug7_off_ampm_persist) = x;
+
+  - platform: template
+    id: plug8_on_ampm
+    name: "Plug 8 On AM/PM"
+    optimistic: true
+    options: ["AM", "PM"]
+    entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug8_on_ampm_persist) = x;
+  - platform: template
+    id: plug8_off_ampm
+    name: "Plug 8 Off AM/PM"
+    optimistic: true
+    options: ["AM", "PM"]
+    entity_category: "config"
+    on_value:
+      - lambda: |-
+          id(plug8_off_ampm_persist) = x;
