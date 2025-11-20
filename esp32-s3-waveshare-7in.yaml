@@ -82,18 +82,6 @@ ota:
   - platform: esphome
     password: "48170f28ed94e6fe392d67906b01ff74"
 
-mqtt:
-  broker: 192.168.68.70
-  port: 1883
-  username: ""
-  password: ""
-  discovery: true
-  discovery_retain: false
-  log_topic: waveshare-esp32-s3-7in/debug
-  topic_prefix: waveshare-esp32-s3-7in
-  id: mqtt_client
-  reboot_timeout: 0s
-
 http_request:
   id: http_client
   timeout: 300ms
