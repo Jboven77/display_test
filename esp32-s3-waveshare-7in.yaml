@@ -882,13 +882,19 @@ script:
                   bool on = body.find("\"state\":\"ON\"") != std::string::npos;
                   id(plug1_ui_state) = on;
                   auto col = on ? lv_color_hex(0x00FF00) : lv_color_hex(0xFF0000);
+                  auto text_col = on ? lv_color_hex(0x000000) : lv_color_hex(0xFFFFFF);
                   lv_obj_set_style_bg_color(id(btn_plug1), col, LV_PART_MAIN);
+                  // Update text color - get the label child and set its color
+                  lv_obj_t* label = lv_obj_get_child(id(btn_plug1), 0);
+                  if (label) lv_obj_set_style_text_color(label, text_col, LV_PART_MAIN);
                   id(plug1_failure_count) = 0;  // Reset failure counter on success
           on_error:
             then:
               - lambda: |-
                   id(plug1_ui_state) = false;
                   lv_obj_set_style_bg_color(id(btn_plug1), lv_color_hex(0xFF0000), LV_PART_MAIN);
+                  lv_obj_t* label = lv_obj_get_child(id(btn_plug1), 0);
+                  if (label) lv_obj_set_style_text_color(label, lv_color_hex(0xFFFFFF), LV_PART_MAIN);
                   id(plug1_failure_count)++;  // Increment failure counter
 
   - id: plug2_update_state
@@ -903,13 +909,18 @@ script:
                   bool on = body.find("\"state\":\"ON\"") != std::string::npos;
                   id(plug2_ui_state) = on;
                   auto col = on ? lv_color_hex(0x00FF00) : lv_color_hex(0xFF0000);
+                  auto text_col = on ? lv_color_hex(0x000000) : lv_color_hex(0xFFFFFF);
                   lv_obj_set_style_bg_color(id(btn_plug2), col, LV_PART_MAIN);
+                  lv_obj_t* label = lv_obj_get_child(id(btn_plug2), 0);
+                  if (label) lv_obj_set_style_text_color(label, text_col, LV_PART_MAIN);
                   id(plug2_failure_count) = 0;  // Reset failure counter on success
           on_error:
             then:
               - lambda: |-
                   id(plug2_ui_state) = false;
                   lv_obj_set_style_bg_color(id(btn_plug2), lv_color_hex(0xFF0000), LV_PART_MAIN);
+                  lv_obj_t* label = lv_obj_get_child(id(btn_plug2), 0);
+                  if (label) lv_obj_set_style_text_color(label, lv_color_hex(0xFFFFFF), LV_PART_MAIN);
                   id(plug2_failure_count)++;  // Increment failure counter
 
   - id: plug3_update_state
@@ -924,13 +935,18 @@ script:
                   bool on = body.find("\"state\":\"ON\"") != std::string::npos;
                   id(plug3_ui_state) = on;
                   auto col = on ? lv_color_hex(0x00FF00) : lv_color_hex(0xFF0000);
+                  auto text_col = on ? lv_color_hex(0x000000) : lv_color_hex(0xFFFFFF);
                   lv_obj_set_style_bg_color(id(btn_plug3), col, LV_PART_MAIN);
+                  lv_obj_t* label = lv_obj_get_child(id(btn_plug3), 0);
+                  if (label) lv_obj_set_style_text_color(label, text_col, LV_PART_MAIN);
                   id(plug3_failure_count) = 0;  // Reset failure counter on success
           on_error:
             then:
               - lambda: |-
                   id(plug3_ui_state) = false;
                   lv_obj_set_style_bg_color(id(btn_plug3), lv_color_hex(0xFF0000), LV_PART_MAIN);
+                  lv_obj_t* label = lv_obj_get_child(id(btn_plug3), 0);
+                  if (label) lv_obj_set_style_text_color(label, lv_color_hex(0xFFFFFF), LV_PART_MAIN);
                   id(plug3_failure_count)++;  // Increment failure counter
 
   - id: plug4_update_state
@@ -945,13 +961,18 @@ script:
                   bool on = body.find("\"state\":\"ON\"") != std::string::npos;
                   id(plug4_ui_state) = on;
                   auto col = on ? lv_color_hex(0x00FF00) : lv_color_hex(0xFF0000);
+                  auto text_col = on ? lv_color_hex(0x000000) : lv_color_hex(0xFFFFFF);
                   lv_obj_set_style_bg_color(id(btn_plug4), col, LV_PART_MAIN);
+                  lv_obj_t* label = lv_obj_get_child(id(btn_plug4), 0);
+                  if (label) lv_obj_set_style_text_color(label, text_col, LV_PART_MAIN);
                   id(plug4_failure_count) = 0;  // Reset failure counter on success
           on_error:
             then:
               - lambda: |-
                   id(plug4_ui_state) = false;
                   lv_obj_set_style_bg_color(id(btn_plug4), lv_color_hex(0xFF0000), LV_PART_MAIN);
+                  lv_obj_t* label = lv_obj_get_child(id(btn_plug4), 0);
+                  if (label) lv_obj_set_style_text_color(label, lv_color_hex(0xFFFFFF), LV_PART_MAIN);
                   id(plug4_failure_count)++;  // Increment failure counter
 
   - id: plug5_update_state
