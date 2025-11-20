@@ -2318,6 +2318,7 @@ lvgl:
                 - lambda: |-
                     int h = (int) id(plug1_on_hour).state;
                     h = (h <= 1) ? 12 : h - 1;
+                    id(plug1_on_hour_persist) = h;
                     id(plug1_on_hour).publish_state(h);
                 - lvgl.label.update:
                     id: lbl1_on_time
@@ -2342,6 +2343,7 @@ lvgl:
                 - lambda: |-
                     int h = (int) id(plug1_on_hour).state;
                     h = (h >= 12) ? 1 : h + 1;
+                    id(plug1_on_hour_persist) = h;
                     id(plug1_on_hour).publish_state(h);
                 - lvgl.label.update:
                     id: lbl1_on_time
@@ -2366,6 +2368,7 @@ lvgl:
                 - lambda: |-
                     int m = (int) id(plug1_on_minute).state;
                     m = (m <= 0) ? 59 : m - 1;
+                    id(plug1_on_minute_persist) = m;
                     id(plug1_on_minute).publish_state(m);
                 - lvgl.label.update:
                     id: lbl1_on_time
@@ -2390,6 +2393,7 @@ lvgl:
                 - lambda: |-
                     int m = (int) id(plug1_on_minute).state;
                     m = (m >= 59) ? 0 : m + 1;
+                    id(plug1_on_minute_persist) = m;
                     id(plug1_on_minute).publish_state(m);
                 - lvgl.label.update:
                     id: lbl1_on_time
@@ -2454,6 +2458,7 @@ lvgl:
                 - lambda: |-
                     int h = (int) id(plug1_off_hour).state;
                     h = (h <= 1) ? 12 : h - 1;
+                    id(plug1_off_hour_persist) = h;
                     id(plug1_off_hour).publish_state(h);
                 - lvgl.label.update:
                     id: lbl1_off_time
@@ -2478,6 +2483,7 @@ lvgl:
                 - lambda: |-
                     int h = (int) id(plug1_off_hour).state;
                     h = (h >= 12) ? 1 : h + 1;
+                    id(plug1_off_hour_persist) = h;
                     id(plug1_off_hour).publish_state(h);
                 - lvgl.label.update:
                     id: lbl1_off_time
@@ -2502,6 +2508,7 @@ lvgl:
                 - lambda: |-
                     int m = (int) id(plug1_off_minute).state;
                     m = (m <= 0) ? 59 : m - 1;
+                    id(plug1_off_minute_persist) = m;
                     id(plug1_off_minute).publish_state(m);
                 - lvgl.label.update:
                     id: lbl1_off_time
@@ -2526,6 +2533,7 @@ lvgl:
                 - lambda: |-
                     int m = (int) id(plug1_off_minute).state;
                     m = (m >= 59) ? 0 : m + 1;
+                    id(plug1_off_minute_persist) = m;
                     id(plug1_off_minute).publish_state(m);
                 - lvgl.label.update:
                     id: lbl1_off_time
@@ -2658,6 +2666,7 @@ lvgl:
                 - lambda: |-
                     int h = (int) id(plug2_on_hour).state;
                     h = (h <= 1) ? 12 : h - 1;
+                    id(plug2_on_hour_persist) = h;
                     id(plug2_on_hour).publish_state(h);
                 - lvgl.label.update:
                     id: lbl2_on_time
@@ -2682,6 +2691,7 @@ lvgl:
                 - lambda: |-
                     int h = (int) id(plug2_on_hour).state;
                     h = (h >= 12) ? 1 : h + 1;
+                    id(plug2_on_hour_persist) = h;
                     id(plug2_on_hour).publish_state(h);
                 - lvgl.label.update:
                     id: lbl2_on_time
@@ -2706,6 +2716,7 @@ lvgl:
                 - lambda: |-
                     int m = (int) id(plug2_on_minute).state;
                     m = (m <= 0) ? 59 : m - 1;
+                    id(plug2_on_minute_persist) = m;
                     id(plug2_on_minute).publish_state(m);
                 - lvgl.label.update:
                     id: lbl2_on_time
@@ -2730,6 +2741,7 @@ lvgl:
                 - lambda: |-
                     int m = (int) id(plug2_on_minute).state;
                     m = (m >= 59) ? 0 : m + 1;
+                    id(plug2_on_minute_persist) = m;
                     id(plug2_on_minute).publish_state(m);
                 - lvgl.label.update:
                     id: lbl2_on_time
@@ -2794,6 +2806,7 @@ lvgl:
                 - lambda: |-
                     int h = (int) id(plug2_off_hour).state;
                     h = (h <= 1) ? 12 : h - 1;
+                    id(plug2_off_hour_persist) = h;
                     id(plug2_off_hour).publish_state(h);
                 - lvgl.label.update:
                     id: lbl2_off_time
@@ -2818,6 +2831,7 @@ lvgl:
                 - lambda: |-
                     int h = (int) id(plug2_off_hour).state;
                     h = (h >= 12) ? 1 : h + 1;
+                    id(plug2_off_hour_persist) = h;
                     id(plug2_off_hour).publish_state(h);
                 - lvgl.label.update:
                     id: lbl2_off_time
@@ -2842,6 +2856,7 @@ lvgl:
                 - lambda: |-
                     int m = (int) id(plug2_off_minute).state;
                     m = (m <= 0) ? 59 : m - 1;
+                    id(plug2_off_minute_persist) = m;
                     id(plug2_off_minute).publish_state(m);
                 - lvgl.label.update:
                     id: lbl2_off_time
@@ -2866,6 +2881,7 @@ lvgl:
                 - lambda: |-
                     int m = (int) id(plug2_off_minute).state;
                     m = (m >= 59) ? 0 : m + 1;
+                    id(plug2_off_minute_persist) = m;
                     id(plug2_off_minute).publish_state(m);
                 - lvgl.label.update:
                     id: lbl2_off_time
@@ -2997,6 +3013,7 @@ lvgl:
                 - lambda: |-
                     int h = (int) id(plug3_on_hour).state;
                     h = (h <= 1) ? 12 : h - 1;
+                    id(plug3_on_hour_persist) = h;
                     id(plug3_on_hour).publish_state(h);
                 - lvgl.label.update:
                     id: lbl3_on_time
@@ -3021,6 +3038,7 @@ lvgl:
                 - lambda: |-
                     int h = (int) id(plug3_on_hour).state;
                     h = (h >= 12) ? 1 : h + 1;
+                    id(plug3_on_hour_persist) = h;
                     id(plug3_on_hour).publish_state(h);
                 - lvgl.label.update:
                     id: lbl3_on_time
@@ -3045,6 +3063,7 @@ lvgl:
                 - lambda: |-
                     int m = (int) id(plug3_on_minute).state;
                     m = (m <= 0) ? 59 : m - 1;
+                    id(plug3_on_minute_persist) = m;
                     id(plug3_on_minute).publish_state(m);
                 - lvgl.label.update:
                     id: lbl3_on_time
@@ -3069,6 +3088,7 @@ lvgl:
                 - lambda: |-
                     int m = (int) id(plug3_on_minute).state;
                     m = (m >= 59) ? 0 : m + 1;
+                    id(plug3_on_minute_persist) = m;
                     id(plug3_on_minute).publish_state(m);
                 - lvgl.label.update:
                     id: lbl3_on_time
@@ -3133,6 +3153,7 @@ lvgl:
                 - lambda: |-
                     int h = (int) id(plug3_off_hour).state;
                     h = (h <= 1) ? 12 : h - 1;
+                    id(plug3_off_hour_persist) = h;
                     id(plug3_off_hour).publish_state(h);
                 - lvgl.label.update:
                     id: lbl3_off_time
@@ -3157,6 +3178,7 @@ lvgl:
                 - lambda: |-
                     int h = (int) id(plug3_off_hour).state;
                     h = (h >= 12) ? 1 : h + 1;
+                    id(plug3_off_hour_persist) = h;
                     id(plug3_off_hour).publish_state(h);
                 - lvgl.label.update:
                     id: lbl3_off_time
@@ -3181,6 +3203,7 @@ lvgl:
                 - lambda: |-
                     int m = (int) id(plug3_off_minute).state;
                     m = (m <= 0) ? 59 : m - 1;
+                    id(plug3_off_minute_persist) = m;
                     id(plug3_off_minute).publish_state(m);
                 - lvgl.label.update:
                     id: lbl3_off_time
@@ -3205,6 +3228,7 @@ lvgl:
                 - lambda: |-
                     int m = (int) id(plug3_off_minute).state;
                     m = (m >= 59) ? 0 : m + 1;
+                    id(plug3_off_minute_persist) = m;
                     id(plug3_off_minute).publish_state(m);
                 - lvgl.label.update:
                     id: lbl3_off_time
@@ -3336,6 +3360,7 @@ lvgl:
                 - lambda: |-
                     int h = (int) id(plug4_on_hour).state;
                     h = (h <= 1) ? 12 : h - 1;
+                    id(plug4_on_hour_persist) = h;
                     id(plug4_on_hour).publish_state(h);
                 - lvgl.label.update:
                     id: lbl4_on_time
@@ -3360,6 +3385,7 @@ lvgl:
                 - lambda: |-
                     int h = (int) id(plug4_on_hour).state;
                     h = (h >= 12) ? 1 : h + 1;
+                    id(plug4_on_hour_persist) = h;
                     id(plug4_on_hour).publish_state(h);
                 - lvgl.label.update:
                     id: lbl4_on_time
@@ -3384,6 +3410,7 @@ lvgl:
                 - lambda: |-
                     int m = (int) id(plug4_on_minute).state;
                     m = (m <= 0) ? 59 : m - 1;
+                    id(plug4_on_minute_persist) = m;
                     id(plug4_on_minute).publish_state(m);
                 - lvgl.label.update:
                     id: lbl4_on_time
@@ -3408,6 +3435,7 @@ lvgl:
                 - lambda: |-
                     int m = (int) id(plug4_on_minute).state;
                     m = (m >= 59) ? 0 : m + 1;
+                    id(plug4_on_minute_persist) = m;
                     id(plug4_on_minute).publish_state(m);
                 - lvgl.label.update:
                     id: lbl4_on_time
@@ -3472,6 +3500,7 @@ lvgl:
                 - lambda: |-
                     int h = (int) id(plug4_off_hour).state;
                     h = (h <= 1) ? 12 : h - 1;
+                    id(plug4_off_hour_persist) = h;
                     id(plug4_off_hour).publish_state(h);
                 - lvgl.label.update:
                     id: lbl4_off_time
@@ -3496,6 +3525,7 @@ lvgl:
                 - lambda: |-
                     int h = (int) id(plug4_off_hour).state;
                     h = (h >= 12) ? 1 : h + 1;
+                    id(plug4_off_hour_persist) = h;
                     id(plug4_off_hour).publish_state(h);
                 - lvgl.label.update:
                     id: lbl4_off_time
@@ -3520,6 +3550,7 @@ lvgl:
                 - lambda: |-
                     int m = (int) id(plug4_off_minute).state;
                     m = (m <= 0) ? 59 : m - 1;
+                    id(plug4_off_minute_persist) = m;
                     id(plug4_off_minute).publish_state(m);
                 - lvgl.label.update:
                     id: lbl4_off_time
@@ -3544,6 +3575,7 @@ lvgl:
                 - lambda: |-
                     int m = (int) id(plug4_off_minute).state;
                     m = (m >= 59) ? 0 : m + 1;
+                    id(plug4_off_minute_persist) = m;
                     id(plug4_off_minute).publish_state(m);
                 - lvgl.label.update:
                     id: lbl4_off_time
@@ -3675,6 +3707,7 @@ lvgl:
                 - lambda: |-
                     int h = (int) id(plug5_on_hour).state;
                     h = (h <= 1) ? 12 : h - 1;
+                    id(plug5_on_hour_persist) = h;
                     id(plug5_on_hour).publish_state(h);
                 - lvgl.label.update:
                     id: lbl5_on_time
@@ -3699,6 +3732,7 @@ lvgl:
                 - lambda: |-
                     int h = (int) id(plug5_on_hour).state;
                     h = (h >= 12) ? 1 : h + 1;
+                    id(plug5_on_hour_persist) = h;
                     id(plug5_on_hour).publish_state(h);
                 - lvgl.label.update:
                     id: lbl5_on_time
@@ -3723,6 +3757,7 @@ lvgl:
                 - lambda: |-
                     int m = (int) id(plug5_on_minute).state;
                     m = (m <= 0) ? 59 : m - 1;
+                    id(plug5_on_minute_persist) = m;
                     id(plug5_on_minute).publish_state(m);
                 - lvgl.label.update:
                     id: lbl5_on_time
@@ -3747,6 +3782,7 @@ lvgl:
                 - lambda: |-
                     int m = (int) id(plug5_on_minute).state;
                     m = (m >= 59) ? 0 : m + 1;
+                    id(plug5_on_minute_persist) = m;
                     id(plug5_on_minute).publish_state(m);
                 - lvgl.label.update:
                     id: lbl5_on_time
@@ -3811,6 +3847,7 @@ lvgl:
                 - lambda: |-
                     int h = (int) id(plug5_off_hour).state;
                     h = (h <= 1) ? 12 : h - 1;
+                    id(plug5_off_hour_persist) = h;
                     id(plug5_off_hour).publish_state(h);
                 - lvgl.label.update:
                     id: lbl5_off_time
@@ -3835,6 +3872,7 @@ lvgl:
                 - lambda: |-
                     int h = (int) id(plug5_off_hour).state;
                     h = (h >= 12) ? 1 : h + 1;
+                    id(plug5_off_hour_persist) = h;
                     id(plug5_off_hour).publish_state(h);
                 - lvgl.label.update:
                     id: lbl5_off_time
@@ -3859,6 +3897,7 @@ lvgl:
                 - lambda: |-
                     int m = (int) id(plug5_off_minute).state;
                     m = (m <= 0) ? 59 : m - 1;
+                    id(plug5_off_minute_persist) = m;
                     id(plug5_off_minute).publish_state(m);
                 - lvgl.label.update:
                     id: lbl5_off_time
@@ -3883,6 +3922,7 @@ lvgl:
                 - lambda: |-
                     int m = (int) id(plug5_off_minute).state;
                     m = (m >= 59) ? 0 : m + 1;
+                    id(plug5_off_minute_persist) = m;
                     id(plug5_off_minute).publish_state(m);
                 - lvgl.label.update:
                     id: lbl5_off_time
@@ -4014,6 +4054,7 @@ lvgl:
                 - lambda: |-
                     int h = (int) id(plug6_on_hour).state;
                     h = (h <= 1) ? 12 : h - 1;
+                    id(plug6_on_hour_persist) = h;
                     id(plug6_on_hour).publish_state(h);
                 - lvgl.label.update:
                     id: lbl6_on_time
@@ -4038,6 +4079,7 @@ lvgl:
                 - lambda: |-
                     int h = (int) id(plug6_on_hour).state;
                     h = (h >= 12) ? 1 : h + 1;
+                    id(plug6_on_hour_persist) = h;
                     id(plug6_on_hour).publish_state(h);
                 - lvgl.label.update:
                     id: lbl6_on_time
@@ -4062,6 +4104,7 @@ lvgl:
                 - lambda: |-
                     int m = (int) id(plug6_on_minute).state;
                     m = (m <= 0) ? 59 : m - 1;
+                    id(plug6_on_minute_persist) = m;
                     id(plug6_on_minute).publish_state(m);
                 - lvgl.label.update:
                     id: lbl6_on_time
@@ -4086,6 +4129,7 @@ lvgl:
                 - lambda: |-
                     int m = (int) id(plug6_on_minute).state;
                     m = (m >= 59) ? 0 : m + 1;
+                    id(plug6_on_minute_persist) = m;
                     id(plug6_on_minute).publish_state(m);
                 - lvgl.label.update:
                     id: lbl6_on_time
@@ -4150,6 +4194,7 @@ lvgl:
                 - lambda: |-
                     int h = (int) id(plug6_off_hour).state;
                     h = (h <= 1) ? 12 : h - 1;
+                    id(plug6_off_hour_persist) = h;
                     id(plug6_off_hour).publish_state(h);
                 - lvgl.label.update:
                     id: lbl6_off_time
@@ -4174,6 +4219,7 @@ lvgl:
                 - lambda: |-
                     int h = (int) id(plug6_off_hour).state;
                     h = (h >= 12) ? 1 : h + 1;
+                    id(plug6_off_hour_persist) = h;
                     id(plug6_off_hour).publish_state(h);
                 - lvgl.label.update:
                     id: lbl6_off_time
@@ -4198,6 +4244,7 @@ lvgl:
                 - lambda: |-
                     int m = (int) id(plug6_off_minute).state;
                     m = (m <= 0) ? 59 : m - 1;
+                    id(plug6_off_minute_persist) = m;
                     id(plug6_off_minute).publish_state(m);
                 - lvgl.label.update:
                     id: lbl6_off_time
@@ -4222,6 +4269,7 @@ lvgl:
                 - lambda: |-
                     int m = (int) id(plug6_off_minute).state;
                     m = (m >= 59) ? 0 : m + 1;
+                    id(plug6_off_minute_persist) = m;
                     id(plug6_off_minute).publish_state(m);
                 - lvgl.label.update:
                     id: lbl6_off_time
@@ -4353,6 +4401,7 @@ lvgl:
                 - lambda: |-
                     int h = (int) id(plug7_on_hour).state;
                     h = (h <= 1) ? 12 : h - 1;
+                    id(plug7_on_hour_persist) = h;
                     id(plug7_on_hour).publish_state(h);
                 - lvgl.label.update:
                     id: lbl7_on_time
@@ -4377,6 +4426,7 @@ lvgl:
                 - lambda: |-
                     int h = (int) id(plug7_on_hour).state;
                     h = (h >= 12) ? 1 : h + 1;
+                    id(plug7_on_hour_persist) = h;
                     id(plug7_on_hour).publish_state(h);
                 - lvgl.label.update:
                     id: lbl7_on_time
@@ -4401,6 +4451,7 @@ lvgl:
                 - lambda: |-
                     int m = (int) id(plug7_on_minute).state;
                     m = (m <= 0) ? 59 : m - 1;
+                    id(plug7_on_minute_persist) = m;
                     id(plug7_on_minute).publish_state(m);
                 - lvgl.label.update:
                     id: lbl7_on_time
@@ -4425,6 +4476,7 @@ lvgl:
                 - lambda: |-
                     int m = (int) id(plug7_on_minute).state;
                     m = (m >= 59) ? 0 : m + 1;
+                    id(plug7_on_minute_persist) = m;
                     id(plug7_on_minute).publish_state(m);
                 - lvgl.label.update:
                     id: lbl7_on_time
@@ -4489,6 +4541,7 @@ lvgl:
                 - lambda: |-
                     int h = (int) id(plug7_off_hour).state;
                     h = (h <= 1) ? 12 : h - 1;
+                    id(plug7_off_hour_persist) = h;
                     id(plug7_off_hour).publish_state(h);
                 - lvgl.label.update:
                     id: lbl7_off_time
@@ -4513,6 +4566,7 @@ lvgl:
                 - lambda: |-
                     int h = (int) id(plug7_off_hour).state;
                     h = (h >= 12) ? 1 : h + 1;
+                    id(plug7_off_hour_persist) = h;
                     id(plug7_off_hour).publish_state(h);
                 - lvgl.label.update:
                     id: lbl7_off_time
@@ -4537,6 +4591,7 @@ lvgl:
                 - lambda: |-
                     int m = (int) id(plug7_off_minute).state;
                     m = (m <= 0) ? 59 : m - 1;
+                    id(plug7_off_minute_persist) = m;
                     id(plug7_off_minute).publish_state(m);
                 - lvgl.label.update:
                     id: lbl7_off_time
@@ -4561,6 +4616,7 @@ lvgl:
                 - lambda: |-
                     int m = (int) id(plug7_off_minute).state;
                     m = (m >= 59) ? 0 : m + 1;
+                    id(plug7_off_minute_persist) = m;
                     id(plug7_off_minute).publish_state(m);
                 - lvgl.label.update:
                     id: lbl7_off_time
@@ -4692,6 +4748,7 @@ lvgl:
                 - lambda: |-
                     int h = (int) id(plug8_on_hour).state;
                     h = (h <= 1) ? 12 : h - 1;
+                    id(plug8_on_hour_persist) = h;
                     id(plug8_on_hour).publish_state(h);
                 - lvgl.label.update:
                     id: lbl8_on_time
@@ -4716,6 +4773,7 @@ lvgl:
                 - lambda: |-
                     int h = (int) id(plug8_on_hour).state;
                     h = (h >= 12) ? 1 : h + 1;
+                    id(plug8_on_hour_persist) = h;
                     id(plug8_on_hour).publish_state(h);
                 - lvgl.label.update:
                     id: lbl8_on_time
@@ -4740,6 +4798,7 @@ lvgl:
                 - lambda: |-
                     int m = (int) id(plug8_on_minute).state;
                     m = (m <= 0) ? 59 : m - 1;
+                    id(plug8_on_minute_persist) = m;
                     id(plug8_on_minute).publish_state(m);
                 - lvgl.label.update:
                     id: lbl8_on_time
@@ -4764,6 +4823,7 @@ lvgl:
                 - lambda: |-
                     int m = (int) id(plug8_on_minute).state;
                     m = (m >= 59) ? 0 : m + 1;
+                    id(plug8_on_minute_persist) = m;
                     id(plug8_on_minute).publish_state(m);
                 - lvgl.label.update:
                     id: lbl8_on_time
@@ -4828,6 +4888,7 @@ lvgl:
                 - lambda: |-
                     int h = (int) id(plug8_off_hour).state;
                     h = (h <= 1) ? 12 : h - 1;
+                    id(plug8_off_hour_persist) = h;
                     id(plug8_off_hour).publish_state(h);
                 - lvgl.label.update:
                     id: lbl8_off_time
@@ -4852,6 +4913,7 @@ lvgl:
                 - lambda: |-
                     int h = (int) id(plug8_off_hour).state;
                     h = (h >= 12) ? 1 : h + 1;
+                    id(plug8_off_hour_persist) = h;
                     id(plug8_off_hour).publish_state(h);
                 - lvgl.label.update:
                     id: lbl8_off_time
@@ -4876,6 +4938,7 @@ lvgl:
                 - lambda: |-
                     int m = (int) id(plug8_off_minute).state;
                     m = (m <= 0) ? 59 : m - 1;
+                    id(plug8_off_minute_persist) = m;
                     id(plug8_off_minute).publish_state(m);
                 - lvgl.label.update:
                     id: lbl8_off_time
@@ -4900,6 +4963,7 @@ lvgl:
                 - lambda: |-
                     int m = (int) id(plug8_off_minute).state;
                     m = (m >= 59) ? 0 : m + 1;
+                    id(plug8_off_minute_persist) = m;
                     id(plug8_off_minute).publish_state(m);
                 - lvgl.label.update:
                     id: lbl8_off_time
