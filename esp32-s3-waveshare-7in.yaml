@@ -143,6 +143,11 @@ globals:
     restore_value: no
     initial_value: "0"
 
+  - id: bg_animation_step
+    type: int
+    restore_value: no
+    initial_value: "0"
+
   # Failure tracking for smart skipping of problematic plugs
   - id: plug1_failure_count
     type: int
@@ -1857,6 +1862,27 @@ lvgl:
           id(plug8_off_ampm).publish_state(id(plug8_off_ampm_persist));
           lv_label_set_text(id(lbl_schedule8_state), e8 ? "Timer: ON" : "Timer: OFF");
           lv_obj_set_style_bg_color(id(btn_plug8_timer), e8 ? lv_color_hex(0x228B22) : lv_color_hex(0x444444), LV_PART_MAIN);
+
+          // Apply modern styling to all buttons (rounded corners + shadows)
+          lv_obj_t* buttons[] = {
+            id(btn_plug1), id(btn_plug1_timer),
+            id(btn_plug2), id(btn_plug2_timer),
+            id(btn_plug3), id(btn_plug3_timer),
+            id(btn_plug4), id(btn_plug4_timer),
+            id(btn_plug5), id(btn_plug5_timer),
+            id(btn_plug6), id(btn_plug6_timer),
+            id(btn_plug7), id(btn_plug7_timer),
+            id(btn_plug8), id(btn_plug8_timer),
+            id(btn_bl_auto), id(btn_bl_on)
+          };
+          for (auto btn : buttons) {
+            lv_obj_set_style_radius(btn, 15, LV_PART_MAIN);
+            lv_obj_set_style_shadow_width(btn, 8, LV_PART_MAIN);
+            lv_obj_set_style_shadow_color(btn, lv_color_hex(0x000000), LV_PART_MAIN);
+            lv_obj_set_style_shadow_ofs_y(btn, 4, LV_PART_MAIN);
+            lv_obj_set_style_shadow_ofs_x(btn, 0, LV_PART_MAIN);
+            lv_obj_set_style_border_width(btn, 0, LV_PART_MAIN);
+          }
       - script.execute: startup_check_plugs
 
   pages:
@@ -1868,12 +1894,23 @@ lvgl:
             y: 0
             width: 800
             height: 480
-            bg_color: 0x101830
+            bg_color: 0x0A1929
+
+        # Modern header bar
+        - obj:
+            x: 0
+            y: 0
+            width: 800
+            height: 55
+            bg_color: 0x1E3A5F
+            border_width: 0
+            bg_grad_dir: VER
+            bg_grad_color: 0x0F2847
 
         - label:
             id: lbl_main_title
             align: top_mid
-            y: 10
+            y: 15
             text: "Smart-Home Controller"
             text_font: font_large
             text_color: 0xFFFFFF
@@ -2163,6 +2200,17 @@ lvgl:
                     lv_obj_set_style_bg_color(id(btn_bl_on),   lv_color_hex(0x228B22), LV_PART_MAIN);
                     lv_obj_set_style_bg_color(id(btn_bl_auto), lv_color_hex(0x444444), LV_PART_MAIN);
                 - script.execute: register_activity
+
+        # Accent bar at bottom for visual polish
+        - obj:
+            x: 0
+            y: 450
+            width: 800
+            height: 30
+            bg_color: 0x1E3A5F
+            border_width: 0
+            bg_grad_dir: HOR
+            bg_grad_color: 0x2E5A8F
 
         # Main page clock
         - label:
@@ -5019,6 +5067,25 @@ interval:
           id(plug2_failure_count) = 0;
           id(plug3_failure_count) = 0;
           id(plug4_failure_count) = 0;
+
+  # Animated background gradient - cycles through professional color palette
+  - interval: 3s
+    then:
+      - lambda: |-
+          // Color palette: Deep blues, purples, and teals for professional look
+          const uint32_t colors[] = {
+            0x0A1929,  // Deep navy
+            0x0D1B2A,  // Dark blue
+            0x1B263B,  // Slate blue
+            0x132A3A,  // Deep teal
+            0x1A1F3A,  // Dark purple-blue
+            0x0F1E2E   // Midnight blue
+          };
+
+          int step = id(bg_animation_step) % 6;
+          lv_obj_set_style_bg_color(id(main_bg), lv_color_hex(colors[step]), LV_PART_MAIN);
+
+          id(bg_animation_step) = step + 1;
 
   # Schedule logic for plug 1
   - interval: 1min
